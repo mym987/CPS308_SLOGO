@@ -2,7 +2,7 @@
 
 ##Introduction
 
-
+How does a program take in and interpret commands? This is the problem we are trying to solve by building SLogo, a simplified Logo interpreter. The user will interact with the program through the GUI, and using simple commands, be able to move a turtle about the screen. The behavior of these commands will obviously be pretty fixed, but the master list of commands needs to be easily extensible for future programmers. The GUI, too, must be flexible, as both programmers and users will almost certainly want to extend and customize it. The Turtle’s API must be thoughtfully designed to avoid giving other classes too much control, but allow easy extension and new features. There are a great deal of design issues to consider when implementing this program, but our biggest focus, at least right now, is good API among the different parts of the project.
 
 ##Overview
 
