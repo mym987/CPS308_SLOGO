@@ -1,4 +1,4 @@
-package parser.token;
+package parser;
 
 public abstract class Tokenizer {
 
