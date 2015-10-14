@@ -1,6 +1,7 @@
 package gui.init;
 
 import javafx.scene.Scene;
+import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.BorderPane;
@@ -16,6 +17,7 @@ public class Init {
 		// Setting up workspaces
 		
 		TabPane tabPane = new TabPane();
+		scene = new Scene(tabPane,X_DIMENSION,Y_DIMENSION);
 		for(int i=0;i<WORKSPACE_NUMBER;i++){
 			// All workspace content fits in here.
 			Tab tab = new Tab();
@@ -23,11 +25,14 @@ public class Init {
 			
 			BorderPane borderPane = new BorderPane();
 			
+			// DEBUGGING: ColorPicker successfully included
+			ColorPicker colorPicker = new ColorPicker();
+			borderPane.setTop(colorPicker);
 			
+			tab.setContent(borderPane);
 			tabPane.getTabs().add(tab);
 		}
-		scene = new Scene(tabPane,X_DIMENSION,Y_DIMENSION);
-		
+	
 	}
 	
 	public Scene returnScene(){
