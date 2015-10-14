@@ -1,4 +1,6 @@
+
 package main;
+
 import gui.View;
 import gui.init.Init;
 import javafx.application.Application;
