@@ -20,13 +20,13 @@ public interface Actions {
 	
 	public double setPosition(double x,double y);
 	
-	public double penDown();
+	public int penDown();
 	
-	public double penUp();
+	public int penUp();
 	
-	public double showTurtle();
+	public int showTurtle();
 	
-	public double hideTurtle();
+	public int hideTurtle();
 	
 	public double home();
 	
@@ -43,9 +43,9 @@ public interface Actions {
 	
 	public double heading();
 	
-	public double isPenDown();
+	public int isPenDown();
 	
-	public double isShowing();
+	public int isShowing();
 	
 	//---------------------------------
 	//
