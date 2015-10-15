@@ -20,14 +20,14 @@ public class SimpleActions implements Actions {
 
 	@Override
 	public double backward(double distance) {	
-		distance = -1 * distance;
-		return -1 * forward(distance);
+		distance = - distance;
+		return - forward(distance);
 	}
 
 	@Override
 	public double left(double degree) {
-		degree = -1 * degree;
-		return -1 * right(degree);
+		degree = - degree;
+		return - right(degree);
 	}
 
 	@Override
@@ -70,10 +70,10 @@ public class SimpleActions implements Actions {
 		double angle_deg = Math.toDegrees(angle_rad);
 		
 		if (delta_y < 0) {
-			return setHeading(-1 * angle_deg);
+			return setHeading(- angle_deg);
 		}
 		if (delta_x < 0) {
-			return setHeading(angle_deg + 180);
+			return setHeading(- angle_deg - 180);
 		}
 		else {
 			return setHeading(180 - angle_deg);
@@ -213,4 +213,3 @@ public class SimpleActions implements Actions {
 	}
 
 }
-
