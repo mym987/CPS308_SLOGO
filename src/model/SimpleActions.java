@@ -12,9 +12,7 @@ public class SimpleActions implements Actions {
 	
 	@Override
 	public double forward(double distance) {
-		//double theta = turtle.getDirection();
-		double theta = turtle.getImage().getRotate();
-		System.out.println("The current direction is = " + theta);
+		double theta = turtle.getDirection();
 		turtle.setX(turtle.getX() + distance * Math.sin(Math.toRadians(theta)));
 		turtle.setY(turtle.getY() - distance * Math.cos(Math.toRadians(theta)));
 		return distance;
