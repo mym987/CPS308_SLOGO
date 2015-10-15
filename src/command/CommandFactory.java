@@ -48,11 +48,9 @@ public class CommandFactory {
 	public Command getCommand(String name,Command...args) throws ParseFormatException{
 		switch (myCommandCatalog.get(name)) {
 		case TURTLE_COMMAND:
-			//TODO
-			return (c)->{return args[0].evaluate();};
+			return TurtleCommands.getCommand(myActions, name, args);
 		case TURTLE_QUERY:
-			//TODO
-			return (c)->{return 0;};
+			return TurtleCommands.getQuery(myActions, name, args);
 		case MATH:
 			return MathCommands.get(name, args);
 		case BOOLEAN:

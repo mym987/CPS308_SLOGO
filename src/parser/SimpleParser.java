@@ -18,9 +18,8 @@ import util.LanguageLoader;
 
 public class SimpleParser implements Parser {
 	
-	private CommandFactory myFactory;
-	private LanguageLoader myLoader;
-	private Set<String> myUserFunctions;
+	private final CommandFactory myFactory;
+	private final LanguageLoader myLoader;
 	
 	private Map<String,String> myLanguageRules;
 	private Map<String,String> mySyntaxRules;
@@ -55,7 +54,6 @@ public class SimpleParser implements Parser {
 		try {
 			myFactory = new CommandFactory(actions);
 			myLoader = new LanguageLoader();
-			myUserFunctions = new HashSet<>();
 		} catch (Exception e) {
 			throw new ParseFormatException(e.getMessage());
 		}
