@@ -3,7 +3,7 @@ package gui.init.button;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 
-public class TurtleImageButton extends Button implements ButtonInterface{
+public class OpenButton extends Button implements ButtonInterface{
 
 	@Override
 	public void retrieveText() {

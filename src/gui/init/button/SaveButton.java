@@ -3,8 +3,12 @@ package gui.init.button;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 
-public class TurtleImageButton extends Button implements ButtonInterface{
+public class SaveButton extends Button implements ButtonInterface {
 
+	public SaveButton(){
+		setText();
+	}
+	
 	@Override
 	public void retrieveText() {
 		// TODO Auto-generated method stub
@@ -14,7 +18,8 @@ public class TurtleImageButton extends Button implements ButtonInterface{
 	@Override
 	public Button setText() {
 		// TODO Auto-generated method stub
-		return null;
+		this.setText("Save (TEMP)");
+		return this;
 	}
 
 	@Override
