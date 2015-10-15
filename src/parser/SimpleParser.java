@@ -72,16 +72,6 @@ public class SimpleParser implements Parser {
 	@Override
 	public CommandList parse(String input, String language) throws ParseFormatException, NameConflictException{
 		init(input,language);
-		/**
-		 * Possible Tokens:
-		 * Constant = -?[0-9]+\\.?[0-9]*
-		 * Variable = :[a-zA-Z]+
-		 * Command = [a-zA-Z_]+(\\?)?|[*+-/%~]
-		 * ListStart = \\[
-		 * ListEnd = \\]
-		 * GroupStart = \\(
-		 * GroupEnd = \\)
-		 */
 		while (myTokenizer.hasNext()) {
 			String token = myTokenizer.next();
 			if (token.matches(mySyntaxRules.get("Command"))) {
@@ -100,21 +90,34 @@ public class SimpleParser implements Parser {
 			} else if (token.matches(mySyntaxRules.get("GroupEnd"))){
 				closeCluster("Group");
 			}
-			while(myTokenStack.peek().satisfied()){
-				popStack();
-			}
+			popStack();
 		}
 		myTokenizer.close();
 		return myCommandList;
 	}
 	
 	private String commandDelocalize(String token){
-		//TODO
-		return null;
+		for(String s:myLanguageRules.keySet()){
+			if(token.matches(s)){
+				System.out.println("Localization found: "+myLanguageRules.get(s));
+				return myLanguageRules.get(s);
+			}
+		}
+		return token;
 	}
 	
-	private void popStack(){
-		//TODO
+	private void popStack() throws ParseFormatException{
+		while(!myTokenStack.isEmpty() && myTokenStack.peek().satisfied()){
+			Token token = myTokenStack.pop();
+			Command[] args = token.myCommands.toArray(new Command[token.myCommands.size()]);
+			System.out.println(token.myName);
+			Command c = myFactory.getCommand(token.myName,args);
+			if(myTokenStack.isEmpty()){
+				myCommandList.add(c);
+			}else{
+				myTokenStack.peek().addCommand(c);
+			}
+		}
 	}
 	
 	private void closeCluster(String listName) throws ParseFormatException{
@@ -133,9 +136,9 @@ public class SimpleParser implements Parser {
 			double d = Double.parseDouble(token);
 			Command c = myFactory.getConstant(d);
 			if(myTokenStack.isEmpty())
-				throw new ParseFormatException("Standing alone constant: "+d);
+				throw new ParseFormatException("Stand-alone constant: "+d);
 			myTokenStack.peek().addCommand(c);
-		}catch(Exception e){
+		}catch(Exception e){ //There may be more exceptions than ParseFormatException
 			throw new ParseFormatException(e.getMessage());
 		}
 	}
@@ -171,9 +174,11 @@ public class SimpleParser implements Parser {
 	
 	public static void main(String[] args) throws ParseFormatException, NameConflictException{
 		SimpleParser p = new SimpleParser(null);
-		p.parse("","Chinese");
-		p.printMap(p.myLanguageRules);
-		p.printMap(p.mySyntaxRules);
+		Command c = p.parse("not sum 50 forward - 50 20 80","English");
+		System.out.println(c.evaluate());
+		//p.printMap(p.myLanguageRules);
+		//p.printMap(p.mySyntaxRules);
+		p.commandDelocalize("zs");
 	}
 
 }

@@ -14,7 +14,7 @@ public interface Command {
 	 * 
 	 * @param args
 	 *            an array of arguments
-	 * @return a number
+	 * @return a double
 	 */
-	public Number evaluate(Command... args);
+	public double evaluate(Command... args);
 }
