@@ -1,7 +1,6 @@
 package parser;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -24,7 +23,6 @@ public class SimpleParser implements Parser {
 	private Set<String> myUserFunctions;
 	
 	private Map<String,String> myLanguageRules;
-	private Map<String,Integer> myNumArgsRules;
 	private Map<String,String> mySyntaxRules;
 	
 	private Stack<Token> myTokenStack;
@@ -53,11 +51,14 @@ public class SimpleParser implements Parser {
 		}
 	}
 	
-	public SimpleParser(Actions actions){
-		myFactory = new CommandFactory(actions);
-		myLoader = new LanguageLoader();
-		myUserFunctions = new HashSet<>();
-		new HashMap<>();
+	public SimpleParser(Actions actions) throws ParseFormatException {
+		try {
+			myFactory = new CommandFactory(actions);
+			myLoader = new LanguageLoader();
+			myUserFunctions = new HashSet<>();
+		} catch (Exception e) {
+			throw new ParseFormatException(e.getMessage());
+		}
 	}
 	
 	private <K, V> void printMap(Map<K,V> map){
@@ -70,47 +71,73 @@ public class SimpleParser implements Parser {
 	@Override
 	public CommandList parse(String input, String language) throws ParseFormatException, NameConflictException{
 		init(input,language);
-		/**
-		 * Possible Tokens:
-		 * Constant = -?[0-9]+\\.?[0-9]*
-		 * Variable = :[a-zA-Z]+
-		 * Command = [a-zA-Z_]+(\\?)?|[*+-/%~]
-		 * ListStart = \\[
-		 * ListEnd = \\]
-		 * GroupStart = \\(
-		 * GroupEnd = \\)
-		 */
-		while(myTokenizer.hasNext()){
+		while (myTokenizer.hasNext()) {
 			String token = myTokenizer.next();
-			if(token.matches(mySyntaxRules.get("Command"))){
-				pushCommand(token);
-			}else if(token.matches(mySyntaxRules.get("Constant"))){
+			if (token.matches(mySyntaxRules.get("Command"))) {
+				token = commandDelocalize(token);
+				myTokenStack.push(new Token(token, myFactory.getNumArgs(token)));
+			} else if (token.matches(mySyntaxRules.get("Constant"))) {
 				parseConstant(token);
-			}else if(token.matches(mySyntaxRules.get("Command"))) {
-				
+			} else if (token.matches(mySyntaxRules.get("Variable"))) {
+				parseVariable(token);
+			} else if (token.matches(mySyntaxRules.get("ListStart"))){
+				myTokenStack.push(new Token("List",Integer.MAX_VALUE));
+			} else if (token.matches(mySyntaxRules.get("GroupStart"))){
+				myTokenStack.push(new Token("Group",Integer.MAX_VALUE));
+			} else if (token.matches(mySyntaxRules.get("ListEnd"))){
+				closeCluster("List");
+			} else if (token.matches(mySyntaxRules.get("GroupEnd"))){
+				closeCluster("Group");
 			}
-				
+			popStack();
 		}
 		myTokenizer.close();
 		return myCommandList;
 	}
 	
-	/**
-	 * Push the command to the top of the stack
-	 * @param token
-	 */
-	private void pushCommand(String token){
-		
+	private String commandDelocalize(String token){
+		for(String s:myLanguageRules.keySet()){
+			if(token.matches(s)){
+				System.out.println("Localization found: "+myLanguageRules.get(s));
+				return myLanguageRules.get(s);
+			}
+		}
+		return token;
+	}
+	
+	private void popStack() throws ParseFormatException{
+		while(!myTokenStack.isEmpty() && myTokenStack.peek().satisfied()){
+			Token token = myTokenStack.pop();
+			Command[] args = token.myCommands.toArray(new Command[token.myCommands.size()]);
+			System.out.println(token.myName);
+			Command c = myFactory.getCommand(token.myName,args);
+			if(myTokenStack.isEmpty()){
+				myCommandList.add(c);
+			}else{
+				myTokenStack.peek().addCommand(c);
+			}
+		}
+	}
+	
+	private void closeCluster(String listName) throws ParseFormatException{
+		String str = myTokenStack.peek().myName;
+		if(!str.equals(listName))
+			throw new ParseFormatException(str + " missing arguments or "+listName+" mismatch!");
+		popStack();
+	}
+	
+	private void parseVariable(String token) throws ParseFormatException{
+		//TODO
 	}
 	
 	private void parseConstant(String token) throws ParseFormatException{
 		try{
 			double d = Double.parseDouble(token);
-			Command c = (args) -> {return d;};
+			Command c = myFactory.getConstant(d);
 			if(myTokenStack.isEmpty())
-				throw new ParseFormatException("Standing alone constant: "+d);
+				throw new ParseFormatException("Stand-alone constant: "+d);
 			myTokenStack.peek().addCommand(c);
-		}catch(Exception e){
+		}catch(Exception e){ //There may be more exceptions than ParseFormatException
 			throw new ParseFormatException(e.getMessage());
 		}
 	}
@@ -125,7 +152,6 @@ public class SimpleParser implements Parser {
 	private void loadRules(String language) throws ParseFormatException{
 		try {
 			myLanguageRules = getLanguageRules(language);
-			myNumArgsRules = getArgumentsRules();
 			mySyntaxRules = getSyntaxRules();
 		} catch (Exception e) {
 			throw new ParseFormatException(e.getMessage());
@@ -134,15 +160,6 @@ public class SimpleParser implements Parser {
 	
 	private Map<String,String> getLanguageRules(String language) throws IOException{
 		return myLoader.getLocalizedSyntax(language);
-	}
-	
-	private Map<String,Integer> getArgumentsRules() throws IOException{
-		Map<String,Integer> argsMap = new HashMap<>();
-		Properties prop = myLoader.load("Commands");
-		prop.forEach((k,v)->{
-			argsMap.put(k.toString(), Integer.parseInt(v.toString()));
-		});
-		return argsMap;
 	}
 	
 	private Map<String,String> getSyntaxRules() throws IOException{
@@ -156,10 +173,11 @@ public class SimpleParser implements Parser {
 	
 	public static void main(String[] args) throws ParseFormatException, NameConflictException{
 		SimpleParser p = new SimpleParser(null);
-		p.parse("","Chinese");
-		p.printMap(p.myLanguageRules);
-		p.printMap(p.myNumArgsRules);
-		p.printMap(p.mySyntaxRules);
+		Command c = p.parse("not sum 50 forward - 50 20 80","English");
+		System.out.println(c.evaluate());
+		//p.printMap(p.myLanguageRules);
+		//p.printMap(p.mySyntaxRules);
+		p.commandDelocalize("zs");
 	}
 
 }

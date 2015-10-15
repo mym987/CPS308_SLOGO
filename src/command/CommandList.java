@@ -11,8 +11,8 @@ public class CommandList extends LinkedList<Command> implements Command{
 	private static final long serialVersionUID = 4591734858712715728L;
 
 	@Override
-	public Number evaluate(Command... args) {
-		Number result = -1;
+	public double evaluate(Command... args) {
+		double result = -1;
 		for(Command c:this){
 			result = c.evaluate();
 		}
