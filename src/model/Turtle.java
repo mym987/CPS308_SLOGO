@@ -15,6 +15,7 @@ public class Turtle {
 		this.y = y;
 		image.setX(x - image.getBoundsInLocal().getWidth()/2);
 		image.setY(y - image.getBoundsInLocal().getHeight()/2);
+		direction = 0;
 		isPenDown = 1;
 		isVisible = 1;
 	}
@@ -60,7 +61,7 @@ public class Turtle {
 	}
 	
 	public void rotate(double angle) {
-		image.setRotate(angle);
+		image.setRotate(image.getRotate() + angle);
 		direction = image.getRotate();
 	}
 	
@@ -73,10 +74,12 @@ public class Turtle {
 	}
 	
 	public void setVisible() {
+		image.setVisible(true);
 		isVisible = 1;
 	}
 	
 	public void setInvisible() {
+		image.setVisible(false);
 		isVisible = 0;
 	}
 }

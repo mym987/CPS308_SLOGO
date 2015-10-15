@@ -12,9 +12,11 @@ public class SimpleActions implements Actions {
 	
 	@Override
 	public double forward(double distance) {
-		double theta = turtle.getDirection();
-		turtle.setX(turtle.getX() + distance * Math.sin(theta));
-		turtle.setY(turtle.getY() + distance * Math.cos(theta));
+		//double theta = turtle.getDirection();
+		double theta = turtle.getImage().getRotate();
+		System.out.println("The current direction is = " + theta);
+		turtle.setX(turtle.getX() + distance * Math.sin(Math.toRadians(theta)));
+		turtle.setY(turtle.getY() - distance * Math.cos(Math.toRadians(theta)));
 		return distance;
 	}
 
@@ -49,34 +51,34 @@ public class SimpleActions implements Actions {
 		double delta_y = y - turtle.getY();
 		
 		if (delta_x == 0) {
-			if (delta_y < 0) {
-				return right(180);
+			if (delta_y > 0) {
+				return setHeading(180);
 			}
 			else {
-				return 0;
+				return setHeading(0);
 			}
 		}
 		
 		if (delta_y == 0) {
 			if (delta_x < 0) {
-				return right(-90);
+				return setHeading(-90);
 			}
 			else {
-				return right(90);
+				return setHeading(90);
 			}
 		}
 		
 		double angle_rad = Math.atan(delta_x / delta_y);
 		double angle_deg = Math.toDegrees(angle_rad);
 		
-		if (delta_y > 0) {
-			return right(angle_deg);
+		if (delta_y < 0) {
+			return setHeading(-1 * angle_deg);
 		}
 		if (delta_x < 0) {
-			return right(angle_deg - 180);
+			return setHeading(angle_deg + 180);
 		}
 		else {
-			return right(angle_deg + 180);
+			return setHeading(180 - angle_deg);
 		}
 		
 	}
@@ -213,3 +215,4 @@ public class SimpleActions implements Actions {
 	}
 
 }
+
