@@ -2,6 +2,7 @@ package command;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
@@ -25,6 +26,7 @@ public class CommandFactory {
 	private final static String DISPLAY = "Display";
 	private final static String MULTIPLE = "Multiple";
 	private final static String USER_DEFINED = "UserDefined";
+	private final static String CLUSTER = "Cluster";
 	
 	
 	private Actions myActions;
@@ -40,12 +42,13 @@ public class CommandFactory {
 		Properties prop = (new PropertyLoader()).load("Commands");
 		prop.forEach((k,v)->{
 			String[] s = v.toString().split(",");
-			myNumArgsRules.put(k.toString(), Integer.parseInt(s[0]));
+			int numArgs = Integer.parseInt(s[0]);
+			myNumArgsRules.put(k.toString(), numArgs<0?Integer.MAX_VALUE:numArgs);
 			myCommandCatalog.put(k.toString(), s[1]);
 		});
 	}
 	
-	public Command getCommand(String name,Command...args) throws ParseFormatException{
+	public Command getCommand(String name,List<Command> args) throws ParseFormatException{
 		switch (myCommandCatalog.get(name)) {
 		case TURTLE_COMMAND:
 			return TurtleCommands.getCommand(myActions, name, args);
@@ -67,6 +70,8 @@ public class CommandFactory {
 		case USER_DEFINED:
 			//TODO
 			return (c)->{return 0;};
+		case CLUSTER:
+			return new CommandList(args);
 		default:
 			throw new ParseFormatException(name+" does not exist!");
 		}
@@ -76,21 +81,19 @@ public class CommandFactory {
 		return (args)->{return value;};
 	}
 	
-	public Command getVarable(String name, double value){
+	public Command getVarable(String name){
 		//TODO
 		return null;
 	}
 	
-	public Command getUserFunction(String name){
+	public Command getUserCommand(String name){
 		//TODO
 		return null;
 	}
 	
 	public int getNumArgs(String name) throws ParseFormatException{
-		if(myNumArgsRules==null)
-			throw new ParseFormatException("Command factory has not been initialized!");
 		if(!myNumArgsRules.containsKey(name))
-			throw new ParseFormatException(name+" does not exist!");
+			throw new ParseFormatException("\""+name +"\""+ " does not exist!");
 		return myNumArgsRules.get(name);
 	}
 }

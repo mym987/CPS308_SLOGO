@@ -2,12 +2,10 @@ package parser;
 
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
-import java.util.Set;
 import java.util.Stack;
 
 import command.Command;
@@ -67,7 +65,7 @@ public class SimpleParser implements Parser {
 	}
 
 	@Override
-	public CommandList parse(String input, String language) throws ParseFormatException, NameConflictException{
+	public CommandList parse(String input, String language) throws ParseFormatException{
 		init(input,language);
 		while (myTokenizer.hasNext()) {
 			String token = myTokenizer.next();
@@ -90,13 +88,20 @@ public class SimpleParser implements Parser {
 			popStack();
 		}
 		myTokenizer.close();
+		//Check if there're any remaining commands in the stack, and throw errors accordingly
+		if(!myTokenStack.isEmpty()){
+			if(myTokenStack.peek().myName.matches("List|Group"))
+				throw new ParseFormatException("List/Group did not close properly!");
+			else
+				throw new ParseFormatException("Insufficient Arguments for "+ myTokenStack.peek().myName +"!");
+		}	
 		return myCommandList;
 	}
 	
 	private String commandDelocalize(String token){
 		for(String s:myLanguageRules.keySet()){
 			if(token.matches(s)){
-				System.out.println("Localization found: "+myLanguageRules.get(s));
+				//System.out.println("Localization found: "+myLanguageRules.get(s));
 				return myLanguageRules.get(s);
 			}
 		}
@@ -106,9 +111,8 @@ public class SimpleParser implements Parser {
 	private void popStack() throws ParseFormatException{
 		while(!myTokenStack.isEmpty() && myTokenStack.peek().satisfied()){
 			Token token = myTokenStack.pop();
-			Command[] args = token.myCommands.toArray(new Command[token.myCommands.size()]);
 			System.out.println(token.myName);
-			Command c = myFactory.getCommand(token.myName,args);
+			Command c = myFactory.getCommand(token.myName,token.myCommands);
 			if(myTokenStack.isEmpty()){
 				myCommandList.add(c);
 			}else{
@@ -118,14 +122,20 @@ public class SimpleParser implements Parser {
 	}
 	
 	private void closeCluster(String listName) throws ParseFormatException{
+		if(myTokenStack.isEmpty())
+			throw new ParseFormatException(listName+" mismatch!");
 		String str = myTokenStack.peek().myName;
 		if(!str.equals(listName))
-			throw new ParseFormatException(str + " missing arguments or "+listName+" mismatch!");
-		popStack();
+			throw new ParseFormatException(str + " missing arguments!");
+		myTokenStack.peek().myNumArgs = myTokenStack.peek().myCommands.size();
+		
 	}
 	
 	private void parseVariable(String token) throws ParseFormatException{
-		//TODO
+		Command c = myFactory.getVarable(token);
+		if(myTokenStack.isEmpty())
+			throw new ParseFormatException("Stand-alone variable: "+token.substring(1));
+		myTokenStack.peek().addCommand(c);
 	}
 	
 	private void parseConstant(String token) throws ParseFormatException{
@@ -169,13 +179,14 @@ public class SimpleParser implements Parser {
 		return syntaxMap;
 	}
 	
-	public static void main(String[] args) throws ParseFormatException, NameConflictException{
+	public static void main(String[] args) throws ParseFormatException{
 		SimpleParser p = new SimpleParser(null);
-		Command c = p.parse("not sum 50 forward - 50 20 80","English");
+		//Command c = p.parse("[()][][difference product sum [[](30 20)] 40 10 1000]","English");
+		Command c = p.parse("equal? 200 difference 300 100","English");
 		System.out.println(c.evaluate());
 		//p.printMap(p.myLanguageRules);
 		//p.printMap(p.mySyntaxRules);
-		p.commandDelocalize("zs");
+		//p.commandDelocalize("zs");
 	}
 
 }

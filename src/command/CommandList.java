@@ -1,6 +1,7 @@
 package command;
 
 import java.util.LinkedList;
+import java.util.List;
 /**
  * 
  * @author Mike Ma (ym67)
@@ -9,6 +10,14 @@ import java.util.LinkedList;
 public class CommandList extends LinkedList<Command> implements Command{
 
 	private static final long serialVersionUID = 4591734858712715728L;
+	
+	public CommandList(){
+		super();
+	}
+	
+	public CommandList(List<Command> list){
+		super(list);
+	}
 
 	@Override
 	public double evaluate(Command... args) {
