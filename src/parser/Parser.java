@@ -1,12 +1,10 @@
 
 package parser;
 
-import java.util.List;
-
-import command.Command;
+import command.CommandList;
 
 public interface Parser {
 	
-	public List<Command> parse(String input,String language) throws ParseFormatException, NameConflictException;
+	public CommandList parse(String input,String language) throws ParseFormatException;
 	
 }
