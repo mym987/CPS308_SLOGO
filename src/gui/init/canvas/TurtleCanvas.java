@@ -1,32 +1,36 @@
 package gui.init.canvas;
 
+import gui.init.colorpicker.ColorChangeInterface;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
-public class TurtleCanvas extends Canvas {
-	private GraphicsContext backgroundContext;
+public class TurtleCanvas extends Canvas implements ColorChangeInterface {
+	private GraphicsContext backgroundContext = getGraphicsContext2D();;
 	public TurtleCanvas(){
-		widthProperty().addListener(evt -> draw());
-		heightProperty().addListener(evt -> draw());
+		// For resizing extension.
+//		widthProperty().addListener(evt -> draw());
+//		heightProperty().addListener(evt -> draw());
+//		draw();
+		changeColor(Color.AQUA);
 		}
 	
+	// For resizing extension
 	 private void draw() {
 		             double width = getWidth();
 		             double height = getHeight();
-		             GraphicsContext gc = getGraphicsContext2D();
-		             gc.clearRect(0, 0, width, height);
-		             gc.setStroke(Color.RED);
-	
-		             gc.strokeLine(0, 0, width, height);
-		 
-		             gc.strokeLine(0, height, width, 0);
+		             // DEFAULT SETTINGS
+		             backgroundContext.clearRect(0, 0, width, height);
+		             backgroundContext.setStroke(Color.RED);
+		             backgroundContext.strokeLine(0, 0, width, height);
+		             backgroundContext.strokeLine(0, height, width, 0);
 		    }
 
-	
-	
-	public void setBackgroundColor(Color c){
-		backgroundContext.setFill(c);
+	@Override
+	public void changeColor(Color color) {
+		// TODO Auto-generated method stub
+        backgroundContext.clearRect(0, 0, this.getWidth(), this.getHeight());
+		backgroundContext.setFill(color);
 		backgroundContext.fillRect(0, 0, this.getWidth(), this.getHeight());
 	}
 

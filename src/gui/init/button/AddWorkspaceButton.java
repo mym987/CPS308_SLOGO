@@ -1,5 +1,6 @@
 package gui.init.button;
 
+import gui.workspace.ICreateWorkspace;
 import gui.workspace.WorkspaceHandler;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -15,9 +16,13 @@ public class AddWorkspaceButton extends Button implements ButtonInterface {
 	public AddWorkspaceButton(WorkspaceHandler handler){
 		workspaceHandler = handler;
 		setText();
+		// Setting off infinite loop with workspace creating button
+		// separate to just create an extra workspace
 		this.setOnAction(new EventHandler<ActionEvent>() {
-		    @Override public void handle(ActionEvent e) {
-		        workspaceHandler.createWorkspace();
+		    @Override 
+		    public void handle(ActionEvent e) {
+				ICreateWorkspace createWorkspaceInterface = workspaceHandler;
+		    	createWorkspaceInterface.createWorkspace();
 		    }
 		});
 	}
