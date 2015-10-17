@@ -1,29 +1,20 @@
 package command;
 
 public class Variable implements Command {
-	
+
 	private final String myName;
-	
-	private double myValue;
-	
-	public Variable(String name){
-		this(name,0);
-	}
-	
-	public Variable(String name,double value){
+	private VariableManager myManager;
+
+	public Variable(String name, VariableManager manager) {
 		myName = name;
-		myValue = value;
-	}        
-	
-	public void setValue(double value){
-		myValue = value;
+		myManager = manager;
 	}
 
 	@Override
 	public double evaluate(Command... args) {
-		return myValue;
+		return myManager.getValue(myName);
 	}
-	
+
 	@Override
 	public String toString() {
 		return myName;

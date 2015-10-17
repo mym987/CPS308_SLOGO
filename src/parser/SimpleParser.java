@@ -113,6 +113,8 @@ public class SimpleParser implements Parser {
 			Token token = myTokenStack.pop();
 			System.out.println(token.myName);
 			Command c = myFactory.getCommand(token.myName,token.myCommands);
+			if(c==null)
+				System.err.println(token.myName);
 			if(myTokenStack.isEmpty()){
 				myCommandList.add(c);
 			}else{
@@ -134,8 +136,9 @@ public class SimpleParser implements Parser {
 	private void parseVariable(String token) throws ParseFormatException{
 		Command c = myFactory.getVarable(token);
 		if(myTokenStack.isEmpty())
-			throw new ParseFormatException("Stand-alone variable: "+token.substring(1));
-		myTokenStack.peek().addCommand(c);
+			myCommandList.add(c);
+			//throw new ParseFormatException("Stand-alone variable: "+token.substring(1));
+		else myTokenStack.peek().addCommand(c);
 	}
 	
 	private void parseConstant(String token) throws ParseFormatException{
@@ -182,8 +185,11 @@ public class SimpleParser implements Parser {
 	public static void main(String[] args) throws ParseFormatException{
 		SimpleParser p = new SimpleParser(null);
 		//Command c = p.parse("[()][][difference product sum [[](30 20)] 40 10 1000]","English");
-		Command c = p.parse("equal? 200 difference 300 100","English");
-		System.out.println(c.evaluate());
+		//Command c = p.parse("make :a 10.5 sum ifelse equal? :a 10.5 50 15 20.5","English");
+//		Command c = p.parse("make :a 0 for [:i 40 100 10] "
+//				+ "[make :a sum :a :i]"
+//				+ ":a","English");
+//		System.out.println(c.evaluate());
 		//p.printMap(p.myLanguageRules);
 		//p.printMap(p.mySyntaxRules);
 		//p.commandDelocalize("zs");

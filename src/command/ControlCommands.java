@@ -1,24 +1,23 @@
 package command;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import parser.ParseFormatException;
 
-public class ControlCommands {
+class ControlCommands {
+
 	
-	private List<Map<String,Double>> myVariables;
-	
-	public ControlCommands(){
-		myVariables = new ArrayList<>();
+	private VariableManager myVarManager;
+
+	public ControlCommands() {
+		myVarManager = new VariableManager();
 	}
-	
-	//MakeUserInstruction = 3,Control
-	public Command get(String name, List<Command> args) throws ParseFormatException {
+
+	// MakeUserInstruction = 3,Control
+	protected Command get(String name, List<Command> args) throws ParseFormatException {
 		switch (name) {
 		case "MakeVariable":
-			return makeVar(args);
+			return myVarManager.makeVar(args);
 		case "Repeat":
 			return repeat(args);
 		case "DoTimes":
@@ -30,22 +29,14 @@ public class ControlCommands {
 		case "IfElse":
 			return ifElse(args);
 		default:
-			throw new ParseFormatException(name + " does not exist!");
+			throw new ParseFormatException(name + " does not exist");
 		}
 	}
-
-	private Command makeVar(List<Command> args) throws ParseFormatException {
-		if(args.size()!=2 || !(args.get(0) instanceof Variable))
-			throw new ParseFormatException("Format Error for Making Variable!");
-		//TODO
-		return null;
+	
+	protected Variable getVariable(String name){
+		return myVarManager.getVar(name);
 	}
 	
-	private Command makeVar(String name, double value){
-		//TODO
-		return null;
-	}
-
 	private Command repeat(List<Command> args) {
 		return (cmd) -> {
 			double times = args.get(0).evaluate(), result = 0;
@@ -59,29 +50,55 @@ public class ControlCommands {
 	}
 
 	private Command doTimes(List<Command> args) throws ParseFormatException {
-		
+
+		String name;
+		Command loopBody;
+		CommandList condition;
 		try {
-			CommandList loopCondition = (CommandList) args.get(0);
-			Command loopBody = args.get(1);
-			int max = (int) loopCondition.get(1).evaluate();
-			String name = ((Variable) loopCondition.get(0)).toString();
-			return (cmd) -> {
-				double result = 0;
-				for (int i = 1; i <= max; i++) {
-					makeVar(name, i);
-					result = loopBody.evaluate();
-				}
-				;
-				return result;
-			};
+			condition = (CommandList) args.get(0);
+			loopBody = args.get(1);
+			name = condition.get(0).toString();
 		} catch (Exception e) {
 			throw new ParseFormatException(e.getMessage());
 		}
-		
+		return (cmd) -> {
+			int scope = myVarManager.addScope();
+			double result = 0;
+			int max = (int) condition.get(1).evaluate();
+			for (int i = 1; i <= max; i++) {
+				myVarManager.setVar(name, i, scope);
+				result = loopBody.evaluate();
+			}
+			myVarManager.deleteScope(scope);
+			return result;
+		};
+
 	}
 
-	private Command forCommand(List<Command> args) {
-		return null;
+	private Command forCommand(List<Command> args) throws ParseFormatException {
+		String var;
+		Command loopBody;
+		CommandList condition;
+		try {
+			condition = (CommandList) args.get(0);
+			loopBody = args.get(1);
+			var = condition.get(0).toString();
+		} catch (Exception e) {
+			throw new ParseFormatException(e.getMessage());
+		}
+		return (cmd)->{
+			int scope = myVarManager.addScope();
+			double start = condition.get(1).evaluate();
+			double end = condition.get(2).evaluate();
+			double step = condition.get(3).evaluate();
+			double result = 0;
+			for(double i = start; i<=end;i+=step){
+				myVarManager.setVar(var, i, scope);
+				result = loopBody.evaluate();
+			}
+			myVarManager.deleteScope(scope);
+			return result;
+		};
 	}
 
 	private Command ifCommand(List<Command> args) {
@@ -101,5 +118,5 @@ public class ControlCommands {
 				return args.get(2).evaluate();
 		};
 	}
-	
+
 }

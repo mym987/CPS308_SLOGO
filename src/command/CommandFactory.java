@@ -33,12 +33,14 @@ public class CommandFactory {
 	private Map<String,Integer> myNumArgsRules;
 	private Map<String,String> myCommandCatalog;
 	private Map<String,Command> myUserDefined;
+	private ControlCommands myControlCommands;
 	
 	public CommandFactory(Actions actions) throws IOException{
 		myActions = actions;
 		myUserDefined = new HashMap<>();
 		myCommandCatalog = new HashMap<>();
 		myNumArgsRules = new HashMap<>();
+		myControlCommands = new ControlCommands();
 		Properties prop = (new PropertyLoader()).load("Commands");
 		prop.forEach((k,v)->{
 			String[] s = v.toString().split(",");
@@ -59,17 +61,16 @@ public class CommandFactory {
 		case BOOLEAN:
 			return BooleanCommands.get(name, args);
 		case CONTROL:
-			//TODO
-			return (c)->{return 0;};
+			return myControlCommands.get(name, args);
 		case DISPLAY:
 			//TODO
-			return (c)->{return 0;};
+			return null;
 		case MULTIPLE:
 			//TODO
-			return (c)->{return 0;};
+			return null;
 		case USER_DEFINED:
 			//TODO
-			return (c)->{return 0;};
+			return null;
 		case CLUSTER:
 			return new CommandList(args);
 		default:
@@ -82,8 +83,7 @@ public class CommandFactory {
 	}
 	
 	public Command getVarable(String name){
-		//TODO
-		return null;
+		return myControlCommands.getVariable(name);
 	}
 	
 	public Command getUserCommand(String name){
