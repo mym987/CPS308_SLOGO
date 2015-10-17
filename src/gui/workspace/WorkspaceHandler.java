@@ -36,7 +36,7 @@ public class WorkspaceHandler implements ICreateWorkspace {
 	 */
 	@Override
 	public void createWorkspace() {
-		// New Canvas, Pen, CCInterface must be created for each workspace.
+		// Any object that changes between workspaces must be created new.
 		// Factories must be redefined for new inputs. 
 		TurtleCanvas turtleCanvas = new TurtleCanvas();
 		ColorChangeInterface colorChangeInterface = turtleCanvas;
