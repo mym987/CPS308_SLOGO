@@ -1,18 +1,25 @@
-package command.commands;
+package command.factory;
 
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import command.Command;
 import command.CommandList;
 import parser.ParseFormatException;
 
-public class ControlCommands {
-
+class ControlCommands {
 	
 	private VariableManager myVarManager;
+	private Map<String,UserCommand> myUserDefined;
+	private Set<String> myReservedKeys;
 
-	public ControlCommands() {
+	public ControlCommands(Set<String> reservedKeys) {
 		myVarManager = new VariableManager();
+		myUserDefined = new HashMap<>();
+		myReservedKeys = new HashSet<>(reservedKeys);
 	}
 
 	// MakeUserInstruction = 3,Control
@@ -30,13 +37,55 @@ public class ControlCommands {
 			return ifCommand(args);
 		case "IfElse":
 			return ifElse(args);
+		case "MakeUserInstruction":
+			return makeUserDefined(args);
 		default:
 			throw new ParseFormatException(name + " does not exist");
 		}
 	}
 	
-	public Variable getVariable(String name){
+	protected int getNumArgsForUserDefCommand(String name) throws ParseFormatException{
+		if(!myUserDefined.containsKey(name))
+			throw new ParseFormatException("\""+name +"\""+ " does not exist");
+		return myUserDefined.get(name).getNumArgs();
+	}
+	
+	protected Variable getVariable(String name){
 		return myVarManager.getVar(name);
+	}
+	
+	protected Command getUserDefined(String name, List<Command> args) throws ParseFormatException{
+		if(!myUserDefined.containsKey(name))
+			throw new ParseFormatException("\""+name +"\" does not exist");
+		UserCommand c = myUserDefined.get(name);
+		Command[] arguments = args.toArray(new Command[args.size()]);
+		return (cmd)->{
+			return c.evaluate(arguments);
+		};
+	}
+	
+	private Command makeUserDefined(List<Command> args) throws ParseFormatException{
+		if(args.size()!=3)
+			throw new ParseFormatException("Args # mismatch");
+		String name = args.get(0).toString();
+		Command body = args.get(2);
+		String[] vars = args.get(1).toString().split("\\s+");
+		for(String s:vars){
+			if(!s.startsWith(":"))
+				throw new ParseFormatException("\""+s+"\" is not a variable");
+		}
+		boolean created = false;
+		if(!myReservedKeys.contains(name)){
+			UserCommand usr = new UserCommand(myVarManager, name,vars,body);
+			myUserDefined.put(usr.toString(), usr);
+			myReservedKeys.add(usr.toString());
+			created = true;
+		}
+		final double result = created?1:0;
+		return (cmd)->{
+			return result;
+		};
+		
 	}
 	
 	private Command repeat(List<Command> args) {

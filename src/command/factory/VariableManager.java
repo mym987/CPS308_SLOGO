@@ -1,4 +1,4 @@
-package command.commands;
+package command.factory;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -33,7 +33,7 @@ class VariableManager {
 		myVariables.get(scope).put(name, value);
 	}
 	
-	protected void setVar(String name, double value){
+	private void setVar(String name, double value){
 		checkNameFormat(name);
 		for (int i = myVariables.size() - 1; i >= myStartScope; i--) {
 			if (myVariables.get(i).containsKey(name)){

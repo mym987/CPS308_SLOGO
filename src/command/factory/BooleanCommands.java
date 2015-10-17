@@ -1,11 +1,11 @@
-package command.commands;
+package command.factory;
 
 import java.util.List;
 
 import command.Command;
 import parser.ParseFormatException;
 
-public class BooleanCommands {
+class BooleanCommands {
 	public static Command get(String name, List<Command> args) throws ParseFormatException {
 		if((name.equals("Not") && args.size()!=1) || (!name.equals("Not") && args.size()!=2))
 			throw new ParseFormatException("Args Length Mismatch!");

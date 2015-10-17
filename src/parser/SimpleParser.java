@@ -9,8 +9,8 @@ import java.util.Properties;
 import java.util.Stack;
 
 import command.Command;
-import command.CommandFactory;
 import command.CommandList;
+import command.factory.CommandFactory;
 import model.Actions;
 import util.LanguageLoader;
 
@@ -72,6 +72,8 @@ public class SimpleParser implements Parser {
 			if (token.matches(mySyntaxRules.get("Command"))) {
 				token = commandDelocalize(token);
 				myTokenStack.push(new Token(token, myFactory.getNumArgs(token)));
+				if(token.equals("MakeUserInstruction"))
+					pushUserCommandName();
 			} else if (token.matches(mySyntaxRules.get("Constant"))) {
 				parseConstant(token);
 			} else if (token.matches(mySyntaxRules.get("Variable"))) {
@@ -91,11 +93,26 @@ public class SimpleParser implements Parser {
 		//Check if there're any remaining commands in the stack, and throw errors accordingly
 		if(!myTokenStack.isEmpty()){
 			if(myTokenStack.peek().myName.matches("List|Group"))
-				throw new ParseFormatException("List/Group did not close properly!");
+				throw new ParseFormatException("List/Group did not close properly");
 			else
-				throw new ParseFormatException("Insufficient Arguments for "+ myTokenStack.peek().myName +"!");
+				throw new ParseFormatException("Insufficient arguments for \""+ myTokenStack.peek().myName +"\"");
 		}	
 		return myCommandList;
+	}
+	
+	private void pushUserCommandName() throws ParseFormatException{
+		if(!myTokenizer.hasNext())
+			throw new ParseFormatException("Insufficient args for making user command");
+		final String name = myTokenizer.next();
+		myTokenStack.peek().addCommand(new Command() {
+			public double evaluate(Command... args) {
+				throw new RuntimeException("This command should never be executed");
+			}
+			
+			public String toString() {
+				return name;
+			}
+		});	
 	}
 	
 	private String commandDelocalize(String token){
@@ -110,6 +127,7 @@ public class SimpleParser implements Parser {
 	private void popStack() throws ParseFormatException{
 		while(!myTokenStack.isEmpty() && myTokenStack.peek().satisfied()){
 			Token token = myTokenStack.pop();
+			System.out.println(token.myName);
 			Command c = myFactory.getCommand(token.myName,token.myCommands);
 			if(myTokenStack.isEmpty()){
 				myCommandList.add(c);
@@ -121,10 +139,10 @@ public class SimpleParser implements Parser {
 	
 	private void closeCluster(String listName) throws ParseFormatException{
 		if(myTokenStack.isEmpty())
-			throw new ParseFormatException(listName+" mismatch!");
+			throw new ParseFormatException(listName+" mismatch");
 		String str = myTokenStack.peek().myName;
 		if(!str.equals(listName))
-			throw new ParseFormatException(str + " missing arguments!");
+			throw new ParseFormatException(str + " missing arguments");
 		myTokenStack.peek().myNumArgs = myTokenStack.peek().myCommands.size();
 		
 	}
@@ -182,9 +200,12 @@ public class SimpleParser implements Parser {
 		SimpleParser p = new SimpleParser(null);
 		//Command c = p.parse("[()][][difference product sum [[](30 20)] 40 10 1000]","English");
 		//Command c = p.parse("make :a 10.5 sum ifelse equal? :a 10.5 50 15 20.5","English");
-		Command c = p.parse("make :a 0 for [:i 40 100 10] "
-				+ "[make :a sum :a :i]"
-				+ "a","English");
+//		Command c = p.parse("make :a 0 for [:i 40 100 10] "
+//				+ "[make :a sum :a :i]"
+//				+ "a","English");
+		Command c = p.parse("to my [:a :b :c]"
+				+ "[sum sum :a :b :c]"
+				+ "my 1 5 6", "English");
 		System.out.println(c.evaluate());
 		//p.printMap(p.myLanguageRules);
 		//p.printMap(p.mySyntaxRules);
