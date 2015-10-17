@@ -1,8 +1,9 @@
-package command;
+package command.commands;
 
 import java.util.List;
 import java.util.Random;
 
+import command.Command;
 import parser.ParseFormatException;
 
 public class MathCommands {

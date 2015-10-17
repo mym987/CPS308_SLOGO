@@ -101,7 +101,6 @@ public class SimpleParser implements Parser {
 	private String commandDelocalize(String token){
 		for(String s:myLanguageRules.keySet()){
 			if(token.matches(s)){
-				//System.out.println("Localization found: "+myLanguageRules.get(s));
 				return myLanguageRules.get(s);
 			}
 		}
@@ -111,10 +110,7 @@ public class SimpleParser implements Parser {
 	private void popStack() throws ParseFormatException{
 		while(!myTokenStack.isEmpty() && myTokenStack.peek().satisfied()){
 			Token token = myTokenStack.pop();
-			System.out.println(token.myName);
 			Command c = myFactory.getCommand(token.myName,token.myCommands);
-			if(c==null)
-				System.err.println(token.myName);
 			if(myTokenStack.isEmpty()){
 				myCommandList.add(c);
 			}else{
@@ -186,10 +182,10 @@ public class SimpleParser implements Parser {
 		SimpleParser p = new SimpleParser(null);
 		//Command c = p.parse("[()][][difference product sum [[](30 20)] 40 10 1000]","English");
 		//Command c = p.parse("make :a 10.5 sum ifelse equal? :a 10.5 50 15 20.5","English");
-//		Command c = p.parse("make :a 0 for [:i 40 100 10] "
-//				+ "[make :a sum :a :i]"
-//				+ ":a","English");
-//		System.out.println(c.evaluate());
+		Command c = p.parse("make :a 0 for [:i 40 100 10] "
+				+ "[make :a sum :a :i]"
+				+ "a","English");
+		System.out.println(c.evaluate());
 		//p.printMap(p.myLanguageRules);
 		//p.printMap(p.mySyntaxRules);
 		//p.commandDelocalize("zs");

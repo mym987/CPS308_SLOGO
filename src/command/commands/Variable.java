@@ -1,4 +1,6 @@
-package command;
+package command.commands;
+
+import command.Command;
 
 public class Variable implements Command {
 

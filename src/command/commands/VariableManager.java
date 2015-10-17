@@ -1,10 +1,12 @@
-package command;
+package command.commands;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import command.Command;
+import command.NullVariableException;
 import parser.ParseFormatException;
 
 class VariableManager {
@@ -75,7 +77,6 @@ class VariableManager {
 	}
 	
 	protected int deleteScope(int scope){
-		System.out.println("Deleting: "+scope);
 		while(myVariables.size()>scope){
 			myVariables.remove(myVariables.size()-1);
 		}

@@ -6,6 +6,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
+import command.commands.BooleanCommands;
+import command.commands.ControlCommands;
+import command.commands.MathCommands;
+import command.commands.TurtleCommands;
 import model.Actions;
 import parser.ParseFormatException;
 import util.PropertyLoader;
@@ -74,7 +78,7 @@ public class CommandFactory {
 		case CLUSTER:
 			return new CommandList(args);
 		default:
-			throw new ParseFormatException(name+" does not exist!");
+			throw new ParseFormatException(name+" does not exist");
 		}
 	}
 	
@@ -93,7 +97,7 @@ public class CommandFactory {
 	
 	public int getNumArgs(String name) throws ParseFormatException{
 		if(!myNumArgsRules.containsKey(name))
-			throw new ParseFormatException("\""+name +"\""+ " does not exist!");
+			throw new ParseFormatException("\""+name +"\""+ " does not exist");
 		return myNumArgsRules.get(name);
 	}
 }

@@ -1,7 +1,8 @@
-package command;
+package command.commands;
 
 import java.util.List;
 
+import command.Command;
 import model.Actions;
 import parser.ParseFormatException;
 

@@ -1,10 +1,12 @@
-package command;
+package command.commands;
 
 import java.util.List;
 
+import command.Command;
+import command.CommandList;
 import parser.ParseFormatException;
 
-class ControlCommands {
+public class ControlCommands {
 
 	
 	private VariableManager myVarManager;
@@ -14,7 +16,7 @@ class ControlCommands {
 	}
 
 	// MakeUserInstruction = 3,Control
-	protected Command get(String name, List<Command> args) throws ParseFormatException {
+	public Command get(String name, List<Command> args) throws ParseFormatException {
 		switch (name) {
 		case "MakeVariable":
 			return myVarManager.makeVar(args);
@@ -33,7 +35,7 @@ class ControlCommands {
 		}
 	}
 	
-	protected Variable getVariable(String name){
+	public Variable getVariable(String name){
 		return myVarManager.getVar(name);
 	}
 	
