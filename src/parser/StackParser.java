@@ -14,7 +14,7 @@ import command.factory.CommandFactory;
 import model.Actions;
 import util.LanguageLoader;
 
-public class SimpleParser implements Parser {
+public class StackParser implements Parser {
 	
 	private final CommandFactory myFactory;
 	private final LanguageLoader myLoader;
@@ -48,7 +48,7 @@ public class SimpleParser implements Parser {
 		}
 	}
 	
-	public SimpleParser(Actions actions) throws ParseFormatException {
+	public StackParser(Actions actions) throws ParseFormatException {
 		try {
 			myFactory = new CommandFactory(actions);
 			myLoader = new LanguageLoader();
@@ -127,7 +127,7 @@ public class SimpleParser implements Parser {
 	private void popStack() throws ParseFormatException{
 		while(!myTokenStack.isEmpty() && myTokenStack.peek().satisfied()){
 			Token token = myTokenStack.pop();
-			System.out.println(token.myName);
+			//System.out.println(token.myName);
 			Command c = myFactory.getCommand(token.myName,token.myCommands);
 			if(myTokenStack.isEmpty()){
 				myCommandList.add(c);
@@ -197,15 +197,17 @@ public class SimpleParser implements Parser {
 	}
 	
 	public static void main(String[] args) throws ParseFormatException{
-		SimpleParser p = new SimpleParser(null);
+		StackParser p = new StackParser(null);
 		//Command c = p.parse("[()][][difference product sum [[](30 20)] 40 10 1000]","English");
 		//Command c = p.parse("make :a 10.5 sum ifelse equal? :a 10.5 50 15 20.5","English");
 //		Command c = p.parse("make :a 0 for [:i 40 100 10] "
 //				+ "[make :a sum :a :i]"
 //				+ "a","English");
 		Command c = p.parse("to my [:a :b :c]"
-				+ "[sum sum :a :b :c]"
-				+ "my 1 5 6", "English");
+				+ "[for [:i :a :b :c]"
+				+ "[make :x sum :x :i]]"
+				+ "make :x 0 "
+				+ "my 1 100 1", "English");
 		System.out.println(c.evaluate());
 		//p.printMap(p.myLanguageRules);
 		//p.printMap(p.mySyntaxRules);

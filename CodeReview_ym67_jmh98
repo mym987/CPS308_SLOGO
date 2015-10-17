@@ -1,0 +1,23 @@
+Code Review
+NetIDs:ym67, jmh98
+
+Mike’s code:
+In MathCommandFactory, consolidate args length checking and put them in the front
+Separate commands into different classes
+
+
+
+
+
+
+
+Jasper’s code:
+
+UIView class from Cell Society:
+
+-separating back and front end was good in this class
+-Should have used a resource file for strings associated with buttons
+-should have passed button events as lambda expression parameters when creating buttons
+-should not have had class variables, should have passed through methods as parameters instead
+
+
