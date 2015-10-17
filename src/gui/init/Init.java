@@ -1,4 +1,5 @@
 package gui.init;
+import gui.init.dialog.LanguageDialog;
 import gui.workspace.WorkspaceHandler;
 import javafx.scene.Scene;
 public class Init {
@@ -13,10 +14,12 @@ public class Init {
 		return Y_DIMENSION;
 	}
 	private Scene scene;
-	private WorkspaceHandler workspaceHandler = new WorkspaceHandler();
+	private WorkspaceHandler workspaceHandler;
 	
 	public Init(){
-		// Setting up workspaces
+		
+		LanguageDialog languageDialog = new LanguageDialog();
+		workspaceHandler = new WorkspaceHandler(languageDialog.getSelected());
 		scene = new Scene(workspaceHandler.getTabPane(),X_DIMENSION,Y_DIMENSION);
 	}
 	public Scene returnScene(){

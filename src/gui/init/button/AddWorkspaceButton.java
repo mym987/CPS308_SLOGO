@@ -1,7 +1,6 @@
 package gui.init.button;
 
 import gui.workspace.ICreateWorkspace;
-import gui.workspace.WorkspaceHandler;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
@@ -12,17 +11,14 @@ import javafx.scene.control.Button;
 // 1) Set up interface that implements only one interface 2) Lambda expression that bundles the handler up and uses only that method
 // 3) Pass only what is needed.
 public class AddWorkspaceButton extends Button implements ButtonInterface {
-	private WorkspaceHandler workspaceHandler;
-	public AddWorkspaceButton(WorkspaceHandler handler){
-		workspaceHandler = handler;
+	public AddWorkspaceButton(ICreateWorkspace createWorkspaceInterface){
 		setText();
 		// Setting off infinite loop with workspace creating button
 		// separate to just create an extra workspace
 		this.setOnAction(new EventHandler<ActionEvent>() {
 		    @Override 
 		    public void handle(ActionEvent e) {
-				ICreateWorkspace createWorkspaceInterface = workspaceHandler;
-		    	createWorkspaceInterface.createWorkspace();
+				createWorkspaceInterface.createWorkspace();
 		    }
 		});
 	}
