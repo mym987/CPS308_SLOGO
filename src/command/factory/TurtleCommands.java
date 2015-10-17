@@ -1,11 +1,12 @@
-package command;
+package command.factory;
 
 import java.util.List;
 
+import command.Command;
 import model.Actions;
 import parser.ParseFormatException;
 
-public class TurtleCommands {
+class TurtleCommands {
 	public static Command getCommand(Actions actions, String name, List<Command> args) throws ParseFormatException {
 		switch (name) {
 		case "Forward":

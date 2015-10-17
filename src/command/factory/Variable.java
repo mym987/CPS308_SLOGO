@@ -1,6 +1,8 @@
-package command;
+package command.factory;
 
-public class Variable implements Command {
+import command.Command;
+
+class Variable implements Command {
 
 	private final String myName;
 	private VariableManager myManager;

@@ -1,11 +1,14 @@
-package command;
+package command.factory;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
+import command.Command;
+import command.CommandList;
 import model.Actions;
 import parser.ParseFormatException;
 import util.PropertyLoader;
@@ -25,22 +28,19 @@ public class CommandFactory {
 	private final static String CONTROL = "Control";
 	private final static String DISPLAY = "Display";
 	private final static String MULTIPLE = "Multiple";
-	private final static String USER_DEFINED = "UserDefined";
 	private final static String CLUSTER = "Cluster";
 	
 	
 	private Actions myActions;
 	private Map<String,Integer> myNumArgsRules;
 	private Map<String,String> myCommandCatalog;
-	private Map<String,Command> myUserDefined;
 	private ControlCommands myControlCommands;
 	
 	public CommandFactory(Actions actions) throws IOException{
 		myActions = actions;
-		myUserDefined = new HashMap<>();
 		myCommandCatalog = new HashMap<>();
 		myNumArgsRules = new HashMap<>();
-		myControlCommands = new ControlCommands();
+		myControlCommands = new ControlCommands(Collections.unmodifiableSet(myCommandCatalog.keySet()));
 		Properties prop = (new PropertyLoader()).load("Commands");
 		prop.forEach((k,v)->{
 			String[] s = v.toString().split(",");
@@ -51,6 +51,8 @@ public class CommandFactory {
 	}
 	
 	public Command getCommand(String name,List<Command> args) throws ParseFormatException{
+		if(!myCommandCatalog.containsKey(name))
+			return myControlCommands.getUserDefined(name, args);
 		switch (myCommandCatalog.get(name)) {
 		case TURTLE_COMMAND:
 			return TurtleCommands.getCommand(myActions, name, args);
@@ -68,13 +70,10 @@ public class CommandFactory {
 		case MULTIPLE:
 			//TODO
 			return null;
-		case USER_DEFINED:
-			//TODO
-			return null;
 		case CLUSTER:
 			return new CommandList(args);
 		default:
-			throw new ParseFormatException(name+" does not exist!");
+			throw new ParseFormatException(name + " does not exist");
 		}
 	}
 	
@@ -86,14 +85,9 @@ public class CommandFactory {
 		return myControlCommands.getVariable(name);
 	}
 	
-	public Command getUserCommand(String name){
-		//TODO
-		return null;
-	}
-	
 	public int getNumArgs(String name) throws ParseFormatException{
-		if(!myNumArgsRules.containsKey(name))
-			throw new ParseFormatException("\""+name +"\""+ " does not exist!");
-		return myNumArgsRules.get(name);
+		if(myNumArgsRules.containsKey(name))
+			return myNumArgsRules.get(name);
+		return myControlCommands.getNumArgsForUserDefCommand(name);
 	}
 }

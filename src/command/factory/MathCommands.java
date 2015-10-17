@@ -1,11 +1,12 @@
-package command;
+package command.factory;
 
 import java.util.List;
 import java.util.Random;
 
+import command.Command;
 import parser.ParseFormatException;
 
-public class MathCommands {
+class MathCommands {
 	public static Command get(String name, List<Command> args) throws ParseFormatException {
 		switch (name) {
 		case "Sum":

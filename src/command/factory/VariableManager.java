@@ -1,10 +1,12 @@
-package command;
+package command.factory;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import command.Command;
+import command.NullVariableException;
 import parser.ParseFormatException;
 
 class VariableManager {
@@ -31,7 +33,7 @@ class VariableManager {
 		myVariables.get(scope).put(name, value);
 	}
 	
-	protected void setVar(String name, double value){
+	private void setVar(String name, double value){
 		checkNameFormat(name);
 		for (int i = myVariables.size() - 1; i >= myStartScope; i--) {
 			if (myVariables.get(i).containsKey(name)){
@@ -75,7 +77,6 @@ class VariableManager {
 	}
 	
 	protected int deleteScope(int scope){
-		System.out.println("Deleting: "+scope);
 		while(myVariables.size()>scope){
 			myVariables.remove(myVariables.size()-1);
 		}
