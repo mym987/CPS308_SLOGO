@@ -3,7 +3,7 @@ package parser;
 import java.io.Closeable;
 import java.util.NoSuchElementException;
 
-public interface Tokenizer extends Closeable {
+interface Tokenizer extends Closeable {
 
 	/**
 	 * Returns true if this scanner has another token in its input.

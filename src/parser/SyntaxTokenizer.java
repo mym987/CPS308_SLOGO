@@ -9,11 +9,11 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Scanner;
 
-public class SyntaxTokenizer implements Tokenizer {
+class SyntaxTokenizer implements Tokenizer {
 	
 	private Scanner myCommands;
 	
-	public SyntaxTokenizer(String commands){
+	SyntaxTokenizer(String commands){
 		//A more robust version
 		commands = commands.replaceAll("#.*+", "").replace("[", " [ ").replace("]", " ] ")
 					.replace("(", " ( ").replace(")", " ) ");
