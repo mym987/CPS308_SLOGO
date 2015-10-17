@@ -2,6 +2,7 @@ package gui.workspace;
 
 import gui.init.ButtonFactory;
 import gui.init.ColorPickerFactory;
+import gui.init.ListViewFactory;
 import gui.init.combo.LanguageCombo;
 import gui.init.textfield.CommandField;
 import javafx.scene.Node;
@@ -16,10 +17,12 @@ public class WorkspaceHandler {
 	private HBox topNav;
 	private ColorPickerFactory colorPickerFactory = new ColorPickerFactory();
 	private ButtonFactory buttonFactory;
+	private ListViewFactory listViewFactory;
 
 	public WorkspaceHandler(){
 		tabPane = new TabPane();
 		buttonFactory = new ButtonFactory(this);
+		listViewFactory = new ListViewFactory();
 		createWorkspace();
 	}
 	/**
@@ -32,7 +35,7 @@ public class WorkspaceHandler {
 		BorderPane borderPane = new BorderPane();
 		borderPane.setTop(createNavBar());
 		borderPane.setBottom(new CommandField());
-		
+		borderPane.setLeft(listViewFactory.createObject("history_table"));
 		tab.setContent(borderPane);
 		tabPane.getTabs().add(tab);
 		WORKSPACE_NUMBER++;
