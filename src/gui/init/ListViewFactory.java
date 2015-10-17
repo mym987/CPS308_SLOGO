@@ -7,10 +7,8 @@ public class ListViewFactory extends Factory{
 
 	@Override
 	public Node createObject(String id) {
-		// TODO Auto-generated method stub
-		
 		switch(id){
-		case "history_view": new HistoryView();
+		case "history_view": return new HistoryView();
 		}
 		return null;
 	}
