@@ -1,11 +1,14 @@
 package parser;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Scanner;
 import java.util.Stack;
 
 import command.Command;
@@ -196,18 +199,15 @@ public class StackParser implements Parser {
 		return syntaxMap;
 	}
 	
-	public static void main(String[] args) throws ParseFormatException{
+	public static void main(String[] args) throws ParseFormatException, FileNotFoundException{
 		StackParser p = new StackParser(null);
 		//Command c = p.parse("[()][][difference product sum [[](30 20)] 40 10 1000]","English");
 		//Command c = p.parse("make :a 10.5 sum ifelse equal? :a 10.5 50 15 20.5","English");
 //		Command c = p.parse("make :a 0 for [:i 40 100 10] "
 //				+ "[make :a sum :a :i]"
 //				+ "a","English");
-		Command c = p.parse("to my [:a :b :c]"
-				+ "[for [:i :a :b :c]"
-				+ "[make :x sum :x :i]]"
-				+ "make :x 0 "
-				+ "my 1 100 1", "English");
+		Scanner s = new Scanner(new FileInputStream("test.in"));
+		Command c = p.parse(s.useDelimiter("\\Z").next(), "English");
 		System.out.println(c.evaluate());
 		//p.printMap(p.myLanguageRules);
 		//p.printMap(p.mySyntaxRules);
