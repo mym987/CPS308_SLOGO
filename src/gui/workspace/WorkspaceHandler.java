@@ -10,6 +10,7 @@ import gui.turtle.IChangeImage;
 import javafx.scene.Node;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -35,7 +36,7 @@ public class WorkspaceHandler implements ICreateWorkspace {
 	private ListViewFactory listViewFactory;
 	private String language;
 	private ICreateWorkspace createWorkspaceInterface;
-	private TextField commandField;
+	private TextArea commandField;
 
 	public WorkspaceHandler(String lang){
 		language = lang;
@@ -52,10 +53,9 @@ public class WorkspaceHandler implements ICreateWorkspace {
 	public void createWorkspace() {
 		// Any object that changes between workspaces must be created new.
 		// Factories must be redefined for new inputs. 
-	
+		
 		Turtle turtle = new Turtle(200, 200);
 		IChangeImage turtleImageInterface = turtle;
-		
 		Actions simpleActions = new SimpleActions(turtle);
 		
 		TurtleCanvas turtleCanvas = new TurtleCanvas();
@@ -138,4 +138,5 @@ public class WorkspaceHandler implements ICreateWorkspace {
 	public TabPane getTabPane(){
 		return tabPane;
 	}
+
 }

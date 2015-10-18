@@ -4,15 +4,16 @@ import command.Command;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import parser.ParseFormatException;
 import parser.Parser;
 
 public class EnterCommandButton extends Button implements ButtonInterface {
-	private TextField commandField;
+	private TextArea commandField;
 	private Parser parser;
 	private String language;
-	public EnterCommandButton(TextField field, Parser p, String lang){
+	public EnterCommandButton(TextArea field, Parser p, String lang){
 		commandField = field;
 		parser = p;
 		language = lang;

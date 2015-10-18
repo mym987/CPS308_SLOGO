@@ -12,16 +12,17 @@ import gui.turtle.IChangeImage;
 import gui.workspace.ICreateWorkspace;
 import gui.workspace.WorkspaceHandler;
 import javafx.scene.Node;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import parser.Parser;
 
 public class ButtonFactory extends Factory{
 	private ICreateWorkspace createWorkspace;
 	private IChangeImage changeImage;
-	private TextField commandField;
+	private TextArea commandField;
 	private Parser parser;
 	private String language;
-	public ButtonFactory(ICreateWorkspace createInterface, IChangeImage imageInterface, TextField field, Parser p, String lang){
+	public ButtonFactory(ICreateWorkspace createInterface, IChangeImage imageInterface, TextArea field, Parser p, String lang){
 		createWorkspace = createInterface;
 		changeImage = imageInterface;
 		commandField = field;
@@ -43,5 +44,5 @@ public class ButtonFactory extends Factory{
 		default: 
 		}
 		return null;
-	}
+}
 }
