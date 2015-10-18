@@ -26,7 +26,7 @@ public class WorkspaceHandler implements ICreateWorkspace {
 	private ListViewFactory listViewFactory;
 	private String language;
 	private ICreateWorkspace createWorkspaceInterface;
-	private Turtle turtle = new Turtle(new ImageView(new Image(getClass().getClassLoader().getResourceAsStream("turtle.png"))), 0, 0);
+	private Turtle turtle;
 
 	public WorkspaceHandler(String lang){
 		language = lang;
@@ -61,8 +61,6 @@ public class WorkspaceHandler implements ICreateWorkspace {
 		turtlePane.getChildren().add(turtleCanvas);
 		borderPane.setCenter(turtlePane);
 		
-		turtlePane.getChildren().add(turtle.getImage());
-		
 		HBox navBar = createNavBar();
 		TextField commandField = new CommandField();
 		borderPane.setTop(navBar);
@@ -74,6 +72,12 @@ public class WorkspaceHandler implements ICreateWorkspace {
 
 		tab.setContent(borderPane);
 		tabPane.getTabs().add(tab);
+		
+		turtle = new Turtle(new ImageView(new Image(getClass().getClassLoader().getResourceAsStream("turtle.png"))), 200, 200);
+		turtlePane.getChildren().add(turtle.getImage());
+		turtle.getImage().setOnMouseClicked(e -> turtle.setX(turtle.getX()+10));
+		
+		turtlePane.setOnMouseClicked(e -> System.out.println("pane " + turtlePane.getWidth()));
 		
 		WORKSPACE_NUMBER++;
 	}

@@ -14,7 +14,6 @@ public class TurtleCanvas extends Canvas implements ColorChangeInterface {
 //		heightProperty().addListener(evt -> draw());
 //		draw();
 		changeColor(Color.AQUA);
-		//backgroundContext.drawImage(new Image(getClass().getClassLoader().getResourceAsStream("turtle.png")), 100, 100);
 		}
 	
 	// For resizing extension
