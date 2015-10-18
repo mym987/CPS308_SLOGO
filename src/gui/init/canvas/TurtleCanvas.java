@@ -3,7 +3,6 @@ package gui.init.canvas;
 import gui.init.colorpicker.ColorChangeInterface;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 
 public class TurtleCanvas extends Canvas implements ColorChangeInterface {
@@ -14,7 +13,6 @@ public class TurtleCanvas extends Canvas implements ColorChangeInterface {
 //		heightProperty().addListener(evt -> draw());
 //		draw();
 		changeColor(Color.AQUA);
-		//backgroundContext.drawImage(new Image(getClass().getClassLoader().getResourceAsStream("turtle.png")), 100, 100);
 		}
 	
 	// For resizing extension

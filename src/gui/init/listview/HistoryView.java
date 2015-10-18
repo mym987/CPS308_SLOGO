@@ -10,7 +10,7 @@ import javafx.scene.control.ListView;
 
 public class HistoryView extends ListView<String> implements Observer{
 	private ListView<String> historyView = new ListView<String>();
-	//private ObservableList<String> items;
+	private ObservableList<String> items;
 	public HistoryView(){
 	//	this.getChildren().add(items);
 		

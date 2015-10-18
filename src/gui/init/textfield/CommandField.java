@@ -18,32 +18,26 @@ public class CommandField extends TextField{
 		simpleAction = action;
 		language = lang;
 		commandField.setPromptText("Enter your command");
-		onEnter();
+		//onEnter();
 
 	}
 
-	private void onEnter() {
-		textInput = this.getText();
-		commandField.setOnKeyPressed(new EventHandler<KeyEvent>()
-	    {
-	        @Override
-	        public void handle(KeyEvent ke)
-	        {
-	            if (ke.getCode().equals(KeyCode.ENTER))
-	            {
-	            	
-	            	try {
-						Parser parser = new StackParser(simpleAction);
-						parser.parse(textInput, language);
-					} catch (ParseFormatException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-	            	
-	            }
-	        }
-	    });
-	}
 	
-
+//	private void onEnter() {
+//		textInput = this.getText();
+//		commandField.setOnKeyPressed(new EventHandler<KeyEvent>()
+//	    {
+//	        @Override
+//	        public void handle(KeyEvent ke)
+//	        {
+//	            if (ke.getCode().equals(KeyCode.ENTER))
+//	            {
+//	            	
+//	            	
+//	            	
+//	            }
+//	        }
+//	    });
+//	}
+	
 }
