@@ -11,15 +11,16 @@ import gui.init.button.TurtleImageButton;
 import gui.workspace.ICreateWorkspace;
 import gui.workspace.WorkspaceHandler;
 import javafx.scene.Node;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import parser.Parser;
 
 public class ButtonFactory extends Factory{
 	private ICreateWorkspace createWorkspace;
-	private TextField commandField;
+	private TextArea commandField;
 	private Parser parser;
 	private String language;
-	public ButtonFactory(ICreateWorkspace createInterface, TextField field, Parser p, String lang){
+	public ButtonFactory(ICreateWorkspace createInterface, TextArea field, Parser p, String lang){
 		createWorkspace = createInterface;
 		commandField = field;
 		parser = p;
