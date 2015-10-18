@@ -102,5 +102,4 @@ public class WorkspaceHandler implements ICreateWorkspace {
 	public TabPane getTabPane(){
 		return tabPane;
 	}
-
 }
