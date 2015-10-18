@@ -15,6 +15,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.Priority;
 import model.Actions;
 import model.SimpleActions;
 import model.Turtle;
@@ -85,10 +86,10 @@ public class WorkspaceHandler implements ICreateWorkspace {
 		
 		HBox navBar = createNavBar();
 		borderPane.setTop(navBar);
-		HBox bottomBar = new HBox();
-		bottomBar.getChildren().addAll(commandField, buttonFactory.createObject("enter_command"));
-		borderPane.setBottom(bottomBar);
 		
+		HBox bottomBar = createConsoleBar();
+		borderPane.setBottom(bottomBar);
+
 		Node historyView = listViewFactory.createObject("history_view");
 		
 		borderPane.setRight(historyView);
@@ -97,6 +98,15 @@ public class WorkspaceHandler implements ICreateWorkspace {
 		tabPane.getTabs().add(tab);
 		
 		WORKSPACE_NUMBER++;
+	}
+	/**
+	 * @param borderPane
+	 */
+	private HBox createConsoleBar() {
+		HBox bottomBar = new HBox();
+		HBox.setHgrow(commandField, Priority.ALWAYS);
+		bottomBar.getChildren().addAll(commandField, buttonFactory.createObject("enter_command"));
+		return bottomBar;
 	}
 	
 	// Keep this method private to prevent ButtonFactory/ColorPickerFactory from being called if createWorkspace() is not run.
