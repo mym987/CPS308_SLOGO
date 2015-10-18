@@ -1,19 +1,22 @@
 package model;
 
+import gui.turtle.IChangeImage;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-public class Turtle {
+public class Turtle implements IChangeImage {
 	
 	public IntegerProperty move = new SimpleIntegerProperty();
 	private ImageView image;
+	private Image defaultImage = new Image(getClass().getClassLoader().getResourceAsStream("turtle.png"));
 	private double x, y;
 	private double direction;
 	private int isPenDown, isVisible;
 	
-	public Turtle(ImageView image, double x, double y) {
-		this.image = image;
+	public Turtle(double x, double y) {
+		this.image = new ImageView(defaultImage);
 		this.image.setFitHeight(50);
 		this.image.setPreserveRatio(true);
 		this.x = x;
@@ -24,6 +27,11 @@ public class Turtle {
 		direction = 0;
 		isPenDown = 1;
 		isVisible = 1;
+	}
+	
+	public Turtle(double x, double y, Image img) {
+		this(x, y);
+		setImage(img);
 	}
 	
 	// getter methods:
@@ -52,7 +60,17 @@ public class Turtle {
 	}
 	
 	// setter methods:
+	@Override
+	public void setImage(Image img) {
+		this.image.setImage(img);
+	}
+	
 	public void setImage(ImageView image) {
+		this.image = image;
+	}
+
+	public void setImage(String s) {
+		ImageView image = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream("turtle.png")));
 		this.image = image;
 	}
 	

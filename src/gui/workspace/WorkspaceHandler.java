@@ -6,6 +6,7 @@ import gui.init.ListViewFactory;
 import gui.init.canvas.TurtleCanvas;
 import gui.init.colorpicker.ColorChangeInterface;
 import gui.init.textfield.CommandField;
+import gui.turtle.IChangeImage;
 import javafx.scene.Node;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
@@ -52,7 +53,9 @@ public class WorkspaceHandler implements ICreateWorkspace {
 		// Any object that changes between workspaces must be created new.
 		// Factories must be redefined for new inputs. 
 	
-		Turtle turtle = new Turtle(new ImageView(new Image(getClass().getClassLoader().getResourceAsStream("turtle.png"))), 200, 200);
+		Turtle turtle = new Turtle(200, 200);
+		IChangeImage turtleImageInterface = turtle;
+		
 		Actions simpleActions = new SimpleActions(turtle);
 		
 		TurtleCanvas turtleCanvas = new TurtleCanvas();
@@ -64,7 +67,7 @@ public class WorkspaceHandler implements ICreateWorkspace {
 		commandField = new CommandField(simpleActions, language);
 
 		try {
-			buttonFactory = new ButtonFactory(createWorkspaceInterface, commandField, new StackParser(simpleActions), language );
+			buttonFactory = new ButtonFactory(createWorkspaceInterface, turtleImageInterface, commandField, new StackParser(simpleActions), language );
 		} catch (ParseFormatException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
