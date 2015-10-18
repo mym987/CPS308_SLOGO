@@ -1,9 +1,12 @@
 package model;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.image.ImageView;
 
 public class Turtle {
 	
+	public IntegerProperty move = new SimpleIntegerProperty();
 	private ImageView image;
 	private double x, y;
 	private double direction;
@@ -15,6 +18,7 @@ public class Turtle {
 		this.image.setPreserveRatio(true);
 		this.x = x;
 		this.y = y;
+		this.move.set(0);
 		image.setX(x - image.getBoundsInLocal().getWidth()/2);
 		image.setY(y - image.getBoundsInLocal().getHeight()/2);
 		direction = 0;

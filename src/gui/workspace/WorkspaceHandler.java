@@ -21,6 +21,7 @@ import model.Turtle;
 import parser.ParseFormatException;
 import parser.Parser;
 import parser.StackParser;
+import turtlepath.Trail;
 
 public class WorkspaceHandler implements ICreateWorkspace {
 	private int WORKSPACE_NUMBER=0;
@@ -28,6 +29,7 @@ public class WorkspaceHandler implements ICreateWorkspace {
 	private HBox topNav;
 	private ButtonFactory buttonFactory;
 	private ColorPickerFactory colorPickerFactory;
+	private ColorPickerFactory penColorPickerFactory;
 	private ListViewFactory listViewFactory;
 	private String language;
 	private ICreateWorkspace createWorkspaceInterface;
@@ -48,13 +50,16 @@ public class WorkspaceHandler implements ICreateWorkspace {
 	public void createWorkspace() {
 		// Any object that changes between workspaces must be created new.
 		// Factories must be redefined for new inputs. 
-	
+
 		Turtle turtle = new Turtle(new ImageView(new Image(getClass().getClassLoader().getResourceAsStream("turtle.png"))), 200, 200);
-		turtle.getImage().setOnMouseClicked(e -> turtle.setX(turtle.getX()+10));
 		Actions simpleActions = new SimpleActions(turtle);
 		
 		TurtleCanvas turtleCanvas = new TurtleCanvas();
 		ColorChangeInterface colorChangeInterface = turtleCanvas;
+		
+		Trail turtleTrail = new Trail(turtle);
+		ColorChangeInterface penColorChangeInterface = turtleTrail;
+		
 		commandField = new CommandField(simpleActions, language);
 
 		try {
@@ -64,23 +69,24 @@ public class WorkspaceHandler implements ICreateWorkspace {
 			e.printStackTrace();
 		}
 		colorPickerFactory = new ColorPickerFactory(colorChangeInterface);
+		penColorPickerFactory = new ColorPickerFactory(penColorChangeInterface);
 		listViewFactory = new ListViewFactory();
 
-
-		
-		
 		Tab tab = new Tab();
 		tab.setText("Workspace " + String.valueOf(WORKSPACE_NUMBER+1));
 		
 		BorderPane borderPane = new BorderPane();
 	
 		Pane turtlePane = new Pane();
+		
 		turtleCanvas.widthProperty().bind(turtlePane.widthProperty());
 		turtleCanvas.heightProperty().bind(turtlePane.heightProperty());
-		turtlePane.getChildren().add(turtle.getImage());
-		turtlePane.setOnMouseClicked(e -> System.out.println("pane " + turtlePane.getWidth()));
-		
+		turtleTrail.widthProperty().bind(turtlePane.widthProperty());
+		turtleTrail.heightProperty().bind(turtlePane.heightProperty());
+
 		turtlePane.getChildren().add(turtleCanvas);
+		turtlePane.getChildren().add(turtleTrail);
+		turtlePane.getChildren().add(turtle.getImage());
 		borderPane.setCenter(turtlePane);
 		
 		HBox navBar = createNavBar();
@@ -103,7 +109,7 @@ public class WorkspaceHandler implements ICreateWorkspace {
 	private HBox createNavBar(){
 		topNav = new HBox();
 		Node[] navBarNodes = {colorPickerFactory.createObject("background_color"),
-							  colorPickerFactory.createObject("pen_color"),
+							  penColorPickerFactory.createObject("pen_color"),
 							  buttonFactory.createObject("turtle_image"),
 							  buttonFactory.createObject("help"),
 							  buttonFactory.createObject("reset_turtle"),

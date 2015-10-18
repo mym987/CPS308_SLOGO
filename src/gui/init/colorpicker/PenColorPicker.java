@@ -12,7 +12,7 @@ public class PenColorPicker extends ColorPicker {
 		this.setTooltip(new Tooltip("PENCOLORPICKER FILLER2"));
 		this.setOnAction(new EventHandler<ActionEvent>(){
 			@Override public void handle(ActionEvent arg0) {
-				//.changeColor(penColorPicker.getValue());
+				colorChangeInterface.changeColor(penColorPicker.getValue());
 			}
 			
 		});
