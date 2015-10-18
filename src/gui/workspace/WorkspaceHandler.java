@@ -10,9 +10,12 @@ import javafx.scene.Node;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import model.Turtle;
 
 public class WorkspaceHandler implements ICreateWorkspace {
 	private int WORKSPACE_NUMBER=0;
@@ -23,6 +26,7 @@ public class WorkspaceHandler implements ICreateWorkspace {
 	private ListViewFactory listViewFactory;
 	private String language;
 	private ICreateWorkspace createWorkspaceInterface;
+	private Turtle turtle = new Turtle(new ImageView(new Image(getClass().getClassLoader().getResourceAsStream("turtle.png"))), 0, 0);
 
 	public WorkspaceHandler(String lang){
 		language = lang;
@@ -56,6 +60,8 @@ public class WorkspaceHandler implements ICreateWorkspace {
 		
 		turtlePane.getChildren().add(turtleCanvas);
 		borderPane.setCenter(turtlePane);
+		
+		turtlePane.getChildren().add(turtle.getImage());
 		
 		HBox navBar = createNavBar();
 		TextField commandField = new CommandField();
