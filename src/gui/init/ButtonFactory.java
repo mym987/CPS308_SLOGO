@@ -8,6 +8,7 @@ import gui.init.button.OpenButton;
 import gui.init.button.ResetTurtleButton;
 import gui.init.button.SaveButton;
 import gui.init.button.TurtleImageButton;
+import gui.init.canvas.IReset;
 import gui.turtle.IChangeImage;
 import gui.workspace.ICreateWorkspace;
 import gui.workspace.WorkspaceHandler;
@@ -20,11 +21,13 @@ public class ButtonFactory extends Factory{
 	private ICreateWorkspace createWorkspace;
 	private IChangeImage changeImage;
 	private TextArea commandField;
+	private IReset reset;
 	private Parser parser;
 	private String language;
-	public ButtonFactory(ICreateWorkspace createInterface, IChangeImage imageInterface, TextArea field, Parser p, String lang){
+	public ButtonFactory(ICreateWorkspace createInterface, IChangeImage imageInterface, IReset resetInterface, TextArea field, Parser p, String lang){
 		createWorkspace = createInterface;
 		changeImage = imageInterface;
+		reset = resetInterface;
 		commandField = field;
 		parser = p;
 		language = lang;
@@ -33,7 +36,7 @@ public class ButtonFactory extends Factory{
 	public Node createObject(String id) {
 		switch(id){
 		case "help"		   		: return new HelpButton();
-		case "reset_turtle"		: return new ResetTurtleButton();
+		case "reset_turtle"		: return new ResetTurtleButton(reset);
 		case "open"		   		: return new OpenButton();
 		case "save"		   		: return new SaveButton();
 		case "grid"		   		: return new GridButton();
