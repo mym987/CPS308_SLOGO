@@ -10,6 +10,7 @@ import javafx.scene.Node;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -47,12 +48,10 @@ public class WorkspaceHandler implements ICreateWorkspace {
 	public void createWorkspace() {
 		// Any object that changes between workspaces must be created new.
 		// Factories must be redefined for new inputs. 
-		
-		ImageView image = new ImageView();
-		
-		Turtle turtle = new Turtle(image, WORKSPACE_NUMBER, WORKSPACE_NUMBER);
+	
+		Turtle turtle = new Turtle(new ImageView(new Image(getClass().getClassLoader().getResourceAsStream("turtle.png"))), 200, 200);
+		turtle.getImage().setOnMouseClicked(e -> turtle.setX(turtle.getX()+10));
 		Actions simpleActions = new SimpleActions(turtle);
-
 		
 		TurtleCanvas turtleCanvas = new TurtleCanvas();
 		ColorChangeInterface colorChangeInterface = turtleCanvas;
@@ -78,6 +77,8 @@ public class WorkspaceHandler implements ICreateWorkspace {
 		Pane turtlePane = new Pane();
 		turtleCanvas.widthProperty().bind(turtlePane.widthProperty());
 		turtleCanvas.heightProperty().bind(turtlePane.heightProperty());
+		turtlePane.getChildren().add(turtle.getImage());
+		turtlePane.setOnMouseClicked(e -> System.out.println("pane " + turtlePane.getWidth()));
 		
 		turtlePane.getChildren().add(turtleCanvas);
 		borderPane.setCenter(turtlePane);
@@ -118,5 +119,4 @@ public class WorkspaceHandler implements ICreateWorkspace {
 	public TabPane getTabPane(){
 		return tabPane;
 	}
-
 }
