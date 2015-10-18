@@ -1,6 +1,7 @@
 package gui.workspace;
 
 import java.io.IOException;
+import java.util.Observer;
 import java.util.Properties;
 
 import gui.init.ButtonFactory;
@@ -9,6 +10,7 @@ import gui.init.ListViewFactory;
 import gui.init.canvas.IReset;
 import gui.init.canvas.TurtleCanvas;
 import gui.init.colorpicker.ColorChangeInterface;
+import gui.init.listview.HistoryList;
 import gui.init.textfield.CommandField;
 import gui.turtle.IChangeImage;
 import javafx.beans.value.ChangeListener;
@@ -77,9 +79,9 @@ public class WorkspaceHandler implements ICreateWorkspace {
 		ColorChangeInterface penColorChangeInterface = turtleTrail;
 		
 		commandField = new CommandField(simpleActions, language, properties);
-
+		HistoryList historyList = new HistoryList();
 		try {
-			buttonFactory = new ButtonFactory(createWorkspaceInterface, turtleImageInterface, resetInterface, commandField, new StackParser(simpleActions), language, properties );
+			buttonFactory = new ButtonFactory(createWorkspaceInterface, turtleImageInterface, resetInterface, commandField, new StackParser(simpleActions), language, properties, historyList);
 		} catch (ParseFormatException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -132,7 +134,7 @@ public class WorkspaceHandler implements ICreateWorkspace {
 		borderPane.setBottom(bottomBar);
 		
 		Node historyView = listViewFactory.createObject("history_view");
-		
+		historyList.addObserver((Observer) historyView);
 		borderPane.setRight(historyView);
 
 		tab.setContent(borderPane);
