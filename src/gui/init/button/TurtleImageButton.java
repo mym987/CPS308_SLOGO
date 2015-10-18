@@ -3,6 +3,7 @@ package gui.init.button;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.Properties;
 
 import gui.turtle.IChangeImage;
 import javafx.event.ActionEvent;
@@ -15,8 +16,8 @@ import javafx.stage.Stage;
 
 public class TurtleImageButton extends Button implements ButtonInterface{
 	
-	public TurtleImageButton(IChangeImage changeImage){
-		this.setText("Set turtle image");
+	public TurtleImageButton(IChangeImage changeImage, Properties properties){
+		this.setText(properties.getProperty("change_turtle_image"));
 		this.setOnAction(new EventHandler<ActionEvent>(){
 			@Override
 			public void handle(ActionEvent event) {

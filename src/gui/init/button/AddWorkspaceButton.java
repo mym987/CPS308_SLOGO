@@ -1,5 +1,7 @@
 package gui.init.button;
 
+import java.util.Properties;
+
 import gui.workspace.ICreateWorkspace;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -11,8 +13,8 @@ import javafx.scene.control.Button;
 // 1) Set up interface that implements only one interface 2) Lambda expression that bundles the handler up and uses only that method
 // 3) Pass only what is needed.
 public class AddWorkspaceButton extends Button implements ButtonInterface {
-	public AddWorkspaceButton(ICreateWorkspace createWorkspaceInterface){
-		setText();
+	public AddWorkspaceButton(ICreateWorkspace createWorkspaceInterface, Properties properties){
+		this.setText(properties.getProperty("add_workspace"));
 		// Setting off infinite loop with workspace creating button
 		// separate to just create an extra workspace
 		this.setOnAction(new EventHandler<ActionEvent>() {
@@ -31,8 +33,7 @@ public class AddWorkspaceButton extends Button implements ButtonInterface {
 	@Override
 	public Button setText() {
 		// TODO Auto-generated method stub
-		this.setText("Add Workspace");
-		return this;
+		return null;
 	}
 
 	@Override

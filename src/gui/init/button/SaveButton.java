@@ -1,12 +1,14 @@
 package gui.init.button;
 
+import java.util.Properties;
+
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 
 public class SaveButton extends Button implements ButtonInterface {
 
-	public SaveButton(){
-		setText();
+	public SaveButton(Properties properties){
+		this.setText(properties.getProperty("save"));
 	}
 	
 	@Override

@@ -1,5 +1,7 @@
 package gui.init.button;
 
+import java.util.Properties;
+
 import command.Command;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -13,11 +15,11 @@ public class EnterCommandButton extends Button implements ButtonInterface {
 	private TextArea commandField;
 	private Parser parser;
 	private String language;
-	public EnterCommandButton(TextArea field, Parser p, String lang){
+	public EnterCommandButton(TextArea field, Parser p, String lang, Properties properties){
 		commandField = field;
 		parser = p;
 		language = lang;
-		this.setText("ENTER COMMAND FILLER");
+		this.setText(properties.getProperty("enter"));
 		this.setOnAction(new EventHandler<ActionEvent>(){
 
 			@Override

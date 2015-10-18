@@ -1,5 +1,7 @@
 package gui.init.button;
 
+import java.util.Properties;
+
 import gui.webhelp.WebHelpView;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -7,11 +9,11 @@ import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
 public class HelpButton extends Button implements ButtonInterface {
-	// MOVE TO RESOURCE FILE
-	private String URL = "http://www.cs.duke.edu/courses/compsci308/fall15/assign/03_slogo/commands.php";
+	private String URL;
 	
-	public HelpButton(){
-		this.setText("HELP FILLER");
+	public HelpButton(Properties properties){
+		URL = properties.getProperty("help_URL");
+		this.setText(properties.getProperty("help_page"));
 		this.setOnAction(new EventHandler<ActionEvent>(){
 			@Override
 			public void handle(ActionEvent event) {

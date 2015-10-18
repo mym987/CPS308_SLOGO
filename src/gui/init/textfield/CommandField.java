@@ -1,5 +1,7 @@
 package gui.init.textfield;
 
+import java.util.Properties;
+
 import javafx.event.EventHandler;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -15,10 +17,10 @@ public class CommandField extends TextArea{
 	private Actions simpleAction;
 	private String textInput;
 	private String language;
-	public CommandField(Actions action, String lang){
+	public CommandField(Actions action, String lang, Properties properties){
 		simpleAction = action;
 		language = lang;
-		commandField.setPromptText("Enter your command");
+		commandField.setPromptText(properties.getProperty("textarea_prompt"));
 		//commandField.setPrefRowCount();
 		onEnter();
 	}
