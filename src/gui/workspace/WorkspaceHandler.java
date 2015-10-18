@@ -13,6 +13,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import model.Actions;
+import model.SimpleActions;
+import model.Turtle;
 
 public class WorkspaceHandler implements ICreateWorkspace {
 	private int WORKSPACE_NUMBER=0;
@@ -38,6 +41,10 @@ public class WorkspaceHandler implements ICreateWorkspace {
 	public void createWorkspace() {
 		// Any object that changes between workspaces must be created new.
 		// Factories must be redefined for new inputs. 
+		
+		Turtle turtle = new Turtle(null, WORKSPACE_NUMBER, WORKSPACE_NUMBER);
+		Actions simpleActions = new SimpleActions(turtle);
+		
 		TurtleCanvas turtleCanvas = new TurtleCanvas();
 		ColorChangeInterface colorChangeInterface = turtleCanvas;
 		
@@ -45,6 +52,9 @@ public class WorkspaceHandler implements ICreateWorkspace {
 		colorPickerFactory = new ColorPickerFactory(colorChangeInterface);
 		listViewFactory = new ListViewFactory();
 
+
+		
+		
 		Tab tab = new Tab();
 		tab.setText("Workspace " + String.valueOf(WORKSPACE_NUMBER+1));
 		
@@ -58,7 +68,7 @@ public class WorkspaceHandler implements ICreateWorkspace {
 		borderPane.setCenter(turtlePane);
 		
 		HBox navBar = createNavBar();
-		TextField commandField = new CommandField();
+		TextField commandField = new CommandField(simpleActions, language);
 		borderPane.setTop(navBar);
 		borderPane.setBottom(commandField);
 		
