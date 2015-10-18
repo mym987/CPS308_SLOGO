@@ -10,9 +10,18 @@ import javafx.scene.Node;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.Priority;
+import model.Actions;
+import model.SimpleActions;
+import model.Turtle;
+import parser.ParseFormatException;
+import parser.Parser;
+import parser.StackParser;
 
 public class WorkspaceHandler implements ICreateWorkspace {
 	private int WORKSPACE_NUMBER=0;
@@ -23,12 +32,14 @@ public class WorkspaceHandler implements ICreateWorkspace {
 	private ListViewFactory listViewFactory;
 	private String language;
 	private ICreateWorkspace createWorkspaceInterface;
+	private TextField commandField;
 
 	public WorkspaceHandler(String lang){
 		language = lang;
 		tabPane = new TabPane();
 		createWorkspaceInterface = this; 
-		buttonFactory = new ButtonFactory(createWorkspaceInterface);
+		
+
 		createWorkspace();
 	}
 	/**
@@ -38,13 +49,27 @@ public class WorkspaceHandler implements ICreateWorkspace {
 	public void createWorkspace() {
 		// Any object that changes between workspaces must be created new.
 		// Factories must be redefined for new inputs. 
+	
+		Turtle turtle = new Turtle(new ImageView(new Image(getClass().getClassLoader().getResourceAsStream("turtle.png"))), 200, 200);
+		turtle.getImage().setOnMouseClicked(e -> turtle.setX(turtle.getX()+10));
+		Actions simpleActions = new SimpleActions(turtle);
+		
 		TurtleCanvas turtleCanvas = new TurtleCanvas();
 		ColorChangeInterface colorChangeInterface = turtleCanvas;
-		
-		buttonFactory = new ButtonFactory(createWorkspaceInterface);
+		commandField = new CommandField(simpleActions, language);
+
+		try {
+			buttonFactory = new ButtonFactory(createWorkspaceInterface, commandField, new StackParser(simpleActions), language );
+		} catch (ParseFormatException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		colorPickerFactory = new ColorPickerFactory(colorChangeInterface);
 		listViewFactory = new ListViewFactory();
 
+
+		
+		
 		Tab tab = new Tab();
 		tab.setText("Workspace " + String.valueOf(WORKSPACE_NUMBER+1));
 		
@@ -53,15 +78,18 @@ public class WorkspaceHandler implements ICreateWorkspace {
 		Pane turtlePane = new Pane();
 		turtleCanvas.widthProperty().bind(turtlePane.widthProperty());
 		turtleCanvas.heightProperty().bind(turtlePane.heightProperty());
+		turtlePane.getChildren().add(turtle.getImage());
+		turtlePane.setOnMouseClicked(e -> System.out.println("pane " + turtlePane.getWidth()));
 		
 		turtlePane.getChildren().add(turtleCanvas);
 		borderPane.setCenter(turtlePane);
 		
 		HBox navBar = createNavBar();
-		TextField commandField = new CommandField();
 		borderPane.setTop(navBar);
-		borderPane.setBottom(commandField);
 		
+		HBox bottomBar = createConsoleBar();
+		borderPane.setBottom(bottomBar);
+
 		Node historyView = listViewFactory.createObject("history_view");
 		
 		borderPane.setRight(historyView);
@@ -71,8 +99,17 @@ public class WorkspaceHandler implements ICreateWorkspace {
 		
 		WORKSPACE_NUMBER++;
 	}
+	/**
+	 * @param borderPane
+	 */
+	private HBox createConsoleBar() {
+		HBox bottomBar = new HBox();
+		HBox.setHgrow(commandField, Priority.ALWAYS);
+		bottomBar.getChildren().addAll(commandField, buttonFactory.createObject("enter_command"));
+		return bottomBar;
+	}
 	
-	// Keep this method private to prevent ColorPickerFactory from being called if createWorkspace() is not run.
+	// Keep this method private to prevent ButtonFactory/ColorPickerFactory from being called if createWorkspace() is not run.
 	private HBox createNavBar(){
 		topNav = new HBox();
 		Node[] navBarNodes = {colorPickerFactory.createObject("background_color"),
@@ -92,5 +129,4 @@ public class WorkspaceHandler implements ICreateWorkspace {
 	public TabPane getTabPane(){
 		return tabPane;
 	}
-
 }

@@ -11,6 +11,8 @@ public class Turtle {
 	
 	public Turtle(ImageView image, double x, double y) {
 		this.image = image;
+		this.image.setFitHeight(50);
+		this.image.setPreserveRatio(true);
 		this.x = x;
 		this.y = y;
 		image.setX(x - image.getBoundsInLocal().getWidth()/2);
