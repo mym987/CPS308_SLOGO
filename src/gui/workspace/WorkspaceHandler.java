@@ -3,16 +3,17 @@ package gui.workspace;
 import gui.init.ButtonFactory;
 import gui.init.ColorPickerFactory;
 import gui.init.ListViewFactory;
+import gui.init.canvas.IReset;
 import gui.init.canvas.TurtleCanvas;
 import gui.init.colorpicker.ColorChangeInterface;
 import gui.init.textfield.CommandField;
 import gui.turtle.IChangeImage;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.scene.Node;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -53,8 +54,9 @@ public class WorkspaceHandler implements ICreateWorkspace {
 		// Any object that changes between workspaces must be created new.
 		// Factories must be redefined for new inputs. 
 	
-		Turtle turtle = new Turtle(200, 200);
+		Turtle turtle = new Turtle(0, 0);
 		IChangeImage turtleImageInterface = turtle;
+		IReset resetInterface = turtle;
 		
 		Actions simpleActions = new SimpleActions(turtle);
 		
@@ -67,7 +69,7 @@ public class WorkspaceHandler implements ICreateWorkspace {
 		commandField = new CommandField(simpleActions, language);
 
 		try {
-			buttonFactory = new ButtonFactory(createWorkspaceInterface, turtleImageInterface, commandField, new StackParser(simpleActions), language );
+			buttonFactory = new ButtonFactory(createWorkspaceInterface, turtleImageInterface, resetInterface, commandField, new StackParser(simpleActions), language );
 		} catch (ParseFormatException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -87,6 +89,26 @@ public class WorkspaceHandler implements ICreateWorkspace {
 		turtleCanvas.heightProperty().bind(turtlePane.heightProperty());
 		turtleTrail.widthProperty().bind(turtlePane.widthProperty());
 		turtleTrail.heightProperty().bind(turtlePane.heightProperty());
+		
+		ChangeListener<? super Number> widthListener = new ChangeListener<Number>() {
+	        @Override
+	        public void changed(ObservableValue<? extends Number> observable, Number oldVal, Number newVal) {
+	           turtle.initX.set(newVal.doubleValue() / 2);
+	           turtle.setX(turtle.getX());
+	        }
+		};
+		ChangeListener<? super Number> heightListener = new ChangeListener<Number>() {
+	        @Override
+	        public void changed(ObservableValue<? extends Number> observable, Number oldVal, Number newVal) {
+	           turtle.initY.set(newVal.doubleValue() / 2);
+	           turtle.setY(turtle.getY());
+	           
+	        }
+		};
+		turtlePane.widthProperty().addListener(widthListener);
+		turtlePane.heightProperty().addListener(heightListener);	
+		
+		turtle.getImage().setOnMouseClicked(e -> turtle.setX(turtle.initX.get()));
 
 		turtlePane.getChildren().add(turtleCanvas);
 		turtlePane.getChildren().add(turtleTrail);
