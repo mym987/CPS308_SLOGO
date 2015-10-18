@@ -19,7 +19,6 @@ public class CommandField extends TextField{
 		language = lang;
 		commandField.setPromptText("Enter your command");
 		onEnter();
-
 	}
 
 	private void onEnter() {
@@ -31,7 +30,6 @@ public class CommandField extends TextField{
 	        {
 	            if (ke.getCode().equals(KeyCode.ENTER))
 	            {
-	            	
 	            	try {
 						Parser parser = new StackParser(simpleAction);
 						parser.parse(textInput, language);

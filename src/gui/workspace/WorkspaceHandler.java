@@ -105,7 +105,6 @@ public class WorkspaceHandler implements ICreateWorkspace {
 		
 		WORKSPACE_NUMBER++;
 	}
-	
 	/**
 	 * @param borderPane
 	 */
