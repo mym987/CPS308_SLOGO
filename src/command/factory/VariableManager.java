@@ -90,7 +90,7 @@ class VariableManager {
 	}
 	
 	protected void checkNameFormat(String name) throws RuntimeException{
-		if(!name.startsWith(":"))
+		if(name.charAt(0)!=':')
 			throw new RuntimeException("\""+name+"\" is not a valid variable name");
 	}
 }

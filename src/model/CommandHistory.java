@@ -1,7 +1,5 @@
 package model;
 
-import java.util.ArrayList;
-
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.collections.ObservableList;

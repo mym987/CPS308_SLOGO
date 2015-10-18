@@ -22,7 +22,6 @@ class ControlCommands {
 		myReservedKeys = new HashSet<>(reservedKeys);
 	}
 
-	// MakeUserInstruction = 3,Control
 	public Command get(String name, List<Command> args) throws ParseFormatException {
 		switch (name) {
 		case "MakeVariable":
@@ -71,7 +70,7 @@ class ControlCommands {
 		Command body = args.get(2);
 		String[] vars = args.get(1).toString().split("\\s+");
 		for(String s:vars){
-			if(!s.startsWith(":"))
+			if(s.charAt(0)!=':')
 				throw new ParseFormatException("\""+s+"\" is not a variable");
 		}
 		boolean created = false;

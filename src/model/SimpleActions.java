@@ -16,7 +16,6 @@ public class SimpleActions implements Actions {
 		turtle.setX(turtle.getX() + distance * Math.sin(Math.toRadians(theta)));
 		turtle.setY(turtle.getY() - distance * Math.cos(Math.toRadians(theta)));
 		turtle.move.set(turtle.move.get()+1);
-		System.out.println("FORWARD");
 		return distance;
 	}
 

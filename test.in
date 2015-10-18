@@ -1,7 +1,4 @@
-to foo [:a :b :c]
-[for [:i :a :b :c]
-make :var sum :i :var
-]
-make :var 0
-foo 0 100 2
-:var
+#to foo [:a :b :c] [for [:i :a :b :c] make :var sum :i :var ] make :var 0
+#foo 0 100 2 :var
+
+#make :abc 0 dotimes [:k 50] [make :abc sum :abc if equal? % :k 3 0 10 :abc]

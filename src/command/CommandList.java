@@ -21,7 +21,7 @@ public class CommandList extends LinkedList<Command> implements Command{
 
 	@Override
 	public double evaluate(Command... args) {
-		double result = -1;
+		double result = 0;
 		for(Command c:this){
 			result = c.evaluate();
 		}
