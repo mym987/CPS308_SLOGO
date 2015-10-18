@@ -7,13 +7,14 @@ import gui.init.button.OpenButton;
 import gui.init.button.ResetTurtleButton;
 import gui.init.button.SaveButton;
 import gui.init.button.TurtleImageButton;
+import gui.workspace.ICreateWorkspace;
 import gui.workspace.WorkspaceHandler;
 import javafx.scene.Node;
 
 public class ButtonFactory extends Factory{
-	private WorkspaceHandler workspaceHandler;
-	public ButtonFactory(WorkspaceHandler handler){
-		workspaceHandler = handler;
+	private ICreateWorkspace createWorkspace;
+	public ButtonFactory(ICreateWorkspace createInterface){
+		createWorkspace = createInterface;
 	}
 	@Override
 	public Node createObject(String id) {
@@ -24,11 +25,10 @@ public class ButtonFactory extends Factory{
 		case "save"		   		: return new SaveButton();
 		case "grid"		   		: return new GridButton();
 		case "turtle_image"		: return new TurtleImageButton();
-		case "add_workspace"	: return new AddWorkspaceButton(workspaceHandler);
+		case "add_workspace"	: return new AddWorkspaceButton(createWorkspace);
 
 		default: 
 		}
 		return null;
 	}
-
 }
