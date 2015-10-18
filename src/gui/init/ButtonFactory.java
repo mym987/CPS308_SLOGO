@@ -8,6 +8,7 @@ import gui.init.button.OpenButton;
 import gui.init.button.ResetTurtleButton;
 import gui.init.button.SaveButton;
 import gui.init.button.TurtleImageButton;
+import gui.turtle.IChangeImage;
 import gui.workspace.ICreateWorkspace;
 import gui.workspace.WorkspaceHandler;
 import javafx.scene.Node;
@@ -16,11 +17,13 @@ import parser.Parser;
 
 public class ButtonFactory extends Factory{
 	private ICreateWorkspace createWorkspace;
+	private IChangeImage changeImage;
 	private TextField commandField;
 	private Parser parser;
 	private String language;
-	public ButtonFactory(ICreateWorkspace createInterface, TextField field, Parser p, String lang){
+	public ButtonFactory(ICreateWorkspace createInterface, IChangeImage imageInterface, TextField field, Parser p, String lang){
 		createWorkspace = createInterface;
+		changeImage = imageInterface;
 		commandField = field;
 		parser = p;
 		language = lang;
@@ -33,7 +36,7 @@ public class ButtonFactory extends Factory{
 		case "open"		   		: return new OpenButton();
 		case "save"		   		: return new SaveButton();
 		case "grid"		   		: return new GridButton();
-		case "turtle_image"		: return new TurtleImageButton();
+		case "turtle_image"		: return new TurtleImageButton(changeImage);
 		case "add_workspace"	: return new AddWorkspaceButton(createWorkspace);
 		case "enter_command"	: return new EnterCommandButton(commandField, parser, language);
 

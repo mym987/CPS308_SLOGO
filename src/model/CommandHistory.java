@@ -11,8 +11,6 @@ public class CommandHistory implements Observable{
 	public CommandHistory(){
 		
 	}
-	
-
 
 	@Override
 	public void addListener(InvalidationListener arg0) {
