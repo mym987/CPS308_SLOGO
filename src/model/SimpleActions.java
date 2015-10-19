@@ -15,6 +15,8 @@ public class SimpleActions implements Actions {
 		double theta = turtle.getDirection();
 		turtle.setX(turtle.getX() + distance * Math.sin(Math.toRadians(theta)));
 		turtle.setY(turtle.getY() - distance * Math.cos(Math.toRadians(theta)));
+		turtle.move.set(turtle.move.get()+1);
+		System.out.println("FORWARD");
 		return distance;
 	}
 
@@ -85,6 +87,7 @@ public class SimpleActions implements Actions {
 	public double setPosition(double x, double y) {
 		turtle.setX(x);
 		turtle.setY(y);
+		turtle.move.set(turtle.move.get()+1);
 		return Math.sqrt(x * x + y * y);
 	}
 
