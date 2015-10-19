@@ -124,7 +124,7 @@ public class Turtle implements IChangeImage, IReset {
 		setPenUp();
 		setX(0);
 		setY(0);
-		direction = 0;
+		rotate(- this.getDirection());
 		if (save == 1) setPenDown();
 	}
 }
