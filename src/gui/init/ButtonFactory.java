@@ -1,5 +1,7 @@
 package gui.init;
 
+import java.util.Properties;
+
 import gui.init.button.AddWorkspaceButton;
 import gui.init.button.EnterCommandButton;
 import gui.init.button.GridButton;
@@ -9,6 +11,7 @@ import gui.init.button.ResetTurtleButton;
 import gui.init.button.SaveButton;
 import gui.init.button.TurtleImageButton;
 import gui.init.canvas.IReset;
+import gui.init.listview.HistoryList;
 import gui.turtle.IChangeImage;
 import gui.workspace.ICreateWorkspace;
 import gui.workspace.WorkspaceHandler;
@@ -24,25 +27,29 @@ public class ButtonFactory extends Factory{
 	private IReset reset;
 	private Parser parser;
 	private String language;
-	public ButtonFactory(ICreateWorkspace createInterface, IChangeImage imageInterface, IReset resetInterface, TextArea field, Parser p, String lang){
+	private Properties properties;
+	private HistoryList history;
+	public ButtonFactory(ICreateWorkspace createInterface, IChangeImage imageInterface, IReset resetInterface, TextArea field, Parser p, String lang, Properties prop, HistoryList historyList){
 		createWorkspace = createInterface;
 		changeImage = imageInterface;
 		reset = resetInterface;
 		commandField = field;
 		parser = p;
 		language = lang;
+		properties = prop;
+		history = historyList;
 	}
 	@Override
 	public Node createObject(String id) {
 		switch(id){
-		case "help"		   		: return new HelpButton();
-		case "reset_turtle"		: return new ResetTurtleButton(reset);
-		case "open"		   		: return new OpenButton();
-		case "save"		   		: return new SaveButton();
-		case "grid"		   		: return new GridButton();
-		case "turtle_image"		: return new TurtleImageButton(changeImage);
-		case "add_workspace"	: return new AddWorkspaceButton(createWorkspace);
-		case "enter_command"	: return new EnterCommandButton(commandField, parser, language);
+		case "help_page"		: return new HelpButton(properties);
+		case "reset_turtle"		: return new ResetTurtleButton(reset,properties);
+		case "open"		   		: return new OpenButton(properties);
+		case "save"		   		: return new SaveButton(properties);
+		case "grid"		   		: return new GridButton(properties);
+		case "change_turtle_image": return new TurtleImageButton(changeImage,properties);
+		case "add_workspace"	: return new AddWorkspaceButton(createWorkspace,properties);
+		case "enter_command"	: return new EnterCommandButton(commandField, parser, language,properties, history);
 
 		default: 
 		}

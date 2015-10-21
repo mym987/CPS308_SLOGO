@@ -1,11 +1,16 @@
 package gui.workspace;
 
+import java.io.IOException;
+import java.util.Observer;
+import java.util.Properties;
+
 import gui.init.ButtonFactory;
 import gui.init.ColorPickerFactory;
 import gui.init.ListViewFactory;
 import gui.init.canvas.IReset;
 import gui.init.canvas.TurtleCanvas;
 import gui.init.colorpicker.ColorChangeInterface;
+import gui.init.listview.HistoryList;
 import gui.init.textfield.CommandField;
 import gui.turtle.IChangeImage;
 import javafx.beans.value.ChangeListener;
@@ -28,11 +33,14 @@ import parser.ParseFormatException;
 import parser.Parser;
 import parser.StackParser;
 import turtlepath.Trail;
+import util.PropertyLoader;
 
 public class WorkspaceHandler implements ICreateWorkspace {
 	private int WORKSPACE_NUMBER=0;
 	private TabPane tabPane;
 	private HBox topNav;
+	private PropertyLoader propertyLoader = new PropertyLoader();
+	private Properties properties;
 	private ButtonFactory buttonFactory;
 	private ColorPickerFactory colorPickerFactory;
 	private ColorPickerFactory penColorPickerFactory;
@@ -41,12 +49,11 @@ public class WorkspaceHandler implements ICreateWorkspace {
 	private ICreateWorkspace createWorkspaceInterface;
 	private TextArea commandField;
 
-	public WorkspaceHandler(String lang){
+	public WorkspaceHandler(String lang, Properties prop){
 		language = lang;
 		tabPane = new TabPane();
 		createWorkspaceInterface = this; 
-		
-
+		properties = prop;
 		createWorkspace();
 	}
 	/**
@@ -71,20 +78,20 @@ public class WorkspaceHandler implements ICreateWorkspace {
 		Trail turtleTrail = new Trail(turtle);
 		ColorChangeInterface penColorChangeInterface = turtleTrail;
 		
-		commandField = new CommandField(simpleActions, language);
-
+		commandField = new CommandField(simpleActions, language, properties);
+		HistoryList historyList = new HistoryList();
 		try {
-			buttonFactory = new ButtonFactory(createWorkspaceInterface, turtleImageInterface, resetInterface, commandField, new StackParser(simpleActions), language );
+			buttonFactory = new ButtonFactory(createWorkspaceInterface, turtleImageInterface, resetInterface, commandField, new StackParser(simpleActions), language, properties, historyList);
 		} catch (ParseFormatException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		colorPickerFactory = new ColorPickerFactory(colorChangeInterface);
-		penColorPickerFactory = new ColorPickerFactory(penColorChangeInterface);
-		listViewFactory = new ListViewFactory();
+		colorPickerFactory = new ColorPickerFactory(colorChangeInterface, properties);
+		penColorPickerFactory = new ColorPickerFactory(penColorChangeInterface, properties);
+		listViewFactory = new ListViewFactory(properties);
 
 		Tab tab = new Tab();
-		tab.setText("Workspace " + String.valueOf(WORKSPACE_NUMBER+1));
+		tab.setText( properties.getProperty("workspace")+ " " + String.valueOf(WORKSPACE_NUMBER+1));
 		
 		BorderPane borderPane = new BorderPane();
 	
@@ -127,7 +134,7 @@ public class WorkspaceHandler implements ICreateWorkspace {
 		borderPane.setBottom(bottomBar);
 		
 		Node historyView = listViewFactory.createObject("history_view");
-		
+		historyList.addObserver((Observer) historyView);
 		borderPane.setRight(historyView);
 
 		tab.setContent(borderPane);
@@ -148,10 +155,10 @@ public class WorkspaceHandler implements ICreateWorkspace {
 	// Keep this method private to prevent ButtonFactory/ColorPickerFactory from being called if createWorkspace() is not run.
 	private HBox createNavBar(){
 		topNav = new HBox();
-		Node[] navBarNodes = {colorPickerFactory.createObject("background_color"),
-							  penColorPickerFactory.createObject("pen_color"),
-							  buttonFactory.createObject("turtle_image"),
-							  buttonFactory.createObject("help"),
+		Node[] navBarNodes = {colorPickerFactory.createObject("background_picker"),
+							  penColorPickerFactory.createObject("pen_picker"),
+							  buttonFactory.createObject("change_turtle_image"),
+							  buttonFactory.createObject("help_page"),
 							  buttonFactory.createObject("reset_turtle"),
 							  buttonFactory.createObject("open"),
 							  buttonFactory.createObject("save"),
