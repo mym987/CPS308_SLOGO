@@ -201,16 +201,9 @@ public class StackParser implements Parser {
 	
 	public static void main(String[] args) throws ParseFormatException, FileNotFoundException{
 		StackParser p = new StackParser(null);
-		//Command c = p.parse("[()][][difference product sum [[](30 20)] 40 10 1000]","English");
-		//Command c = p.parse("make :a 10.5 sum ifelse equal? :a 10.5 50 15 20.5","English");
-//		Command c = p.parse("make :a 0 for [:i 40 100 10] "
-//				+ "[make :a sum :a :i]"
-//				+ "a","English");
 		Scanner s = new Scanner(new FileInputStream("test.in"));
 		Command c = p.parse(s.useDelimiter("\\Z").next(), "English");
 		System.out.println(c.evaluate());
-		//p.printMap(p.myLanguageRules);
-		//p.printMap(p.mySyntaxRules);
-		//p.commandDelocalize("zs");
+		s.close();
 	}
 }

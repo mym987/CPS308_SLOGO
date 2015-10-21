@@ -1,21 +1,27 @@
 package model;
 
+import java.util.List;
+import java.util.Set;
+
 public class SimpleActions implements Actions {
 	
-	private Turtle turtle;
+	private Turtle myTurtle;
+	private List<Turtle> myTurtles;
+	private Set<Integer> myActiveTurtles;
+	
 
 	public SimpleActions(Turtle turtle) {
-		this.turtle = turtle;
+		this.myTurtle = turtle;
 	}
 	
 	// Turtle commands:
 	
 	@Override
 	public double forward(double distance) {
-		double theta = turtle.getDirection();
-		turtle.setX(turtle.getX() + distance * Math.sin(Math.toRadians(theta)));
-		turtle.setY(turtle.getY() - distance * Math.cos(Math.toRadians(theta)));
-		turtle.move.set(turtle.move.get()+1);
+		double theta = myTurtle.getDirection();
+		myTurtle.setX(myTurtle.getX() + distance * Math.sin(Math.toRadians(theta)));
+		myTurtle.setY(myTurtle.getY() - distance * Math.cos(Math.toRadians(theta)));
+		myTurtle.move.set(myTurtle.move.get()+1);
 		return distance;
 	}
 
@@ -33,21 +39,21 @@ public class SimpleActions implements Actions {
 
 	@Override
 	public double right(double degree) {
-		turtle.rotate(degree);
+		myTurtle.rotate(degree);
 		return degree;
 	}
 
 	@Override
 	public double setHeading(double degree) {
-		double theta = turtle.getDirection();
+		double theta = myTurtle.getDirection();
 		theta = degree - theta;
 		return right(theta);
 	}
 
 	@Override
 	public double setTowards(double x, double y) {
-		double delta_x = x - turtle.getX();
-		double delta_y = y - turtle.getY();
+		double delta_x = x - myTurtle.getX();
+		double delta_y = y - myTurtle.getY();
 		
 		if (delta_x == 0) {
 			if (delta_y > 0) {
@@ -84,33 +90,33 @@ public class SimpleActions implements Actions {
 
 	@Override
 	public double setPosition(double x, double y) {
-		turtle.setX(x);
-		turtle.setY(y);
-		turtle.move.set(turtle.move.get()+1);
+		myTurtle.setX(x);
+		myTurtle.setY(y);
+		myTurtle.move.set(myTurtle.move.get()+1);
 		return Math.sqrt(x * x + y * y);
 	}
 
 	@Override
 	public int penDown() {
-		turtle.setPenDown();
+		myTurtle.setPenDown();
 		return 1;
 	}
 
 	@Override
 	public int penUp() {
-		turtle.setPenUp();
+		myTurtle.setPenUp();
 		return 0;
 	}
 
 	@Override
 	public int showTurtle() {
-		turtle.setVisible();
+		myTurtle.setVisible();
 		return 1;
 	}
 
 	@Override
 	public int hideTurtle() {
-		turtle.setInvisible();
+		myTurtle.setInvisible();
 		return 0;
 	}
 
@@ -129,57 +135,58 @@ public class SimpleActions implements Actions {
 
 	@Override
 	public double xCoordinate() {
-		return turtle.getX();
+		return myTurtle.getX();
 	}
 
 	@Override
 	public double yCoordinate() {
-		return turtle.getY();
+		return myTurtle.getY();
 	}
 
 	@Override
 	public double heading() {
-		return turtle.getDirection();
+		return myTurtle.getDirection();
 	}
 
 	@Override
 	public int isPenDown() {
-		return turtle.getIsPenDown();
+		return myTurtle.getIsPenDown();
 	}
 
 	@Override
 	public int isShowing() {
-		return turtle.getIsVisible();
+		return myTurtle.getIsVisible();
 	}
+
 	
 	// Display commands:
-
-	@Override
-	public double setBackground() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
 	
 	@Override
-	public double setPenColor() {
+	public double setBackground(double index) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
-	public double setPenSize() {
+	public double setPenColor(double index) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
-	public double setShape() {
+	public double setPenSize(double pixels) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
-	public double setPalette() {
+	public double setShape(double index) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public double setPalette(double index, double r, double g, double b) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
@@ -209,9 +216,34 @@ public class SimpleActions implements Actions {
 	}
 
 	@Override
-	public double id() {
+	public int id() {
 		// TODO Auto-generated method stub
 		return 0;
 	}
+
+	@Override
+	public int turtles() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void setFollowers(Set<Integer> activeTurtles) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Set<Integer> getFollowers() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	@Override
+	public boolean setActive(int index) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	
 
 }
