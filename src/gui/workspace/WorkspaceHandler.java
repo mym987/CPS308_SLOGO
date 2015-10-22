@@ -65,7 +65,7 @@ public class WorkspaceHandler implements ICreateWorkspace {
 		// Factories must be redefined for new inputs. 
 
 		
-		Turtle turtle = new Turtle(200, 200);
+		Turtle turtle = new Turtle(0, 0);
 
 		IChangeImage turtleImageInterface = turtle;
 		IReset resetInterface = turtle;
