@@ -11,19 +11,31 @@ class MathCommands {
 		switch (name) {
 		case "Sum":
 			return (c) -> {
-				return args.get(0).evaluate() + args.get(1).evaluate();
+				double sum = 0;
+				for(Command cmd:args)
+					sum+=cmd.evaluate();
+				return sum;
 			};
 		case "Difference":
 			return (c) -> {
-				return args.get(0).evaluate() - args.get(1).evaluate();
+				double diff = args.get(0).evaluate();
+				for(int i = 1;i<args.size();i++)
+					diff-=args.get(i).evaluate();
+				return diff;
 			};
 		case "Product":
 			return (c) -> {
-				return args.get(0).evaluate() * args.get(1).evaluate();
+				double product = 1;
+				for(Command cmd:args)
+					product*=cmd.evaluate();
+				return product;
 			};
 		case "Quotient":
 			return (c) -> {
-				return args.get(0).evaluate() / args.get(1).evaluate();
+				double q = args.get(0).evaluate();
+				for(int i = 1;i<args.size();i++)
+					q/=args.get(i).evaluate();
+				return q;
 			};
 		case "Remainder":
 			return (c) -> {

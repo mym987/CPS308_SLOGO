@@ -59,13 +59,6 @@ public class StackParser implements Parser {
 			throw new ParseFormatException(e.getMessage());
 		}
 	}
-	
-	private <K, V> void printMap(Map<K,V> map){
-		System.out.println("---------------Printing map------------------");
-		map.forEach((k,v)->{
-			System.out.println(k+"\t"+v);
-		});
-	}
 
 	@Override
 	public CommandList parse(String input, String language) throws ParseFormatException{
@@ -74,7 +67,11 @@ public class StackParser implements Parser {
 			String token = myTokenizer.next();
 			if (token.matches(mySyntaxRules.get("Command"))) {
 				token = commandDelocalize(token);
-				myTokenStack.push(new Token(token, myFactory.getNumArgs(token)));
+				if(!myTokenStack.empty() && myTokenStack.peek().myName.equals("(")){
+					myTokenStack.peek().myName+=token;
+				}else{
+					myTokenStack.push(new Token(token, myFactory.getNumArgs(token)));
+				}
 				if(token.equals("MakeUserInstruction"))
 					pushUserCommandName();
 			} else if (token.matches(mySyntaxRules.get("Constant"))) {
@@ -84,11 +81,11 @@ public class StackParser implements Parser {
 			} else if (token.matches(mySyntaxRules.get("ListStart"))){
 				myTokenStack.push(new Token("List",Integer.MAX_VALUE));
 			} else if (token.matches(mySyntaxRules.get("GroupStart"))){
-				myTokenStack.push(new Token("Group",Integer.MAX_VALUE));
+				myTokenStack.push(new Token("(",Integer.MAX_VALUE));
 			} else if (token.matches(mySyntaxRules.get("ListEnd"))){
-				closeCluster("List");
+				closeList();
 			} else if (token.matches(mySyntaxRules.get("GroupEnd"))){
-				closeCluster("Group");
+				closeGroup();
 			}
 			popStack();
 		}
@@ -111,7 +108,6 @@ public class StackParser implements Parser {
 			public double evaluate(Command... args) {
 				throw new RuntimeException("This command should never be executed");
 			}
-			
 			public String toString() {
 				return name;
 			}
@@ -140,21 +136,31 @@ public class StackParser implements Parser {
 		}
 	}
 	
-	private void closeCluster(String listName) throws ParseFormatException{
+	private void closeList() throws ParseFormatException{
 		if(myTokenStack.isEmpty())
-			throw new ParseFormatException(listName+" mismatch");
-		String str = myTokenStack.peek().myName;
-		if(!str.equals(listName))
-			throw new ParseFormatException(str + " missing arguments");
-		myTokenStack.peek().myNumArgs = myTokenStack.peek().myCommands.size();
-		
+			throw new ParseFormatException("List mismatch");
+		Token t = myTokenStack.peek();
+		if(!t.myName.equals("List"))
+			throw new ParseFormatException(t.myName + " missing arguments");
+		t.myNumArgs = t.myCommands.size();
+	}
+	
+	private void closeGroup() throws ParseFormatException{
+		if(myTokenStack.isEmpty())
+			throw new ParseFormatException("Group mismatch");
+		Token t = myTokenStack.peek();
+		if(!t.myName.startsWith("("))
+			throw new ParseFormatException("Group mismatch");
+		t.myName = t.myName.substring(1);
+		t.myNumArgs = t.myCommands.size();
+		if(t.myNumArgs<myFactory.getNumArgs(t.myName))
+			throw new ParseFormatException("Insufficient args for \""+t.myName+"\"");
 	}
 	
 	private void parseVariable(String token) throws ParseFormatException{
 		Command c = myFactory.getVarable(token);
 		if(myTokenStack.isEmpty())
 			myCommandList.add(c);
-			//throw new ParseFormatException("Stand-alone variable: "+token.substring(1));
 		else myTokenStack.peek().addCommand(c);
 	}
 	

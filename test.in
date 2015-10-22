@@ -2,3 +2,5 @@
 #foo 0 100 2 :var
 
 #make :abc 0 dotimes [:k 50] [make :abc sum :abc if equal? % :k 3 0 10 :abc]
+
+(and 1 1 1 1  make :a 1 0):a

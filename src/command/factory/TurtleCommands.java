@@ -11,19 +11,31 @@ class TurtleCommands {
 		switch (name) {
 		case "Forward":
 			return (c)->{
-				return actions.forward(args.get(0).evaluate());
+				double value = 0;
+				for(Command cmd:args)
+					value = actions.forward(cmd.evaluate());
+				return value;
 			};
 		case "Backward":
 			return (c)->{
-				return actions.backward(args.get(0).evaluate());
+				double value = 0;
+				for(Command cmd:args)
+					value = actions.backward(cmd.evaluate());
+				return value;
 			};
 		case "Left":
 			return (c)->{
-				return actions.left(args.get(0).evaluate());
+				double value = 0;
+				for(Command cmd:args)
+					value = actions.left(cmd.evaluate());
+				return value;
 			};
 		case "Right":
 			return (c)->{
-				return actions.right(args.get(0).evaluate());
+				double value = 0;
+				for(Command cmd:args)
+					value = actions.right(cmd.evaluate());
+				return value;
 			};
 		case "SetHeading":
 			return (c)->{

@@ -19,7 +19,7 @@ class VariableManager {
 	}
 
 	protected Command makeVar(List<Command> args) throws ParseFormatException {
-		if (args.size() != 2 || !(args.get(0) instanceof Variable))
+		if (args.size() < 2 || !(args.get(0) instanceof Variable))
 			throw new ParseFormatException("Format Error for Making Variable");
 		return (cmd) -> {
 			double value = args.get(1).evaluate();
