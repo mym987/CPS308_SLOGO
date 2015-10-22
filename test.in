@@ -3,4 +3,6 @@
 
 #make :abc 0 dotimes [:k 50] [make :abc sum :abc if equal? % :k 3 0 10 :abc]
 
-(and 1 1 1 1  make :a 1 0):a
+#(and 1 1 1 1  0 make :a 1 0):a
+
+tell [1 2 3]

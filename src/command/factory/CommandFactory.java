@@ -65,11 +65,9 @@ public class CommandFactory {
 		case CONTROL:
 			return myControlCommands.get(name, args);
 		case DISPLAY:
-			//TODO
-			return null;
+			return DisplayCommands.get(myActions, name, args);
 		case MULTIPLE:
-			//TODO
-			return null;
+			return MultipleCommands.get(myActions, name, args);
 		case CLUSTER:
 			return new CommandList(args);
 		default:
