@@ -92,7 +92,7 @@ public class StackParser implements Parser {
 		myTokenizer.close();
 		//Check if there're any remaining commands in the stack, and throw errors accordingly
 		if(!myTokenStack.isEmpty()){
-			if(myTokenStack.peek().myName.matches("List|Group"))
+			if(myTokenStack.peek().myName.matches("List|\\(.*"))
 				throw new ParseFormatException("List/Group did not close properly");
 			else
 				throw new ParseFormatException("Insufficient arguments for \""+ myTokenStack.peek().myName +"\"");

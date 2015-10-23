@@ -29,7 +29,7 @@ public class CommandFactory {
 	private final static String DISPLAY = "Display";
 	private final static String MULTIPLE = "Multiple";
 	private final static String CLUSTER = "Cluster";
-	
+	private final static String USER_DEFINED = "UserDefined";
 	
 	private Actions myActions;
 	private Map<String,Integer> myNumArgsRules;
@@ -68,6 +68,8 @@ public class CommandFactory {
 			return DisplayCommands.get(myActions, name, args);
 		case MULTIPLE:
 			return MultipleCommands.get(myActions, name, args);
+		case USER_DEFINED:
+			
 		case CLUSTER:
 			return new CommandList(args);
 		default:
