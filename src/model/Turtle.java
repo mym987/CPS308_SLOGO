@@ -19,6 +19,8 @@ public class Turtle implements IChangeImage, IReset {
 	private double x, y;
 	private double direction;
 	private int isPenDown, isVisible;
+	private int id;
+	private boolean isActive;
 	
 	public Turtle() {
 		this.image = new ImageView(defaultImage);
@@ -70,6 +72,14 @@ public class Turtle implements IChangeImage, IReset {
 		return isVisible;
 	}
 	
+	public int getID() {
+		return id;
+	}
+	
+	public boolean getIsActive() {
+		return isActive;
+	}
+	
 	// setter methods:
 	@Override
 	public void setImage(Image img) {
@@ -116,6 +126,14 @@ public class Turtle implements IChangeImage, IReset {
 	public void setInvisible() {
 		image.setVisible(false);
 		isVisible = 0;
+	}
+	
+	public void setID(int id) {
+		this.id = id;
+	}
+	
+	public void setIsActive(boolean isActive) {
+		this.isActive = isActive;
 	}
 
 	@Override
