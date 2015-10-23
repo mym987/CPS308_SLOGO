@@ -1,5 +1,13 @@
 package command;
-
+/**
+ * An exception that can be thrown during the normal operation of the
+ * program.
+ * 
+ * This exception is thrown when the variable is not initialized.
+ * 
+ * @author Mike Ma (ym67)
+ *
+ */
 public class NullVariableException extends RuntimeException {
 
 	/**

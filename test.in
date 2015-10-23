@@ -5,4 +5,24 @@
 
 #(and 1 1 1 1  0 make :a 1 0):a
 
-tell [1 2 3]
+#make :a (sum 20 10 30 10 5)
+
+#make :a 0
+#
+#
+#
+#
+#dotimes [:k 100] [make :a sum :a :k] # i am a comment
+
+#make :a 0 (sum 0 dotimes [:k 100] [make :a sum :a :k])
+
+
+#to foo [:a :b :c] [for [:i :a :b :c] make :var sum :i :var ] make :var 0
+#foo 0 100 1 :var
+
+#dotimes [:a 100] [sum 0 0]
+
+make :sum 0
+to foo [:a] [set :sum + :a :sum if greater? :a 0 foo difference :a 1]
+foo 100
+:sum

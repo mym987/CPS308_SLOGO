@@ -14,12 +14,14 @@ class ControlCommands {
 	
 	private VariableManager myVarManager;
 	private Map<String,UserCommand> myUserDefined;
+	private Map<String,Integer> myTempNameSpace;
 	private Set<String> myReservedKeys;
 
 	public ControlCommands(Set<String> reservedKeys) {
 		myVarManager = new VariableManager();
 		myUserDefined = new HashMap<>();
 		myReservedKeys = new HashSet<>(reservedKeys);
+		myTempNameSpace = new HashMap<>();
 	}
 
 	public Command get(String name, List<Command> args) throws ParseFormatException {
@@ -43,23 +45,38 @@ class ControlCommands {
 		}
 	}
 	
-	protected int getNumArgsForUserDefCommand(String name) throws ParseFormatException{
-		if(!myUserDefined.containsKey(name))
+	/**
+	 * Get the number of arguments for user defined commands
+	 * @param name
+	 * @return number of arguments
+	 * @throws ParseFormatException when the command is not found
+	 */
+	protected int getNumArgs(String name) throws ParseFormatException{
+		if(myUserDefined.containsKey(name))
+			return myUserDefined.get(name).getNumArgs();
+		else if(myTempNameSpace.containsKey(name))
+			return myTempNameSpace.get(name);
+		else
 			throw new ParseFormatException("\""+name +"\""+ " does not exist");
-		return myUserDefined.get(name).getNumArgs();
 	}
 	
-	protected Variable getVariable(String name){
+	protected void clearTempNameSpace(){
+		myTempNameSpace.clear();
+	}
+	
+	protected void reserveNameSpace(String name, int numArgs){
+		myTempNameSpace.put(name, numArgs);
+	}
+	
+	protected Variable getVariable(String name) throws ParseFormatException{
 		return myVarManager.getVar(name);
 	}
 	
 	protected Command getUserDefined(String name, List<Command> args) throws ParseFormatException{
-		if(!myUserDefined.containsKey(name))
-			throw new ParseFormatException("\""+name +"\" does not exist");
-		UserCommand c = myUserDefined.get(name);
+		getNumArgs(name); //test if the command exists
 		Command[] arguments = args.toArray(new Command[args.size()]);
 		return (cmd)->{
-			return c.evaluate(arguments);
+			return myUserDefined.get(name).evaluate(arguments);
 		};
 	}
 	
@@ -73,16 +90,15 @@ class ControlCommands {
 			if(s.charAt(0)!=':')
 				throw new ParseFormatException("\""+s+"\" is not a variable");
 		}
-		boolean created = false;
-		if(!myReservedKeys.contains(name)){
-			UserCommand usr = new UserCommand(myVarManager, name,vars,body);
-			myUserDefined.put(usr.toString(), usr);
-			myReservedKeys.add(usr.toString());
-			created = true;
-		}
-		final double result = created?1:0;
 		return (cmd)->{
-			return result;
+			if(!myReservedKeys.contains(name)){
+				UserCommand usr = new UserCommand(myVarManager, name,vars,body);
+				myUserDefined.put(usr.toString(), usr);
+				myReservedKeys.add(usr.toString());
+				return 1;
+			}else{
+				return 0;
+			}
 		};
 		
 	}
