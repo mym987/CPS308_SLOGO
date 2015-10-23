@@ -1,5 +1,6 @@
 package action;
 
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -302,7 +303,7 @@ public class SimpleActions implements Actions {
 
 	@Override
 	public Set<Integer> getFollowers() {
-		return myActiveTurtles;
+		return Collections.unmodifiableSet(myActiveTurtles);
 	}
 	
 	@Override

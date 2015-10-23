@@ -58,6 +58,7 @@ class MultipleCommands {
 				set.add((int) val);
 			}
 			actions.setFollowers(set);
+			actions.setActive((int)val);
 			return val;
 		};
 
