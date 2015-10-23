@@ -23,7 +23,7 @@ class UserCommand implements Command {
 
 	@Override
 	public double evaluate(Command... args) {
-		int scope = myVarManager.newScope();
+		int scope = myVarManager.addScope();
 		if(args.length!=myVariables.length)
 			throw new RuntimeException("Expect "+myVariables.length+" args, but received "+args.length);
 		for(int i=0;i<myVariables.length;i++){

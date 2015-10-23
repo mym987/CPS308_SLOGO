@@ -28,29 +28,38 @@ class VariableManager {
 		};
 	}
 	
+	/**
+	 * Set the value of the variable in current scope
+	 * @param name
+	 * @param value
+	 * @param scope
+	 */
 	protected void setVar(String name, double value, int scope) {
-		checkNameFormat(name);
 		myVariables.get(scope).put(name, value);
 	}
 	
+	/**
+	 * Set the value of the variable. First look for the variable in existing scope.
+	 * If not found, create the variable in the global scope
+	 * @param name
+	 * @param value
+	 */
 	private void setVar(String name, double value){
-		checkNameFormat(name);
 		for (int i = myVariables.size() - 1; i >= myStartScope; i--) {
 			if (myVariables.get(i).containsKey(name)){
 				myVariables.get(i).put(name, value);
 				return;
 			}
 		}
-		myVariables.get(0).put(name, value);
+		myVariables.get(myStartScope).put(name, value);
 	}
 
-	protected Variable getVar(String name){
+	protected Variable getVar(String name) throws ParseFormatException{
 		checkNameFormat(name);
 		return new Variable(name, this);
 	}
 	
 	protected double getValue(String name){
-		checkNameFormat(name);
 		for (int i = myVariables.size() - 1; i >= myStartScope; i--) {
 			if (myVariables.get(i).containsKey(name))
 				return myVariables.get(i).get(name);
@@ -89,8 +98,8 @@ class VariableManager {
 		myStartScope = 0;
 	}
 	
-	protected void checkNameFormat(String name) throws RuntimeException{
+	protected void checkNameFormat(String name) throws ParseFormatException{
 		if(name.charAt(0)!=':')
-			throw new RuntimeException("\""+name+"\" is not a valid variable name");
+			throw new ParseFormatException("\""+name+"\" is not a valid variable name");
 	}
 }
