@@ -14,7 +14,6 @@ public class SimpleActions implements Actions {
 	private Set<Integer> myActiveTurtles;
 	private int width;
 	private int height;
-	
 
 	public SimpleActions(Turtle turtle, Map<Integer, Turtle> turtles, Set<Integer> activeTurtles) {
 		myTurtle = turtle;
@@ -23,7 +22,6 @@ public class SimpleActions implements Actions {
 		
 		width = 800;
 		height = 600;
-	
 	}
 	
 	// Turtle commands:
@@ -40,13 +38,13 @@ public class SimpleActions implements Actions {
 			if (myTurtle.getX() + delta_x <= width/2) {
 				myTurtle.setX(myTurtle.getX() + delta_x);
 			} else {
-				myTurtle.setX((myTurtle.getX() + delta_x) % width - width);
+				myTurtle.setX((myTurtle.getX() + delta_x) %  width -  width);
 			}
 		} else {
-			if (myTurtle.getX() + delta_x >= - width/2) {
+			if (myTurtle.getX() + delta_x >= -  width/2) {
 				myTurtle.setX(myTurtle.getX() + delta_x);
 			} else {
-				myTurtle.setX((myTurtle.getX() + delta_x) % width + width);
+				myTurtle.setX((myTurtle.getX() + delta_x) %  width + width);
 			}
 		}
 		// update y coordinate
@@ -295,10 +293,9 @@ public class SimpleActions implements Actions {
 	@Override
 	public void setFollowers(Set<Integer> activeTurtles) {
 		this.myActiveTurtles = activeTurtles;
-		//myActiveTurtles.forEach(n -> System.out.println(n));
 		for (Integer i: activeTurtles) {
 			if (!myTurtles.keySet().contains(i)) {
-				myTurtles.put(i, new Turtle(100,0));
+				myTurtles.put(i, new Turtle(i*50,0));
 			}
 		}
 	}
@@ -310,6 +307,9 @@ public class SimpleActions implements Actions {
 	
 	@Override
 	public void setActive(int index) {
+		if (!myTurtles.keySet().contains(index)) {
+			myTurtles.put(index, new Turtle(-index*50,0));
+		}
 		myTurtles.get(index).setIsActive(true);
 	}
 

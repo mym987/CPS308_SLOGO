@@ -1,6 +1,5 @@
 package gui.workspace;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -25,27 +24,21 @@ import javafx.scene.Node;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import model.Turtle;
 import parser.ParseFormatException;
-import parser.Parser;
 import parser.StackParser;
 import turtlepath.Trail;
-import util.PropertyLoader;
 
 public class WorkspaceHandler implements ICreateWorkspace {
 	private int WORKSPACE_NUMBER=0;
 	private TabPane tabPane;
-	private TurtleCanvas turtleCanvas;
-	private Trail turtleTrail;
+	private Pane turtlePane;
 	private HBox topNav;
-	private PropertyLoader propertyLoader = new PropertyLoader();
+	//private PropertyLoader propertyLoader = new PropertyLoader();
 	private Properties properties;
 	private ButtonFactory buttonFactory;
 	private ColorPickerFactory colorPickerFactory;
@@ -79,10 +72,10 @@ public class WorkspaceHandler implements ICreateWorkspace {
 		IChangeImage turtleImageInterface = turtle;
 		IReset resetInterface = turtle;
 		
-		turtleCanvas = new TurtleCanvas();
+		TurtleCanvas turtleCanvas = new TurtleCanvas();
 		ColorChangeInterface colorChangeInterface = turtleCanvas;
 		
-		turtleTrail = new Trail(turtle);
+		Trail turtleTrail = new Trail(turtle);
 		ColorChangeInterface penColorChangeInterface = turtleTrail;
 		
 		Actions simpleActions = new SimpleActions(turtle, turtles, activeTurtles);
@@ -104,7 +97,7 @@ public class WorkspaceHandler implements ICreateWorkspace {
 		
 		BorderPane borderPane = new BorderPane();
 	
-		Pane turtlePane = new Pane();
+		turtlePane = new Pane();
 		
 		turtleCanvas.widthProperty().bind(turtlePane.widthProperty());
 		turtleCanvas.heightProperty().bind(turtlePane.heightProperty());
@@ -182,4 +175,7 @@ public class WorkspaceHandler implements ICreateWorkspace {
 		return tabPane;
 	}
 
+	public Pane getTurtlePane() {
+		return turtlePane;
+	}
 }

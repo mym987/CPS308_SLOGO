@@ -23,12 +23,12 @@ public class Turtle implements IChangeImage, IReset {
 	private boolean isActive;
 	
 	public Turtle() {
-		this.image = new ImageView(defaultImage);
-		this.image.setFitHeight(50);
-		this.image.setPreserveRatio(true);
-		this.x = initX.get();
-		this.y = initY.get();
-		this.move.set(0);
+		image = new ImageView(defaultImage);
+		image.setFitHeight(50);
+		image.setPreserveRatio(true);
+		x = initX.get();
+		y = initY.get();
+		move.set(0);
 		image.setX(x + initX.get() - image.getBoundsInLocal().getWidth()/2);
 		image.setY(y + initY.get() - image.getBoundsInLocal().getHeight()/2);
 		direction = 0;

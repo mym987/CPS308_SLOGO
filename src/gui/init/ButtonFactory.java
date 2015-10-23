@@ -14,10 +14,8 @@ import gui.init.canvas.IReset;
 import gui.init.listview.HistoryList;
 import gui.turtle.IChangeImage;
 import gui.workspace.ICreateWorkspace;
-import gui.workspace.WorkspaceHandler;
 import javafx.scene.Node;
 import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
 import parser.Parser;
 
 public class ButtonFactory extends Factory{
