@@ -4,9 +4,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import action.Actions;
 import command.Command;
 import command.CommandList;
-import model.Actions;
 import parser.ParseFormatException;
 
 class MultipleCommands {

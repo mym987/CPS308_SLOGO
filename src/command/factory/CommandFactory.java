@@ -9,7 +9,7 @@ import java.util.Properties;
 
 import command.Command;
 import command.CommandList;
-import model.Actions;
+import action.Actions;
 import parser.ParseFormatException;
 import util.PropertyLoader;
 /**

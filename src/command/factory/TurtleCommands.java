@@ -3,8 +3,8 @@ package command.factory;
 import java.util.List;
 import java.util.Set;
 
+import action.Actions;
 import command.Command;
-import model.Actions;
 import parser.ParseFormatException;
 
 class TurtleCommands {

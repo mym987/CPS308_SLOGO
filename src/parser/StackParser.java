@@ -14,7 +14,7 @@ import java.util.Stack;
 import command.Command;
 import command.CommandList;
 import command.factory.CommandFactory;
-import model.Actions;
+import action.Actions;
 import util.LanguageLoader;
 
 public class StackParser implements Parser {

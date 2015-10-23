@@ -1,9 +1,15 @@
 package gui.workspace;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
 import java.util.Observer;
 import java.util.Properties;
+import java.util.Set;
 
+import action.Actions;
+import action.SimpleActions;
 import gui.init.ButtonFactory;
 import gui.init.ColorPickerFactory;
 import gui.init.ListViewFactory;
@@ -26,8 +32,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
-import model.Actions;
-import model.SimpleActions;
 import model.Turtle;
 import parser.ParseFormatException;
 import parser.Parser;
@@ -38,6 +42,8 @@ import util.PropertyLoader;
 public class WorkspaceHandler implements ICreateWorkspace {
 	private int WORKSPACE_NUMBER=0;
 	private TabPane tabPane;
+	private TurtleCanvas turtleCanvas;
+	private Trail turtleTrail;
 	private HBox topNav;
 	private PropertyLoader propertyLoader = new PropertyLoader();
 	private Properties properties;
@@ -64,19 +70,22 @@ public class WorkspaceHandler implements ICreateWorkspace {
 		// Any object that changes between workspaces must be created new.
 		// Factories must be redefined for new inputs. 
 
-		
 		Turtle turtle = new Turtle(0, 0);
+		Map<Integer, Turtle> turtles = new HashMap<Integer, Turtle>();
+		Set<Integer> activeTurtles = new HashSet<Integer>();
+		turtles.put(1, turtle);
+		activeTurtles.add(1);
 
 		IChangeImage turtleImageInterface = turtle;
 		IReset resetInterface = turtle;
 		
-		Actions simpleActions = new SimpleActions(turtle);
-		
-		TurtleCanvas turtleCanvas = new TurtleCanvas();
+		turtleCanvas = new TurtleCanvas();
 		ColorChangeInterface colorChangeInterface = turtleCanvas;
 		
-		Trail turtleTrail = new Trail(turtle);
+		turtleTrail = new Trail(turtle);
 		ColorChangeInterface penColorChangeInterface = turtleTrail;
+		
+		Actions simpleActions = new SimpleActions(turtle, turtles, activeTurtles);
 		
 		commandField = new CommandField(simpleActions, language, properties);
 		HistoryList historyList = new HistoryList();
