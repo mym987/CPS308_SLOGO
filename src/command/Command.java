@@ -17,4 +17,8 @@ public interface Command {
 	 * @return a double
 	 */
 	public double evaluate(Command... args);
+	
+	default public String name(){
+		return getClass().getName().substring(getClass().getPackage().getName().length()+1);
+	}
 }

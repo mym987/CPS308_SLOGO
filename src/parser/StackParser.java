@@ -199,6 +199,7 @@ public class StackParser implements Parser {
 		Scanner s = new Scanner(new FileInputStream("test.in"));
 		Command c = p.parse(s.useDelimiter("\\Z").next(), "English");
 		System.out.println(c.evaluate());
+		System.out.println(c.name());
 		s.close();
 	}
 }
