@@ -16,22 +16,24 @@ public class Trail extends Canvas implements ColorChangeInterface{
 	private LinkedList<Moment> history = new LinkedList<Moment>();
 	private Color penColor = Color.BLACK;
 	private Turtle turtle;
-	private ChangeListener<? super Number> listener = new ChangeListener<Number>() {
-        @Override
-        public void changed(ObservableValue<? extends Number> observable, Number oldVal, Number newVal) {
+//  This looks terrible:
+//	private ChangeListener<? super Number> listener = new ChangeListener<Number>() {
+//        @Override
+//        public void changed(ObservableValue<? extends Number> observable, Number oldVal, Number newVal) {
 //           System.out.println(" oldVal " + oldVal + " newVal " + newVal);
-           update();
-        }
-	};
+//           update();
+//        }
+//	};
 	
 	public Trail(Turtle t) {
 		turtle = t;
-		turtle.move.addListener(listener);
+		//turtle.move.addListener(listener); -> This looks terrible
+		turtle.move.addListener((ob,oV,nV)->update());  //This looks fantastic
 		update();
 	}
 	
 	public void update() {
-		history.add(new Moment(turtle.getX(), turtle.getY(), turtle.getIsPenDown(), penColor));
+		history.add(new Moment(turtle.getX(), turtle.getY(), turtle.isPenDown(), penColor));
 		draw();
 	}
 	
@@ -41,7 +43,7 @@ public class Trail extends Canvas implements ColorChangeInterface{
 			Moment current = history.get(i);
 			Moment prev = history.get(i-1);
 			context.setStroke(current.getColor());
-			if (current.getIsPenDown() == 1) {
+			if (current.getIsPenDown()) {
 				context.strokeLine(prev.getX(), prev.getY(), current.getX(), current.getY());
 			}
 		}	

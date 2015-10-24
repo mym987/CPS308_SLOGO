@@ -2,25 +2,27 @@ package model;
 
 import gui.init.canvas.IReset;
 import gui.turtle.IChangeImage;
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-public class Turtle implements IChangeImage, IReset {
+public class Turtle implements IChangeImage, IReset{
 	
-	public IntegerProperty move = new SimpleIntegerProperty();
-	public DoubleProperty initX = new SimpleDoubleProperty();
-	public DoubleProperty initY = new SimpleDoubleProperty();
+	public final IntegerProperty move = new SimpleIntegerProperty();
+	public final DoubleProperty initX = new SimpleDoubleProperty();
+	public final DoubleProperty initY = new SimpleDoubleProperty();
 	private ImageView image;
 	private Image defaultImage = new Image(getClass().getClassLoader().getResourceAsStream("turtle.png"));
 	private double x, y;
 	private double direction;
-	private int isPenDown, isVisible;
-	private int id;
-	private boolean isActive;
+	private BooleanProperty isPenDown;
+	private BooleanProperty isVisible;
 	
 	public Turtle() {
 		image = new ImageView(defaultImage);
@@ -32,8 +34,9 @@ public class Turtle implements IChangeImage, IReset {
 		image.setX(x + initX.get() - image.getBoundsInLocal().getWidth()/2);
 		image.setY(y + initY.get() - image.getBoundsInLocal().getHeight()/2);
 		direction = 0;
-		isPenDown = 1;
-		isVisible = 1;
+		isPenDown = new SimpleBooleanProperty(true);
+		isVisible = new SimpleBooleanProperty(true);
+		image.visibleProperty().bind(isVisible);
 	}
 	
 	public Turtle(double x, double y) {
@@ -64,20 +67,12 @@ public class Turtle implements IChangeImage, IReset {
 		return direction;
 	}
 	
-	public int getIsPenDown() {
-		return isPenDown;
+	public boolean isPenDown() {
+		return isPenDown.get();
 	}
 	
-	public int getIsVisible() {
-		return isVisible;
-	}
-	
-	public int getID() {
-		return id;
-	}
-	
-	public boolean getIsActive() {
-		return isActive;
+	public boolean isVisible() {
+		return isVisible.get();
 	}
 	
 	// setter methods:
@@ -111,38 +106,28 @@ public class Turtle implements IChangeImage, IReset {
 	}
 	
 	public void setPenDown() {
-		isPenDown = 1;
+		isPenDown.set(true);
 	}
 	
 	public void setPenUp() {
-		isPenDown = 0;
+		isPenDown.set(false);
 	}
 	
 	public void setVisible() {
-		image.setVisible(true);
-		isVisible = 1;
+		isVisible.set(true);
 	}
 	
 	public void setInvisible() {
-		image.setVisible(false);
-		isVisible = 0;
-	}
-	
-	public void setID(int id) {
-		this.id = id;
-	}
-	
-	public void setIsActive(boolean isActive) {
-		this.isActive = isActive;
+		isVisible.set(false);
 	}
 
 	@Override
 	public void reset() {
-		int save = isPenDown;
+		boolean save = isPenDown.get();
 		setPenUp();
 		setX(0);
 		setY(0);
-		rotate(- this.getDirection());
-		if (save == 1) setPenDown();
+		rotate(-this.getDirection());
+		if (save) setPenDown();
 	}
 }

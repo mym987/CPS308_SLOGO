@@ -1,11 +1,8 @@
 package gui.workspace;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
+import java.util.List;
 import java.util.Observer;
 import java.util.Properties;
-import java.util.Set;
 
 import action.Actions;
 import action.SimpleActions;
@@ -20,6 +17,9 @@ import gui.init.textfield.CommandField;
 import gui.turtle.IChangeImage;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
@@ -62,12 +62,25 @@ public class WorkspaceHandler implements ICreateWorkspace {
 	public void createWorkspace() {
 		// Any object that changes between workspaces must be created new.
 		// Factories must be redefined for new inputs. 
-
-		Turtle turtle = new Turtle(0, 0);
-		Map<Integer, Turtle> turtles = new HashMap<Integer, Turtle>();
-		Set<Integer> activeTurtles = new HashSet<Integer>();
-		turtles.put(1, turtle);
-		activeTurtles.add(1);
+		
+		
+		ObservableList<Turtle> turtles = FXCollections.observableArrayList();
+		/**
+		 * turtles will be passed to simple actions class
+		 * Sample code start here:
+		 */
+		turtles.addListener((ListChangeListener.Change<? extends Turtle> change)->{
+			List<? extends Turtle> addedTurtles = change.getAddedSubList();
+			addedTurtles.forEach((turtle)->{
+				//Step 1: add turtle to canvas
+				//Step 2: create a trail object for that turtle
+			});
+		});
+		/**
+		 * Sample code end here
+		 */
+		Turtle turtle = new Turtle();
+		turtles.add(turtle);
 
 		IChangeImage turtleImageInterface = turtle;
 		IReset resetInterface = turtle;
@@ -78,7 +91,7 @@ public class WorkspaceHandler implements ICreateWorkspace {
 		Trail turtleTrail = new Trail(turtle);
 		ColorChangeInterface penColorChangeInterface = turtleTrail;
 		
-		Actions simpleActions = new SimpleActions(turtle, turtles, activeTurtles);
+		Actions simpleActions = new SimpleActions(turtles);
 		
 		commandField = new CommandField(simpleActions, language, properties);
 		HistoryList historyList = new HistoryList();

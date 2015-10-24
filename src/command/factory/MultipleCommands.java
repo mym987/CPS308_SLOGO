@@ -87,13 +87,13 @@ class MultipleCommands {
 			throw new ParseFormatException(e.getMessage());
 		}
 		return (c) -> {
-			//int id = actions.id();
+			int id = actions.id();
 			double val = 0;
 			for (Command e : list) {
 				actions.setActive((int) e.evaluate());
 				val = body.evaluate();
 			}
-			//actions.setActive(id);
+			actions.setActive(id);
 			return val;
 		};
 	}
@@ -114,7 +114,7 @@ class MultipleCommands {
 	private static Command askWith(Actions actions, List<Command> args) throws ParseFormatException {
 		Command condition = args.get(0), body = args.get(1);
 		return (c) -> {
-			//int id = actions.id(), 
+			int id = actions.id();
 			int max = actions.turtles();
 			double val = 0;
 			for(int i = 0;i<max;i++){
@@ -122,7 +122,7 @@ class MultipleCommands {
 				if(condition.evaluate()!=0)
 					val = body.evaluate();
 			}
-			//actions.setActive(id);
+			actions.setActive(id);
 			return val;
 		};
 	}
