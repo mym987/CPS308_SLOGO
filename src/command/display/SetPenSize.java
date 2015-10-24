@@ -3,7 +3,7 @@ package command.display;
 import action.Actions;
 import command.Command;
 
-public class SetPenSize implements Command {
+class SetPenSize implements Command {
 	
 	private Actions myActions;
 

@@ -2,7 +2,7 @@ package command.math;
 
 import command.Command;
 
-public class Random implements Command {
+class Random implements Command {
 	
 	java.util.Random myRand = new java.util.Random();
 

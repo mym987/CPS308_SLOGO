@@ -2,7 +2,7 @@ package command.math;
 
 import command.Command;
 
-public class ArcTangent implements Command {
+class ArcTangent implements Command {
 
 	@Override
 	public double evaluate(Command... args) {

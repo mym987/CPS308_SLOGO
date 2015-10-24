@@ -2,7 +2,7 @@ package command.math;
 
 import command.Command;
 
-public class Sine implements Command {
+class Sine implements Command {
 
 	@Override
 	public double evaluate(Command... args) {

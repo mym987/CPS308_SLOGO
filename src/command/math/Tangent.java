@@ -2,7 +2,7 @@ package command.math;
 
 import command.Command;
 
-public class Tangent implements Command {
+class Tangent implements Command {
 
 	@Override
 	public double evaluate(Command... args) {

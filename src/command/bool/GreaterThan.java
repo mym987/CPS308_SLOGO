@@ -2,7 +2,7 @@ package command.bool;
 
 import command.Command;
 
-public class GreaterThan implements Command {
+class GreaterThan implements Command {
 
 	@Override
 	public double evaluate(Command... args) {

@@ -3,7 +3,7 @@ package command.display;
 import action.Actions;
 import command.Command;
 
-public class GetPenColor implements Command {
+class GetPenColor implements Command {
 	
 	private Actions myActions;
 

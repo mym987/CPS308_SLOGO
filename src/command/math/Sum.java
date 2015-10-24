@@ -2,7 +2,7 @@ package command.math;
 
 import command.Command;
 
-public class Sum implements Command {
+class Sum implements Command {
 
 	@Override
 	public double evaluate(Command... args) {

@@ -3,7 +3,7 @@ package command.display;
 import action.Actions;
 import command.Command;
 
-public class SetBackground implements Command {
+class SetBackground implements Command {
 	
 	private Actions myActions;
 

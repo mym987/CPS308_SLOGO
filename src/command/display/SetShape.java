@@ -3,7 +3,7 @@ package command.display;
 import action.Actions;
 import command.Command;
 
-public class SetShape implements Command {
+class SetShape implements Command {
 	
 	private Actions myActions;
 

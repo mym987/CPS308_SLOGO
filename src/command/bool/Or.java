@@ -2,7 +2,7 @@ package command.bool;
 
 import command.Command;
 
-public class Or implements Command {
+class Or implements Command {
 
 	@Override
 	public double evaluate(Command... args) {

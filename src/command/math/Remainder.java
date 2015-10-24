@@ -2,7 +2,7 @@ package command.math;
 
 import command.Command;
 
-public class Remainder implements Command {
+class Remainder implements Command {
 
 	@Override
 	public double evaluate(Command... args) {

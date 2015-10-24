@@ -2,7 +2,7 @@ package command.math;
 
 import command.Command;
 
-public class Difference implements Command {
+class Difference implements Command {
 
 	@Override
 	public double evaluate(Command... args) {

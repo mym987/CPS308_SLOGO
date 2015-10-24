@@ -3,7 +3,7 @@ package command.display;
 import action.Actions;
 import command.Command;
 
-public class GetShape implements Command {
+class GetShape implements Command {
 	
 	private Actions myActions;
 

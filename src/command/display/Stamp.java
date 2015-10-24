@@ -3,7 +3,7 @@ package command.display;
 import action.Actions;
 import command.Command;
 
-public class Stamp implements Command {
+class Stamp implements Command {
 	
 	private Actions myActions;
 
