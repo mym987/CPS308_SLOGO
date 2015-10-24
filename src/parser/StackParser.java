@@ -4,8 +4,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Scanner;
@@ -14,7 +12,7 @@ import java.util.Stack;
 import command.Command;
 import command.CommandList;
 import command.factory.CommandFactory;
-import model.Actions;
+import action.Actions;
 import util.LanguageLoader;
 
 public class StackParser implements Parser {
@@ -199,7 +197,6 @@ public class StackParser implements Parser {
 		Scanner s = new Scanner(new FileInputStream("test.in"));
 		Command c = p.parse(s.useDelimiter("\\Z").next(), "English");
 		System.out.println(c.evaluate());
-		System.out.println(c.name());
 		s.close();
 	}
 }

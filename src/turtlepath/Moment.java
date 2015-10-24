@@ -7,10 +7,10 @@ import javafx.scene.paint.Color;
 public class Moment {
 	private double x;
 	private double y;
-	private int isPenDown;
+	private boolean isPenDown;
 	private Color color;
 	
-	public Moment (double setX, double setY, int setPenDown, Color setColor) {
+	public Moment (double setX, double setY, boolean setPenDown, Color setColor) {
 		x = setX;
 		y = setY;
 		isPenDown = setPenDown;
@@ -25,7 +25,7 @@ public class Moment {
 		return y;
 	}
 
-	public int getIsPenDown() {
+	public boolean getIsPenDown() {
 		return isPenDown;
 	}
 

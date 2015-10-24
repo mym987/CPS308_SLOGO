@@ -16,15 +16,15 @@ public class TurtleCanvas extends Canvas implements ColorChangeInterface {
 		}
 	
 	// For resizing extension
-	 private void draw() {
-		             double width = getWidth();
-		             double height = getHeight();
-		             // DEFAULT SETTINGS
-		             backgroundContext.clearRect(0, 0, width, height);
-		             backgroundContext.setStroke(Color.RED);
-		             backgroundContext.strokeLine(0, 0, width, height);
-		             backgroundContext.strokeLine(0, height, width, 0);
-		    }
+//	 private void draw() {
+//		             double width = getWidth();
+//		             double height = getHeight();
+//		             // DEFAULT SETTINGS
+//		             backgroundContext.clearRect(0, 0, width, height);
+//		             backgroundContext.setStroke(Color.RED);
+//		             backgroundContext.strokeLine(0, 0, width, height);
+//		             backgroundContext.strokeLine(0, height, width, 0);
+//		    }
 
 	@Override
 	public void changeColor(Color color) {

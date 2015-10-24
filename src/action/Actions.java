@@ -1,4 +1,4 @@
-package model;
+package action;
 
 import java.util.Set;
 
@@ -119,5 +119,6 @@ public interface Actions {
 	 * @param index
 	 * @return true if the index exists, false otherwise
 	 */
-	public boolean setActive(int index);
+	public void setActive(int index);
+	
 }

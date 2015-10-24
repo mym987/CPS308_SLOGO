@@ -2,7 +2,6 @@ package model;
 
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
-import javafx.collections.ObservableList;
 
 public class CommandHistory implements Observable{
 	//ObservableList<String> history = new ArrayList<String>();

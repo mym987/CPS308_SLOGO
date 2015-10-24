@@ -4,9 +4,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import action.Actions;
 import command.Command;
 import command.CommandList;
-import model.Actions;
 import parser.ParseFormatException;
 
 class MultipleCommands {
@@ -58,6 +58,7 @@ class MultipleCommands {
 				set.add((int) val);
 			}
 			actions.setFollowers(set);
+			actions.setActive((int)val);
 			return val;
 		};
 
@@ -113,7 +114,8 @@ class MultipleCommands {
 	private static Command askWith(Actions actions, List<Command> args) throws ParseFormatException {
 		Command condition = args.get(0), body = args.get(1);
 		return (c) -> {
-			int id = actions.id(), max = actions.turtles();
+			int id = actions.id();
+			int max = actions.turtles();
 			double val = 0;
 			for(int i = 0;i<max;i++){
 				actions.setActive(i);

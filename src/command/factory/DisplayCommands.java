@@ -3,7 +3,7 @@ package command.factory;
 import java.util.List;
 
 import command.Command;
-import model.Actions;
+import action.Actions;
 import parser.ParseFormatException;
 
 class DisplayCommands {

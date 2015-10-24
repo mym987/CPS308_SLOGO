@@ -3,17 +3,17 @@ package command.factory;
 import java.util.List;
 import java.util.Set;
 
+import action.Actions;
 import command.Command;
-import model.Actions;
 import parser.ParseFormatException;
 
 class TurtleCommands {
 	public static Command getCommand(Actions actions, String name, List<Command> args) throws ParseFormatException {
 		Command body = getCommandHelper(actions, name, args);
-		return (c)->{
+		return (c) -> {
 			Set<Integer> activeTurtles = actions.getFollowers();
 			double value = 0;
-			for(int idx:activeTurtles){
+			for (int idx : activeTurtles) {
 				actions.setActive(idx);
 				value = body.evaluate();
 			}
