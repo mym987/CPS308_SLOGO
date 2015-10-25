@@ -15,7 +15,7 @@ class Backward implements Command {
 	public double evaluate(Command... args) throws ParseFormatException {
 		double value = 0;
 		for(Command cmd:args)
-			value = myActions.forward(cmd.evaluate());
+			value = myActions.backward(cmd.evaluate());
 		return value;
 	}
 
