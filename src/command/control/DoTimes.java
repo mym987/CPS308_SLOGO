@@ -24,7 +24,7 @@ public class DoTimes implements Command {
 		try {
 			condition = (CommandList) args[0];
 			loopBody = args[1];
-			name = condition.get(0).toString();
+			name = condition.get(0).name();
 		} catch (Exception e) {
 			throw new ParseFormatException(e.getMessage());
 		}

@@ -1,0 +1,16 @@
+Print sum 1 2
+Print (sum 1 2 3 4 5 6 7 8 9 10)
+Print - 2 1
+Print product 25 4
+Print (* 1 2 3 4 5)
+Print / 25 4
+Print % 99 20
+Print sin 45
+Print cos 30
+Print random 100
+Print pi
+Print minus 31
+Print pow 2 10
+Print NaturalLog 148.4131591 # e^5
+Print tan 135
+Print atan 1

@@ -11,7 +11,7 @@ import java.util.Stack;
 
 import command.Command;
 import command.CommandList;
-import command.factory.CommandFactory;
+import command.CommandFactory;
 import action.Actions;
 import util.LanguageLoader;
 
@@ -194,9 +194,10 @@ public class StackParser implements Parser {
 
 	public static void main(String[] args) throws ParseFormatException, FileNotFoundException {
 		StackParser p = new StackParser(null);
-		Scanner s = new Scanner(new FileInputStream("test.in"));
+		//p.myFactory.setCaseSensitivite(false);
+		Scanner s = new Scanner(new FileInputStream("testcontrol.in"));
 		Command c = p.parse(s.useDelimiter("\\Z").next(), "English");
-		System.out.println(c.evaluate());
+		c.evaluate();
 		s.close();
 	}
 }

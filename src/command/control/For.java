@@ -20,7 +20,7 @@ class For implements Command {
 		try {
 			condition = (CommandList) args[0];
 			loopBody = args[1];
-			var = condition.get(0).toString();
+			var = condition.get(0).name();
 		} catch (Exception e) {
 			throw new ParseFormatException(e.getMessage());
 		}

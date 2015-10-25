@@ -3,7 +3,7 @@
 
 #make :abc 0 dotimes [:k 50] [make :abc sum :abc if equal? % :k 3 0 10 :abc]
 
-#(and 1 1 1 1  0 make :a 1 0):a
+(and 1 1 1 1  1 make :a 10101 0):a
 
 #make :a (sum 20 10 30 10 5)
 
@@ -23,6 +23,5 @@
 #dotimes [:a 100] [sum 0 0]
 
 make :sum 0
-to foo [:a] [set :sum + :a :sum if greater? :a 0 foo difference :a 1]
+to foo [:a] [set :sum + :a :sum Print :sum if greater? :a 0 foo difference :a 1]
 foo 100
-:sum
