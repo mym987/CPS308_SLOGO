@@ -10,8 +10,8 @@ import command.Command;
 
 public class DisplayCommandLoader {
 
-	public Map<String, Command> load(List<String> names, Actions actions) {
-		String prefix = getClass().getPackage().getName() + ".";
+	public static Map<String, Command> load(List<String> names, Actions actions) {
+		String prefix = DisplayCommandLoader.class.getPackage().getName() + ".";
 		Map<String, Command> map = new HashMap<>();
 		names.forEach((name) -> {
 			try {
@@ -25,11 +25,10 @@ public class DisplayCommandLoader {
 	}
 
 	public static void main(String[] args) {
-		DisplayCommandLoader l = new DisplayCommandLoader();
 		List<String> list = new ArrayList<>();
 		list.add("ClearStamps");
 		list.add("Stamp");
-		System.out.println(l.load(list, null));
+		System.out.println(load(list, null));
 	}
 
 }

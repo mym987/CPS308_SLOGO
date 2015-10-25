@@ -8,8 +8,8 @@ import command.Command;
 
 public class BooleanCommandLoader {
 
-	public Map<String, Command> load(List<String> names) {
-		String prefix = getClass().getPackage().getName() + ".";
+	public static Map<String, Command> load(List<String> names) {
+		String prefix = BooleanCommandLoader.class.getPackage().getName() + ".";
 		Map<String, Command> map = new HashMap<>();
 		names.forEach((name) -> {
 			try {

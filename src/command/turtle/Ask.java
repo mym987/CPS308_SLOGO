@@ -3,6 +3,7 @@ package command.turtle;
 import action.Actions;
 import command.Command;
 import command.CommandList;
+import parser.ParseFormatException;
 /**
  * tell turtles given in first list to run commands given in the second list
  * returns result of last command run note, after commands are run,
@@ -23,7 +24,7 @@ class Ask implements Command {
 	}
 
 	@Override
-	public double evaluate(Command... args) {
+	public double evaluate(Command... args) throws ParseFormatException {
 		CommandList list = (CommandList) args[0];
 		Command body = args[1];
 		int id = myActions.id();

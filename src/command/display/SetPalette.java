@@ -2,6 +2,7 @@ package command.display;
 
 import action.Actions;
 import command.Command;
+import parser.ParseFormatException;
 
 class SetPalette implements Command {
 	
@@ -11,7 +12,7 @@ class SetPalette implements Command {
 		myActions = actions;
 	}
 	@Override
-	public double evaluate(Command... args) {
+	public double evaluate(Command... args) throws ParseFormatException {
 		return myActions.setPalette(args[0].evaluate(), args[1].evaluate(), args[2].evaluate(),
 				args[3].evaluate());
 	}

@@ -1,4 +1,4 @@
-package command.factory;
+package command.control;
 
 import command.Command;
 import parser.ParseFormatException;
@@ -11,7 +11,6 @@ class UserCommand implements Command {
 	private VariableManager myVarManager;
 	
 	protected UserCommand(VariableManager manager, String name, String[] vars, Command body){
-		
 		myName = name;
 		myVariables = vars;
 		myBody = body;
@@ -36,7 +35,7 @@ class UserCommand implements Command {
 	}
 	
 	@Override
-	public String toString() {
+	public String name() {
 		return myName;
 	}
 

@@ -1,5 +1,7 @@
 package command;
 
+import parser.ParseFormatException;
+
 /**
  * Do not add more methods to this interface, since Lambda expression only works
  * with interface with no more than 1 method, unless you add "default" modifier
@@ -15,8 +17,9 @@ public interface Command {
 	 * @param args
 	 *            an array of arguments
 	 * @return a double
+	 * @throws ParseFormatException
 	 */
-	public double evaluate(Command... args);
+	public double evaluate(Command... args) throws ParseFormatException;
 	
 	default public String name(){
 		return getClass().getName().substring(getClass().getPackage().getName().length()+1);

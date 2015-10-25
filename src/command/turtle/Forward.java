@@ -2,6 +2,7 @@ package command.turtle;
 
 import action.Actions;
 import command.Command;
+import parser.ParseFormatException;
 
 class Forward implements Command {
 
@@ -11,7 +12,7 @@ class Forward implements Command {
 		myActions = actions;
 	}
 	@Override
-	public double evaluate(Command... args) {
+	public double evaluate(Command... args) throws ParseFormatException {
 		double value = 0;
 		for(Command cmd:args)
 			value = myActions.backward(cmd.evaluate());

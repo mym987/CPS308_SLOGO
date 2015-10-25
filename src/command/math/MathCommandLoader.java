@@ -7,18 +7,18 @@ import java.util.Map;
 import command.Command;
 
 public class MathCommandLoader {
-	
-	public Map<String,Command> load(List<String> names){
-		String prefix = getClass().getPackage().getName()+".";
-		Map<String,Command> map = new HashMap<>();
-		names.forEach((name)->{
+
+	public static Map<String, Command> load(List<String> names) {
+		String prefix = MathCommandLoader.class.getPackage().getName() + ".";
+		Map<String, Command> map = new HashMap<>();
+		names.forEach((name) -> {
 			try {
-				map.put(name,(Command)Class.forName(prefix+name).getDeclaredConstructor().newInstance());
+				map.put(name, (Command) Class.forName(prefix + name).getDeclaredConstructor().newInstance());
 			} catch (Exception e) {
 				System.err.println(name + " not found");
 			}
 		});
 		return map;
 	}
-	
+
 }

@@ -7,6 +7,7 @@ import java.util.Set;
 import action.Actions;
 import command.Command;
 import command.CommandList;
+import parser.ParseFormatException;
 /**
  * sets turtles that will follow commands hereafter returns last value in
  * turtles list note, if turtle has not previously existed, it is created
@@ -24,7 +25,7 @@ class Tell implements Command {
 	}
 
 	@Override
-	public double evaluate(Command... args) {
+	public double evaluate(Command... args) throws ParseFormatException {
 		CommandList list = (CommandList) args[0];
 		double val = 0;
 		Set<Integer> set = new HashSet<>();

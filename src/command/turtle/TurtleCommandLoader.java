@@ -6,11 +6,12 @@ import java.util.Set;
 
 import action.Actions;
 import command.Command;
+import parser.ParseFormatException;
 
 public class TurtleCommandLoader {
 
-	public Map<String, Command> load(Map<String,Boolean> names, Actions actions) {
-		String prefix = getClass().getPackage().getName() + ".";
+	public static Map<String, Command> load(Map<String,Boolean> names, Actions actions) {
+		String prefix = TurtleCommandLoader.class.getPackage().getName() + ".";
 		Map<String, Command> map = new HashMap<>();
 		names.forEach((name,wrap) -> {
 			try {
@@ -25,10 +26,10 @@ public class TurtleCommandLoader {
 		return map;
 	}
 	
-	private Command wrap(Command body, Actions actions){
+	private static Command wrap(Command body, Actions actions){
 		return new Command() {
 			@Override
-			public double evaluate(Command... args) {
+			public double evaluate(Command... args) throws ParseFormatException {
 				Set<Integer> activeTurtles = actions.getFollowers();
 				double value = 0;
 				for (int idx : activeTurtles) {
@@ -43,14 +44,6 @@ public class TurtleCommandLoader {
 				return body.name();
 			}
 		};
-	}
-
-	public static void main(String[] args) {
-		TurtleCommandLoader l = new TurtleCommandLoader();
-		Map<String,Boolean> list = new HashMap<>();
-		list.put("Forward",false);
-		list.put("Backward",true);
-		l.load(list, null).forEach((k,v)->System.out.println(k+" "+v.name()));
 	}
 
 }

@@ -3,6 +3,8 @@ package command;
 import java.util.LinkedList;
 import java.util.List;
 
+import parser.ParseFormatException;
+
 /**
  * A command object wrapping around a list of commands, backed by a linkedlist.
  * 
@@ -34,10 +36,11 @@ public class CommandList extends LinkedList<Command>implements Command {
 
 	/**
 	 * Evaluate every command in the commandlist. Leave args empty!
+	 * @throws ParseFormatException 
 	 * 
 	 */
 	@Override
-	public double evaluate(Command... args) {
+	public double evaluate(Command... args) throws ParseFormatException {
 		double result = 0;
 		for (Command c : this) {
 			result = c.evaluate();
@@ -52,7 +55,7 @@ public class CommandList extends LinkedList<Command>implements Command {
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		forEach(c -> {
-			sb.append(c + "\n");
+			sb.append(c.name() + "\n");
 		});
 		return sb.toString();
 	}

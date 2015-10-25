@@ -2,6 +2,7 @@ package command.turtle;
 
 import action.Actions;
 import command.Command;
+import parser.ParseFormatException;
 
 /**
  * tell turtles matching given condition to run commands given in the second
@@ -22,7 +23,7 @@ class AskWith implements Command {
 	}
 
 	@Override
-	public double evaluate(Command... args) {
+	public double evaluate(Command... args) throws ParseFormatException {
 		Command condition = args[0], body = args[1];
 		int id = myActions.id();
 		int max = myActions.turtles();
