@@ -34,7 +34,7 @@ public class TurtleCommandLoader {
 				double value = 0;
 				for (int idx : activeTurtles) {
 					actions.setActive(idx);
-					value = body.evaluate();
+					value = body.evaluate(args);
 				}
 				return value;
 			}

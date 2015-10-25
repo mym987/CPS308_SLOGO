@@ -15,7 +15,7 @@ class Forward implements Command {
 	public double evaluate(Command... args) throws ParseFormatException {
 		double value = 0;
 		for(Command cmd:args)
-			value = myActions.backward(cmd.evaluate());
+			value = myActions.forward(cmd.evaluate());
 		return value;
 	}
 

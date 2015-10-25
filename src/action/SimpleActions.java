@@ -21,18 +21,15 @@ public class SimpleActions implements Actions {
 	private int height;
 
 	public SimpleActions(List<Turtle> turtles) {
-		//System.out.println(turtles.size());
 		myTurtles = turtles;
 		myActionFollowers = new HashSet<>();
 		myId = new SimpleIntegerProperty(1);
 		myId.addListener((arg, oldV, newV) -> {
-			System.out.println(newV);
 			myTurtle = myTurtles.get(newV.intValue());
 			
 		});
 		myId.set(0);
 		myActionFollowers.add(0);
-		//System.out.println(myTurtle);
 
 		width = 800;
 		height = 600;
@@ -42,7 +39,6 @@ public class SimpleActions implements Actions {
 
 	@Override
 	public double forward(double distance) {
-		System.out.println(distance);
 		double theta = myTurtle.getDirection();
 		double delta_x = distance * Math.sin(Math.toRadians(theta));
 		double delta_y = -distance * Math.cos(Math.toRadians(theta));
@@ -271,7 +267,6 @@ public class SimpleActions implements Actions {
 
 	@Override
 	public int turtles() {
-		System.out.println(myTurtles.size());
 		return myTurtles.size();
 	}
 
@@ -289,12 +284,13 @@ public class SimpleActions implements Actions {
 
 	@Override
 	public Set<Integer> getFollowers() {
-		return Collections.unmodifiableSet(myActionFollowers);
+		return myActionFollowers.stream()
+				.map(i -> i + 1)
+				.collect(Collectors.toSet());
 	}
 
 	@Override
 	public void setActive(int index) {
-		System.out.println(myTurtles.size());
 		index--;
 		if (index < 0) {
 			index = 0;
