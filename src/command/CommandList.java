@@ -14,7 +14,7 @@ import parser.ParseFormatException;
  * @author Mike Ma (ym67)
  *
  */
-public class CommandList extends LinkedList<Command>implements Command {
+public class CommandList extends LinkedList<Command> implements Command {
 
 	private static final long serialVersionUID = 4591734858712715728L;
 

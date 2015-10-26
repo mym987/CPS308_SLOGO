@@ -4,23 +4,21 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
+
 import java.util.Set;
 
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import model.Turtle;
 
-public class SimpleActions implements Actions {
+public class TestActions implements Actions {
 
 	private Turtle myTurtle;
 	private IntegerProperty myId;
 	private List<Turtle> myTurtles;
 	private Set<Integer> myActionFollowers;
 
-	private int width;
-	private int height;
-
-	public SimpleActions(List<Turtle> turtles) {
+	public TestActions(List<Turtle> turtles) {
 		myTurtles = turtles;
 		if(turtles.size()==0)
 			turtles.add(new Turtle());
@@ -32,177 +30,121 @@ public class SimpleActions implements Actions {
 		});
 		myId.set(0);
 		myActionFollowers.add(0);
-
-		width = 800;
-		height = 600;
+	}
+	private void p(String s){
+		System.out.println(s);
 	}
 
 	// Turtle commands:
 
 	@Override
 	public double forward(double distance) {
-		double theta = myTurtle.getDirection();
-		double delta_x = distance * Math.sin(Math.toRadians(theta));
-		double delta_y = -distance * Math.cos(Math.toRadians(theta));
-		// update x coordinate
-		if (delta_x >= 0) {
-			if (myTurtle.getX() + delta_x <= width / 2) {
-				myTurtle.setX(myTurtle.getX() + delta_x);
-			} else {
-				myTurtle.setX((myTurtle.getX() + delta_x) % width - width);
-			}
-		} else {
-			if (myTurtle.getX() + delta_x >= -width / 2) {
-				myTurtle.setX(myTurtle.getX() + delta_x);
-			} else {
-				myTurtle.setX((myTurtle.getX() + delta_x) % width + width);
-			}
-		}
-		// update y coordinate
-		if (delta_y >= 0) {
-			if (myTurtle.getY() + delta_y <= height / 2) {
-				myTurtle.setY(myTurtle.getY() + delta_y);
-			} else {
-				myTurtle.setY((myTurtle.getY() + delta_y) % height - height);
-			}
-		} else {
-			if (myTurtle.getY() + delta_y >= -height / 2) {
-				myTurtle.setY(myTurtle.getY() + delta_y);
-			} else {
-				myTurtle.setY((myTurtle.getY() + delta_y) % height + height);
-			}
-		}
-
-		myTurtle.move.set(myTurtle.move.get() + 1);
+		p(myId.get()+": Forward:" +distance);
 		return distance;
 	}
 
 	@Override
 	public double backward(double distance) {
-		return -forward(-distance);
+		p(myId.get()+": Backward:" +distance);
+		return distance;
 	}
 
 	@Override
 	public double left(double degree) {
-		return -right(-degree);
+		p(myId.get()+": left:" +degree);
+		return degree;
 	}
 
 	@Override
 	public double right(double degree) {
-		myTurtle.rotate(degree);
+		p(myId.get()+": right:" +degree);
 		return degree;
 	}
 
 	@Override
 	public double setHeading(double degree) {
-		double theta = myTurtle.getDirection();
-		theta = degree - theta;
-		return right(theta);
+		p(myId.get()+": heading:" +degree);
+		return degree;
 	}
 
 	@Override
 	public double setTowards(double x, double y) {
-		double delta_x = x - myTurtle.getX();
-		double delta_y = y - myTurtle.getY();
-
-		if (delta_x == 0) {
-			if (delta_y > 0) {
-				return setHeading(180);
-			} else {
-				return setHeading(0);
-			}
-		}
-
-		if (delta_y == 0) {
-			if (delta_x < 0) {
-				return setHeading(-90);
-			} else {
-				return setHeading(90);
-			}
-		}
-
-		double angle_rad = Math.atan(delta_x / delta_y);
-		double angle_deg = Math.toDegrees(angle_rad);
-
-		if (delta_y < 0) {
-			return setHeading(-angle_deg);
-		}
-		if (delta_x < 0) {
-			return setHeading(-angle_deg - 180);
-		} else {
-			return setHeading(180 - angle_deg);
-		}
+		p(myId.get()+": Tow: "+x+","+y);
+		return 0;
 
 	}
 
 	@Override
 	public double setPosition(double x, double y) {
-		myTurtle.setX(x);
-		myTurtle.setY(y);
-		myTurtle.move.set(myTurtle.move.get() + 1);
-
-		return Math.sqrt(x * x + y * y);
+		p(myId.get()+": Pos: "+x+","+y);
+		return 0;
 	}
 
 	@Override
 	public int penDown() {
-		myTurtle.setPenDown();
+		p(myId.get()+": Pendown");
 		return 1;
 	}
 
 	@Override
 	public int penUp() {
-		myTurtle.setPenUp();
+		p(myId.get()+": Penup");
 		return 0;
 	}
 
 	@Override
 	public int showTurtle() {
-		myTurtle.setVisible();
+		p(myId.get()+": Show");
 		return 1;
 	}
 
 	@Override
 	public int hideTurtle() {
-		myTurtle.setInvisible();
+		p(myId.get()+": Hide");
 		return 0;
 	}
 
 	@Override
 	public double home() {
-		return setPosition(0, 0);
+		p(myId.get()+": Home");
+		return 0;
 	}
 
 	@Override
 	public double clearScreen() {
-		// here need to add code to erase turtle's trails
-		return home();
+		p(myId.get()+": clear");
+		return 0;
 	}
 
 	// Turtle Queries:
 
 	@Override
 	public double xCoordinate() {
-		return myTurtle.getX();
+		p("xCoordinate");
+		return 123;
 	}
 
 	@Override
 	public double yCoordinate() {
-		return myTurtle.getY();
+		p("yCoordinate");
+		return 321;
 	}
 
 	@Override
 	public double heading() {
-		return myTurtle.getDirection();
+		p("heading");
+		return 50;
 	}
 
 	@Override
 	public int isPenDown() {
+		p("isPendown");
 		return myTurtle.isPenDown()?1:0;
 	}
 
 	@Override
 	public int isShowing() {
+		p("isshowing");
 		return myTurtle.isVisible()?1:0;
 	}
 

@@ -3,6 +3,7 @@ package parser;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -13,6 +14,7 @@ import command.Command;
 import command.CommandList;
 import command.CommandFactory;
 import action.Actions;
+import action.TestActions;
 import util.LanguageLoader;
 
 public class StackParser implements Parser {
@@ -193,9 +195,9 @@ public class StackParser implements Parser {
 	}
 
 	public static void main(String[] args) throws ParseFormatException, FileNotFoundException {
-		StackParser p = new StackParser(null);
+		StackParser p = new StackParser(new TestActions(new ArrayList<>()));
 		//p.myFactory.setCaseSensitivite(false);
-		Scanner s = new Scanner(new FileInputStream("testcontrol.in"));
+		Scanner s = new Scanner(new FileInputStream("testmove.in"));
 		Command c = p.parse(s.useDelimiter("\\Z").next(), "English");
 		c.evaluate();
 		s.close();

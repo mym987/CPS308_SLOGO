@@ -1,0 +1,17 @@
+(fd 10 20 30 40 50 30 20 10)
+tell [5]
+fd 5
+tell [1 2 3]
+fd 10
+bk 20
+left 45
+ask [3 4 5]
+[right 5]
+home
+tell [9 10]
+Print turtles
+Print % id 2
+Print 999999999
+ask [5 2 3][forward 30]
+askwith [equal? remainder id 2 0] [forward 50]
+home

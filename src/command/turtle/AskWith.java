@@ -1,5 +1,8 @@
 package command.turtle;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import action.Actions;
 import command.Command;
 import parser.ParseFormatException;
@@ -26,13 +29,17 @@ class AskWith implements Command {
 	public double evaluate(Command... args) throws ParseFormatException {
 		Command condition = args[0], body = args[1];
 		int id = myActions.id();
+		Set<Integer> original = myActions.getFollowers();
 		int max = myActions.turtles();
 		double val = 0;
-		for (int i = 0; i < max; i++) {
-			myActions.setActive(i);
+		for (int i = 1; i <= max; i++) {
+			Set<Integer> tmp = new HashSet<>();
+			tmp.add(i);
+			myActions.setFollowers(tmp);
 			if (condition.evaluate() != 0)
 				val = body.evaluate();
 		}
+		myActions.setFollowers(original);
 		myActions.setActive(id);
 		return val;
 	}
