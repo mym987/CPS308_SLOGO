@@ -1,5 +1,6 @@
 package parser;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -28,11 +29,16 @@ public class StackParser implements Parser {
 	private Stack<Token> myTokenStack;
 	private CommandList myCommandList;
 	private Tokenizer myTokenizer;
+	
+	private FileLoader myFileLoader;
+	private StringBuilder myHistory;
 
 	public StackParser(Actions actions) throws ParseFormatException {
+		myHistory = new StringBuilder();
 		try {
 			myFactory = new CommandFactory(actions);
 			myLoader = new LanguageLoader();
+			myFileLoader = new FileLoader();
 		} catch (Exception e) {
 			throw new ParseFormatException(e.getMessage());
 		}
@@ -43,6 +49,7 @@ public class StackParser implements Parser {
 		init(input, language);
 		while (myTokenizer.hasNext()) {
 			String token = myTokenizer.next();
+			myHistory.append(token);
 			if (token.matches(mySyntaxRules.get("Command"))) {
 				token = commandDelocalize(token);
 				if (!myTokenStack.empty() && myTokenStack.peek().myName.equals("(")) {
@@ -194,6 +201,18 @@ public class StackParser implements Parser {
 		return syntaxMap;
 	}
 
+	@Override
+	public void save(File file) throws IOException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void read(File file) throws IOException {
+		// TODO Auto-generated method stub
+		
+	}
+	
 	public static void main(String[] args) throws ParseFormatException, FileNotFoundException {
 		StackParser p = new StackParser(new TestActions(new ArrayList<>()));
 		//p.myFactory.setCaseSensitivite(false);
