@@ -118,7 +118,7 @@ public class WorkspaceHandler implements ICreateWorkspace, Serializable {
 
 		turtles.add(turtle);
 		
-		Actions simpleActions = new SimpleActions(turtles);
+	
 
 		IChangeImage turtleImageInterface = turtle;
 		IReset resetInterface = turtle;
@@ -128,7 +128,7 @@ public class WorkspaceHandler implements ICreateWorkspace, Serializable {
 
 		turtleTrail = new Trail(turtle);
 		ColorChangeInterface penColorChangeInterface = turtleTrail;
-
+		Actions simpleActions = new SimpleActions(turtles,turtleCanvas);
 		commandField = new CommandField(simpleActions, language, properties);
 		historyList = new HistoryList();
 		try {
