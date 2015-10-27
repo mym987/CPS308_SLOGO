@@ -212,7 +212,7 @@ public class WorkspaceHandler implements ICreateWorkspace, Serializable {
 	private HBox createNavBar() {
 		topNav = new HBox();
 		Button tempSave = new Button();
-		tempSave.setText("TEMP WORKING OPEN");
+		tempSave.setText("TEMP WORKING SAVE");
 		tempSave.setOnAction(new EventHandler<ActionEvent>(){
 			@Override
 			public void handle(ActionEvent arg0) {
@@ -248,7 +248,7 @@ public class WorkspaceHandler implements ICreateWorkspace, Serializable {
 		});
 		
 		Button tempOpen = new Button();
-		tempOpen.setText("TEMP WORKING SAVE");
+		tempOpen.setText("TEMP WORKING OPEN");
 		tempOpen.setOnAction(new EventHandler<ActionEvent>(){
 			@Override
 			public void handle(ActionEvent arg0) {
