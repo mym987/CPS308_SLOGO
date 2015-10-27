@@ -9,9 +9,9 @@ ask [3 4 5]
 [right 5]
 home
 tell [9 10]
-Print turtles
-Print % id 2
-Print 999999999
 ask [5 2 3][forward 30]
 askwith [equal? remainder id 2 0] [forward 50]
 home
+tell [1 2]
+askwith [greater? id 5] [left 20]
+Print id

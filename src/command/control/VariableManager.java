@@ -16,9 +16,10 @@ class VariableManager {
 	protected VariableManager() {
 		clear();
 	}
-	
+
 	/**
 	 * Set the value of the variable in current scope
+	 * 
 	 * @param name
 	 * @param value
 	 * @param scope
@@ -26,16 +27,17 @@ class VariableManager {
 	protected void setVar(String name, double value, int scope) {
 		myVariables.get(scope).put(name, value);
 	}
-	
+
 	/**
-	 * Set the value of the variable. First look for the variable in existing scope.
-	 * If not found, create the variable in the global scope
+	 * Set the value of the variable. First look for the variable in existing
+	 * scope. If not found, create the variable in the global scope
+	 * 
 	 * @param name
 	 * @param value
 	 */
-	protected void setVar(String name, double value){
+	protected void setVar(String name, double value) {
 		for (int i = myVariables.size() - 1; i >= myStartScope; i--) {
-			if (myVariables.get(i).containsKey(name)){
+			if (myVariables.get(i).containsKey(name)) {
 				myVariables.get(i).put(name, value);
 				return;
 			}
@@ -43,18 +45,18 @@ class VariableManager {
 		myVariables.get(myStartScope).put(name, value);
 	}
 
-	protected Variable getVar(String name) throws ParseFormatException{
+	protected Variable getVar(String name) throws ParseFormatException {
 		checkNameFormat(name);
 		return new Variable(name, this);
 	}
-	
-	protected double getValue(String name){
+
+	protected double getValue(String name) {
 		for (int i = myVariables.size() - 1; i >= myStartScope; i--) {
 			if (myVariables.get(i).containsKey(name))
 				return myVariables.get(i).get(name);
 		}
-		if(!myVariables.get(0).containsKey(name))
-			throw new NullVariableException("\""+name+ "\" is not initialized");
+		if (!myVariables.get(0).containsKey(name))
+			throw new NullVariableException("\"" + name + "\" is not initialized");
 		return myVariables.get(0).get(name);
 	}
 
@@ -63,32 +65,40 @@ class VariableManager {
 		myStartScope = myVariables.size() - 1;
 		return myVariables.size() - 1;
 	}
-	
+
 	protected int addScope() {
 		myVariables.add(new HashMap<>());
 		return myVariables.size() - 1;
 	}
-	
-	protected int deleteScope(){
-		myVariables.remove(myVariables.size()-1);
-		return myVariables.size()-1;
+
+	protected int deleteScope() {
+		myVariables.remove(myVariables.size() - 1);
+		return myVariables.size() - 1;
 	}
-	
-	protected int deleteScope(int scope){
-		while(myVariables.size()>scope){
-			myVariables.remove(myVariables.size()-1);
+
+	protected int deleteScope(int scope) {
+		while (myVariables.size() > scope) {
+			myVariables.remove(myVariables.size() - 1);
 		}
-		return myVariables.size()-1;
+		return myVariables.size() - 1;
 	}
-	
-	protected void clear(){
+
+	protected void clear() {
 		myVariables = new ArrayList<>();
 		myVariables.add(new HashMap<>());
 		myStartScope = 0;
 	}
-	
-	protected void checkNameFormat(String name) throws ParseFormatException{
-		if(name.charAt(0)!=':')
-			throw new ParseFormatException("\""+name+"\" is not a valid variable name");
+
+	protected void checkNameFormat(String name) throws ParseFormatException {
+		if (name.charAt(0) != ':')
+			throw new ParseFormatException("\"" + name + "\" is not a valid variable name");
+	}
+
+	protected String outputVar() {
+		if (myVariables.get(0) == null)
+			return "";
+		StringBuilder sb = new StringBuilder();
+		myVariables.get(0).forEach((k, v) -> sb.append("MakeVariable " + k + " " + v + "\n"));
+		return sb.toString();
 	}
 }
