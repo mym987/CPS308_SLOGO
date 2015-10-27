@@ -135,13 +135,13 @@ public class Turtle implements IChangeImage, IReset, AnimationControl, Serializa
 	}
 	public void animationXStep(double delta_x){
 		this.x = this.x+delta_x;
-		image.setX(this.x + screenWidth.get() - image.getBoundsInLocal().getWidth()/2);
+		image.setX(this.x + screenWidth.get()/2 - image.getBoundsInLocal().getWidth()/2);
 	}
 	
 	
 	public void animationYStep(double delta_y){
 		this.y = this.y + delta_y;
-		image.setY(this.y + screenHeight.get() - image.getBoundsInLocal().getWidth()/2);
+		image.setY(this.y + screenHeight.get()/2 - image.getBoundsInLocal().getWidth()/2);
 	}
 	
 
