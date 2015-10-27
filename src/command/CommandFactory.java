@@ -2,6 +2,7 @@ package command;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import command.Command;
 import action.Actions;
@@ -116,7 +117,7 @@ public class CommandFactory {
 		myLoader.clearTempNameSpace();
 	}
 	
-	public String outputVar(){
+	public Map<String, Double> outputVar(){
 		return myLoader.outputVar();
 	}
 }

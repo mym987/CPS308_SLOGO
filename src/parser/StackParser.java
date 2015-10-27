@@ -4,7 +4,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Scanner;
@@ -31,12 +33,14 @@ public class StackParser implements Parser {
 
 	private FileLoader myFileLoader;
 	private StringBuilder myHistory;
+	private List<String> myUsrCmds;
 
 	public StackParser(Actions actions) throws ParseFormatException {
 		try {
 			myFactory = new CommandFactory(actions);
 			myLoader = new LanguageLoader();
 			myFileLoader = new FileLoader();
+			myUsrCmds = new ArrayList<>();
 		} catch (Exception e) {
 			throw new ParseFormatException(e.getMessage());
 		}
@@ -129,6 +133,7 @@ public class StackParser implements Parser {
 			}
 			if (token.myName.equals("MakeUserInstruction")) {
 				myFileLoader.add(myHistory.toString());
+				myUsrCmds.add(token.myCommands.get(0).name());
 				myHistory = new StringBuilder();
 			}
 		}
@@ -209,7 +214,9 @@ public class StackParser implements Parser {
 	@Override
 	public void save(File file) throws IOException {
 		try {
-			myFileLoader.add(myFactory.outputVar());
+			StringBuilder sb = new StringBuilder();
+			myFactory.outputVar().forEach((k, v) -> sb.append("MakeVariable " + k + " " + v + "\n"));
+			myFileLoader.add(sb.toString());
 			myFileLoader.save(file);
 		} catch (Exception e) {
 			throw new IOException(e.getMessage());
@@ -225,6 +232,16 @@ public class StackParser implements Parser {
 		}
 
 	}
+	
+	@Override
+	public List<String> getUserCommand() {
+		return Collections.unmodifiableList(myUsrCmds);
+	}
+
+	@Override
+	public Map<String, Double> getVars() {
+		return myFactory.outputVar();
+	}
 
 	public static void main(String[] args) throws ParseFormatException, IOException {
 		StackParser p = new StackParser(new TestActions(new ArrayList<>()));
@@ -235,4 +252,5 @@ public class StackParser implements Parser {
 		s.close();
 		p.save(new File("tmp.txt"));
 	}
+
 }
