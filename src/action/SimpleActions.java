@@ -13,6 +13,7 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.canvas.Canvas;
 import model.Turtle;
+import turtlepath.Trail;
 
 public class SimpleActions implements Actions {
 
@@ -187,8 +188,8 @@ public class SimpleActions implements Actions {
 	@Override
 	public double setPenColor(double index) {
 		// TODO Auto-generated method stub
-		
-		
+		String penColor = Integer.toString((int) index,16);
+		Trail.setPenColorString(penColor);
 		return 0;
 	}
 
@@ -213,8 +214,7 @@ public class SimpleActions implements Actions {
 
 	@Override
 	public double getPenColor() {
-		// TODO Auto-generated method stub
-		return 0;
+		return Double.valueOf(Trail.getPenColorString());
 	}
 
 	@Override
