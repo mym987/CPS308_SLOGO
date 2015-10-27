@@ -30,6 +30,10 @@ public class StackParser implements Parser {
 	private Tokenizer myTokenizer;
 
 	private FileLoader myFileLoader;
+	/**
+	 * @return the myFileLoader
+	 */
+
 	private StringBuilder myHistory;
 
 	public StackParser(Actions actions) throws ParseFormatException {

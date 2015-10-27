@@ -20,6 +20,7 @@ import gui.workspace.ICreateWorkspace;
 import javafx.scene.Node;
 import javafx.scene.control.TextArea;
 import parser.Parser;
+import parser.StackParser;
 
 public class ButtonFactory extends Factory{
 	private ICreateWorkspace createWorkspace;
@@ -31,6 +32,7 @@ public class ButtonFactory extends Factory{
 	private Properties properties;
 	private HistoryList history;
 	private AnimationControl animControl;
+	
 	public ButtonFactory(ICreateWorkspace createInterface, IChangeImage imageInterface, IReset resetInterface, TextArea field, Parser p, String lang, Properties prop, HistoryList historyList, AnimationControl animationControl){
 		createWorkspace = createInterface;
 		changeImage = imageInterface;
@@ -41,14 +43,15 @@ public class ButtonFactory extends Factory{
 		properties = prop;
 		history = historyList;
 		animControl = animationControl;
+		
 	}
 	@Override
 	public Node createObject(String id) {
 		switch(id){
 		case "help_page"		: return new HelpButton(properties);
 		case "reset_turtle"		: return new ResetTurtleButton(reset,properties);
-		case "open"		   		: return new OpenButton(properties);
-		case "save"		   		: return new SaveButton(properties);
+		case "open"		   		: return new OpenButton(parser,properties);
+		case "save"		   		: return new SaveButton(parser,properties);
 		case "grid"		   		: return new GridButton(properties);
 		case "change_turtle_image": return new TurtleImageButton(changeImage,properties);
 		case "add_workspace"	: return new AddWorkspaceButton(createWorkspace,properties);
