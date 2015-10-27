@@ -6,7 +6,7 @@ Print :sum
 make :a 20
 
 make :c 45
-
+>>>>>>> f1596d9c9de6f4c83476f5c283183e95d4a4d2d8
 set :sum 0
 dotimes [:i 100]
 [set :sum + :sum :i]
@@ -28,8 +28,11 @@ Print :sum
 
 to kkk [:a :b :c] [for [:i :a :b :c] make :var sum :i :var ] make :var 0
 kkk 0 100 2
-
+<<<<<<< HEAD
+Print :var
+=======
 Print :var
 
 make :a 0
 make :b 10
+>>>>>>> f1596d9c9de6f4c83476f5c283183e95d4a4d2d8
