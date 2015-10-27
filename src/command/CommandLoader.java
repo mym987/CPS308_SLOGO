@@ -132,7 +132,7 @@ class CommandLoader implements UserCommandManager {
 		myTempNameSpace.clear();
 	}
 	
-	public String outputVar(){
+	public Map<String, Double> outputVar(){
 		return myControlCommandLoader.outputVar();
 	}
 
