@@ -36,4 +36,9 @@ public class ControlCommandLoader {
 	public Variable getVariable(String name) throws ParseFormatException {
 		return myVarMgr.getVar(name);
 	}
+	
+	public String outputVar(){
+		return myVarMgr.outputVar();
+	}
+
 }

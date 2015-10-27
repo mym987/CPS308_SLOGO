@@ -124,22 +124,21 @@ public class WorkspaceHandler implements ICreateWorkspace {
 		ChangeListener<? super Number> widthListener = new ChangeListener<Number>() {
 			@Override
 			public void changed(ObservableValue<? extends Number> observable, Number oldVal, Number newVal) {
-				turtle.initX.set(newVal.doubleValue() / 2);
+				turtle.screenWidth.set(newVal.doubleValue());
 				turtle.setX(turtle.getX());
 			}
 		};
 		ChangeListener<? super Number> heightListener = new ChangeListener<Number>() {
 			@Override
 			public void changed(ObservableValue<? extends Number> observable, Number oldVal, Number newVal) {
-				turtle.initY.set(newVal.doubleValue() / 2);
+				turtle.screenHeight.set(newVal.doubleValue());
 				turtle.setY(turtle.getY());
-
 			}
 		};
 		turtlePane.widthProperty().addListener(widthListener);
 		turtlePane.heightProperty().addListener(heightListener);
 
-		turtle.getImage().setOnMouseClicked(e -> turtle.setX(turtle.initX.get()));
+//		turtle.getImage().setOnMouseClicked(e -> turtle.setX(turtle.screenWidth.get()));
 
 		turtlePane.getChildren().add(turtleCanvas);
 		turtlePane.getChildren().add(turtleTrail);

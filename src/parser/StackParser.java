@@ -1,7 +1,7 @@
 package parser;
 
+import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -29,10 +29,14 @@ public class StackParser implements Parser {
 	private CommandList myCommandList;
 	private Tokenizer myTokenizer;
 
+	private FileLoader myFileLoader;
+	private StringBuilder myHistory;
+
 	public StackParser(Actions actions) throws ParseFormatException {
 		try {
 			myFactory = new CommandFactory(actions);
 			myLoader = new LanguageLoader();
+			myFileLoader = new FileLoader();
 		} catch (Exception e) {
 			throw new ParseFormatException(e.getMessage());
 		}
@@ -43,6 +47,7 @@ public class StackParser implements Parser {
 		init(input, language);
 		while (myTokenizer.hasNext()) {
 			String token = myTokenizer.next();
+			myHistory.append(token+" ");
 			if (token.matches(mySyntaxRules.get("Command"))) {
 				token = commandDelocalize(token);
 				if (!myTokenStack.empty() && myTokenStack.peek().myName.equals("(")) {
@@ -85,6 +90,7 @@ public class StackParser implements Parser {
 	private void pushUserCommandName() throws ParseFormatException {
 		try {
 			String name = myTokenizer.next();
+			myHistory = new StringBuilder("MakeUserInstruction " + name + " [");
 			if (!name.matches(mySyntaxRules.get("Command"))
 					|| !myTokenizer.next().matches(mySyntaxRules.get("ListStart")))
 				throw new ParseFormatException();
@@ -93,6 +99,7 @@ public class StackParser implements Parser {
 			while (!(var = myTokenizer.next()).matches(mySyntaxRules.get("ListEnd"))) {
 				list.add(myFactory.getVarable(var));
 			}
+			myHistory.append(list.toString() + " ]");
 			myTokenStack.peek().addCommand(myFactory.getEmptyCommand(name));
 			myTokenStack.peek().addCommand(list);
 			myFactory.reserveNameSpace(name, list.size());
@@ -119,6 +126,10 @@ public class StackParser implements Parser {
 				myCommandList.add(c);
 			} else {
 				myTokenStack.peek().addCommand(c);
+			}
+			if (token.myName.equals("MakeUserInstruction")) {
+				myFileLoader.add(myHistory.toString());
+				myHistory = new StringBuilder();
 			}
 		}
 	}
@@ -170,6 +181,7 @@ public class StackParser implements Parser {
 		myTokenizer = new SyntaxTokenizer(input);
 		myCommandList = new CommandList();
 		myTokenStack = new Stack<>();
+		myHistory = new StringBuilder();
 	}
 
 	private void loadRules(String language) throws ParseFormatException {
@@ -194,12 +206,33 @@ public class StackParser implements Parser {
 		return syntaxMap;
 	}
 
-	public static void main(String[] args) throws ParseFormatException, FileNotFoundException {
+	@Override
+	public void save(File file) throws IOException {
+		try {
+			myFileLoader.add(myFactory.outputVar());
+			myFileLoader.save(file);
+		} catch (Exception e) {
+			throw new IOException(e.getMessage());
+		}
+	}
+
+	@Override
+	public void read(File file) throws IOException {
+		try {
+			parse(myFileLoader.read(file), "English").evaluate();
+		} catch (Exception e) {
+			throw new IOException(e.getMessage());
+		}
+
+	}
+
+	public static void main(String[] args) throws ParseFormatException, IOException {
 		StackParser p = new StackParser(new TestActions(new ArrayList<>()));
 		//p.myFactory.setCaseSensitivite(false);
-		Scanner s = new Scanner(new FileInputStream("testmove.in"));
+		Scanner s = new Scanner(new FileInputStream("testcontrol.in"));
 		Command c = p.parse(s.useDelimiter("\\Z").next(), "English");
 		c.evaluate();
 		s.close();
+		p.save(new File("tmp.txt"));
 	}
 }
