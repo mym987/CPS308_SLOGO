@@ -4,10 +4,14 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import gui.init.canvas.TurtleCanvas;
+
 import java.util.Set;
 
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.scene.canvas.Canvas;
 import model.Turtle;
 
 public class SimpleActions implements Actions {
@@ -16,12 +20,14 @@ public class SimpleActions implements Actions {
 	private IntegerProperty myId;
 	private List<Turtle> myTurtles;
 	private Set<Integer> myActionFollowers;
+	private TurtleCanvas turtleCanvas;
 
-	public SimpleActions(List<Turtle> turtles) {
+	public SimpleActions(List<Turtle> turtles, TurtleCanvas canvas) {
 		myTurtles = turtles;
 		if(turtles.size()==0)
 			turtles.add(new Turtle());
 		myActionFollowers = new HashSet<>();
+		turtleCanvas = canvas;
 		myId = new SimpleIntegerProperty(1);
 		myId.addListener((arg, oldV, newV) -> {
 			myTurtle = myTurtles.get(newV.intValue());
@@ -173,12 +179,16 @@ public class SimpleActions implements Actions {
 	@Override
 	public double setBackground(double index) {
 		// TODO Auto-generated method stub
+		String backgroundColor = Integer.toString((int) index,16);
+		turtleCanvas.setBackgroundColor(backgroundColor);
 		return 0;
 	}
 
 	@Override
 	public double setPenColor(double index) {
 		// TODO Auto-generated method stub
+		
+		
 		return 0;
 	}
 
@@ -197,6 +207,7 @@ public class SimpleActions implements Actions {
 	@Override
 	public double setPalette(double index, double r, double g, double b) {
 		// TODO Auto-generated method stub
+		
 		return 0;
 	}
 
@@ -215,6 +226,7 @@ public class SimpleActions implements Actions {
 	@Override
 	public double stamp() {
 		// TODO Auto-generated method stub
+		
 		return 0;
 	}
 
