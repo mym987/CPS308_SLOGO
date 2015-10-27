@@ -131,6 +131,10 @@ class CommandLoader implements UserCommandManager {
 	public void clearTempNameSpace() {
 		myTempNameSpace.clear();
 	}
+	
+	public String outputVar(){
+		return myControlCommandLoader.outputVar();
+	}
 
 	private Map<String, List<String>> getTypes() throws IOException {
 		Map<String, List<String>> types = new HashMap<>();
