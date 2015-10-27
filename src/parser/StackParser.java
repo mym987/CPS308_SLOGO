@@ -50,10 +50,9 @@ public class StackParser implements Parser {
 	public CommandList parse(String input, String language) throws ParseFormatException {
 		init(input, language);
 		while (myTokenizer.hasNext()) {
-			String token = myTokenizer.next();
+			String token = commandDelocalize(myTokenizer.next());
 			myHistory.append(token+" ");
 			if (token.matches(mySyntaxRules.get("Command"))) {
-				token = commandDelocalize(token);
 				if (!myTokenStack.empty() && myTokenStack.peek().myName.equals("(")) {
 					myTokenStack.peek().myName += token;
 				} else {
@@ -248,6 +247,8 @@ public class StackParser implements Parser {
 		//p.myFactory.setCaseSensitivite(false);
 		Scanner s = new Scanner(new FileInputStream("testcontrol.in"));
 		Command c = p.parse(s.useDelimiter("\\Z").next(), "English");
+		//p.read(new File("tmp.txt"));
+		//Command c = p.parse("Print :sum Print :abc Print foo 100 Print fo 10 ", "English");
 		c.evaluate();
 		s.close();
 		p.save(new File("tmp.txt"));
