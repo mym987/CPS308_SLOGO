@@ -64,7 +64,7 @@ public class Trail extends Canvas implements ColorChangeInterface, Serializable{
 			Moment prev = history.get(i-1);
 			context.setStroke(current.getColor());
 			if (current.getIsPenDown()) {
-				context.strokeLine(prev.getX(), prev.getY(), current.getX(), current.getY());
+				context.strokeLine(prev.getX() + turtle.screenWidth.get()/2, prev.getY() + turtle.screenHeight.get()/2, current.getX() + turtle.screenWidth.get()/2, current.getY() + turtle.screenHeight.get()/2);
 			}
 		}	
 	}
