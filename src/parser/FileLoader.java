@@ -80,14 +80,4 @@ class FileLoader {
 		return myCipher.doFinal(input);
 
 	}
-
-	public static void main(String[] args) throws Exception {
-		FileLoader f = new FileLoader();
-		f.myText = new StringBuilder("0123456789ds\nlkajfwejaofjoiawejfpajwepfjwaep\nabc6def");
-		f.save(new File("tmp.txt"));
-		f = new FileLoader();
-		f.read(new File("tmp.txt"));
-		System.out.println(f.myText);
-		// System.out.println(compare(sha("abc123456".getBytes(ENCODE)),"abc123456"));
-	}
 }

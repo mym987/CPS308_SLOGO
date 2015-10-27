@@ -115,4 +115,8 @@ public class CommandFactory {
 	public void clearTempNameSpace() {
 		myLoader.clearTempNameSpace();
 	}
+	
+	public String outputVar(){
+		return myLoader.outputVar();
+	}
 }
