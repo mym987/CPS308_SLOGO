@@ -4,7 +4,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class View {
-	public View(Stage stage, Scene scene){
+	public View(Stage stage, Scene scene){		
 		stage.setScene(scene);
 		stage.setResizable(false);
 		stage.show();

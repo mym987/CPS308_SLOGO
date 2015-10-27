@@ -1,7 +1,13 @@
 package model;
 
+import java.io.Serializable;
+
+import gui.animation.AnimationControl;
 import gui.init.canvas.IReset;
 import gui.turtle.IChangeImage;
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
@@ -10,9 +16,18 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.util.Duration;
 
-public class Turtle implements IChangeImage, IReset{
-	
+public class Turtle implements IChangeImage, IReset, AnimationControl, Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3096014319095050779L;
+	private final int FRAMES_PER_SECOND = 30;
+	private final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
+	private final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
+	private double MOVEMENT_TIME = 0.5;
+	private double NUMBER_OF_CYCLES;
 	public final IntegerProperty move = new SimpleIntegerProperty();
 	public final DoubleProperty screenWidth = new SimpleDoubleProperty();
 	public final DoubleProperty screenHeight = new SimpleDoubleProperty();
@@ -22,6 +37,7 @@ public class Turtle implements IChangeImage, IReset{
 	private double direction;
 	private BooleanProperty isPenDown;
 	private BooleanProperty isVisible;
+	private Timeline animation;
 	
 	public Turtle() {
 		image = new ImageView(defaultImage);
@@ -36,6 +52,7 @@ public class Turtle implements IChangeImage, IReset{
 		isPenDown = new SimpleBooleanProperty(true);
 		isVisible = new SimpleBooleanProperty(true);
 		image.visibleProperty().bind(isVisible);
+		resetAnimation();
 	}
 	
 	public Turtle(double x, double y) {
@@ -90,15 +107,59 @@ public class Turtle implements IChangeImage, IReset{
 	}
 	
 	public void setX(double x) {
-		this.x = x;
-		image.setX(x + screenWidth.get()/2 - image.getBoundsInLocal().getWidth()/2);
+		double newX = x;
+		double oldX = this.x;
+		
+		final double delta_x = (newX-oldX)/NUMBER_OF_CYCLES;
+		KeyFrame mainFrame = new KeyFrame(Duration.millis(MILLISECOND_DELAY),e->animationXStep(delta_x));
+		createAndPlayTimeline(mainFrame);
 	}
+
 	
 	public void setY(double y) {
-		this.y = y;
-		image.setY(y + screenHeight.get()/2 - image.getBoundsInLocal().getHeight()/2);
+		double newY = y;
+		double oldY = this.y;
+		final double delta_y = (newY-oldY)/NUMBER_OF_CYCLES;
+
+		KeyFrame mainFrame = new KeyFrame(Duration.millis(MILLISECOND_DELAY),e->animationYStep(delta_y));
+		createAndPlayTimeline(mainFrame);
+	}
+	/**
+	 * @param mainFrame
+	 */
+	private void createAndPlayTimeline(KeyFrame mainFrame) {
+		animation = new Timeline();
+		animation.setCycleCount((int)NUMBER_OF_CYCLES);
+		animation.getKeyFrames().add(mainFrame);
+		animation.play();
+	}
+	public void animationXStep(double delta_x){
+		this.x = this.x+delta_x;
+		image.setX(this.x + screenWidth.get() - image.getBoundsInLocal().getWidth()/2);
 	}
 	
+	
+	public void animationYStep(double delta_y){
+		this.y = this.y + delta_y;
+		image.setY(this.y + screenHeight.get() - image.getBoundsInLocal().getWidth()/2);
+	}
+	
+
+	@Override
+	public void turnOffAnimation() {
+		NUMBER_OF_CYCLES = 1;
+	}
+
+	@Override
+	public void resetAnimation() {
+		NUMBER_OF_CYCLES = MOVEMENT_TIME*FRAMES_PER_SECOND;
+	}
+
+	@Override
+	public void setSpeed(double speed) {
+		// TODO Auto-generated method stub
+		
+	}
 	public void rotate(double angle) {
 		image.setRotate(image.getRotate() + angle);
 		direction = image.getRotate();
@@ -164,4 +225,5 @@ public class Turtle implements IChangeImage, IReset{
 		rotate(-this.getDirection());
 		if (save) setPenDown();
 	}
+
 }

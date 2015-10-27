@@ -94,11 +94,7 @@ class VariableManager {
 			throw new ParseFormatException("\"" + name + "\" is not a valid variable name");
 	}
 
-	protected String outputVar() {
-		if (myVariables.get(0) == null)
-			return "";
-		StringBuilder sb = new StringBuilder();
-		myVariables.get(0).forEach((k, v) -> sb.append("MakeVariable " + k + " " + v + "\n"));
-		return sb.toString();
+	protected Map<String,Double> outputVar() {
+		return myVariables.get(0);
 	}
 }

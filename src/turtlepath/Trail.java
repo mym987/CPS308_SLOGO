@@ -1,5 +1,6 @@
 package turtlepath;
 
+import java.io.Serializable;
 import java.util.LinkedList;
 import gui.init.colorpicker.ColorChangeInterface;
 import javafx.beans.value.ChangeListener;
@@ -11,10 +12,29 @@ import model.Turtle;
 /**
  * @author Susan Lang (sml59)
  */
-public class Trail extends Canvas implements ColorChangeInterface{
+public class Trail extends Canvas implements ColorChangeInterface, Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 9060832315824592272L;
 	private GraphicsContext context = getGraphicsContext2D();
 	private LinkedList<Moment> history = new LinkedList<Moment>();
 	private Color penColor = Color.BLACK;
+	private String penColorString = penColor.toString();
+	/**
+	 * @return the penColorString
+	 */
+	public String getPenColorString() {
+		return penColorString;
+	}
+
+	/**
+	 * @param penColorString the penColorString to set
+	 */
+	public void setPenColorString(String penColorString) {
+		this.penColorString = penColorString;
+	}
+
 	private Turtle turtle;
 //  This looks terrible:
 //	private ChangeListener<? super Number> listener = new ChangeListener<Number>() {
