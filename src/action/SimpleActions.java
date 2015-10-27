@@ -17,9 +17,6 @@ public class SimpleActions implements Actions {
 	private List<Turtle> myTurtles;
 	private Set<Integer> myActionFollowers;
 
-	private int width;
-	private int height;
-
 	public SimpleActions(List<Turtle> turtles) {
 		myTurtles = turtles;
 		if(turtles.size()==0)
@@ -32,48 +29,13 @@ public class SimpleActions implements Actions {
 		});
 		myId.set(0);
 		myActionFollowers.add(0);
-
-		width = 800;
-		height = 600;
 	}
 
 	// Turtle commands:
 
 	@Override
 	public double forward(double distance) {
-		double theta = myTurtle.getDirection();
-		double delta_x = distance * Math.sin(Math.toRadians(theta));
-		double delta_y = -distance * Math.cos(Math.toRadians(theta));
-		// update x coordinate
-		if (delta_x >= 0) {
-			if (myTurtle.getX() + delta_x <= width / 2) {
-				myTurtle.setX(myTurtle.getX() + delta_x);
-			} else {
-				myTurtle.setX((myTurtle.getX() + delta_x) % width - width);
-			}
-		} else {
-			if (myTurtle.getX() + delta_x >= -width / 2) {
-				myTurtle.setX(myTurtle.getX() + delta_x);
-			} else {
-				myTurtle.setX((myTurtle.getX() + delta_x) % width + width);
-			}
-		}
-		// update y coordinate
-		if (delta_y >= 0) {
-			if (myTurtle.getY() + delta_y <= height / 2) {
-				myTurtle.setY(myTurtle.getY() + delta_y);
-			} else {
-				myTurtle.setY((myTurtle.getY() + delta_y) % height - height);
-			}
-		} else {
-			if (myTurtle.getY() + delta_y >= -height / 2) {
-				myTurtle.setY(myTurtle.getY() + delta_y);
-			} else {
-				myTurtle.setY((myTurtle.getY() + delta_y) % height + height);
-			}
-		}
-
-		myTurtle.move.set(myTurtle.move.get() + 1);
+		myTurtle.forward(distance);
 		return distance;
 	}
 

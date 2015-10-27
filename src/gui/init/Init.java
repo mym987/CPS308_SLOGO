@@ -1,4 +1,5 @@
 package gui.init;
+import java.awt.Toolkit;
 import java.io.IOException;
 import java.util.Properties;
 
@@ -7,14 +8,14 @@ import gui.workspace.WorkspaceHandler;
 import javafx.scene.Scene;
 import util.PropertyLoader;
 public class Init {
-	private static int X_DIMENSION = 800;
-	private static int Y_DIMENSION = 600;
+	private static double X_DIMENSION = Toolkit.getDefaultToolkit().getScreenSize().getWidth();
+	private static double Y_DIMENSION = Toolkit.getDefaultToolkit().getScreenSize().getHeight();
 	
-	public static int getXDimension(){
+	public static double getXDimension(){
 		return X_DIMENSION;
 	}
 	
-	public static int getYDimension(){
+	public static double getYDimension(){
 		return Y_DIMENSION;
 	}
 	private Scene scene;

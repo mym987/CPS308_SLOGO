@@ -12,7 +12,6 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
-import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.util.Duration;
@@ -24,8 +23,8 @@ public class Turtle implements IChangeImage, IReset, AnimationControl{
 	private double MOVEMENT_TIME = 0.5;
 	private double NUMBER_OF_CYCLES;
 	public final IntegerProperty move = new SimpleIntegerProperty();
-	public final DoubleProperty initX = new SimpleDoubleProperty();
-	public final DoubleProperty initY = new SimpleDoubleProperty();
+	public final DoubleProperty screenWidth = new SimpleDoubleProperty();
+	public final DoubleProperty screenHeight = new SimpleDoubleProperty();
 	private ImageView image;
 	private Image defaultImage = new Image(getClass().getClassLoader().getResourceAsStream("turtle.png"));
 	private double x, y;
@@ -38,11 +37,11 @@ public class Turtle implements IChangeImage, IReset, AnimationControl{
 		image = new ImageView(defaultImage);
 		image.setFitHeight(50);
 		image.setPreserveRatio(true);
-		x = initX.get();
-		y = initY.get();
+		x = 0;
+		y = 0;
 		move.set(0);
-		image.setX(x + initX.get() - image.getBoundsInLocal().getWidth()/2);
-		image.setY(y + initY.get() - image.getBoundsInLocal().getHeight()/2);
+		image.setX(x + screenWidth.get()/2 - image.getBoundsInLocal().getWidth()/2);
+		image.setY(y + screenHeight.get()/2 - image.getBoundsInLocal().getHeight()/2);
 		direction = 0;
 		isPenDown = new SimpleBooleanProperty(true);
 		isVisible = new SimpleBooleanProperty(true);
@@ -130,13 +129,13 @@ public class Turtle implements IChangeImage, IReset, AnimationControl{
 	}
 	public void animationXStep(double delta_x){
 		this.x = this.x+delta_x;
-		image.setX(this.x + initX.get() - image.getBoundsInLocal().getWidth()/2);
+		image.setX(this.x + screenWidth.get() - image.getBoundsInLocal().getWidth()/2);
 	}
 	
 	
 	public void animationYStep(double delta_y){
 		this.y = this.y + delta_y;
-		image.setY(this.y + initY.get() - image.getBoundsInLocal().getWidth()/2);
+		image.setY(this.y + screenHeight.get() - image.getBoundsInLocal().getWidth()/2);
 	}
 	
 
@@ -176,6 +175,41 @@ public class Turtle implements IChangeImage, IReset, AnimationControl{
 		isVisible.set(false);
 	}
 
+	public void forward(double distance) {
+		double theta = getDirection();
+		double delta_x = distance * Math.sin(Math.toRadians(theta));
+		double delta_y = -distance * Math.cos(Math.toRadians(theta));
+		// update x coordinate
+		if (delta_x >= 0) {
+			if (getX() + delta_x <= screenWidth.get() / 2) {
+				setX(getX() + delta_x);
+			} else {
+				setX((getX() + delta_x) % screenWidth.get() - screenWidth.get());
+			}
+		} else {
+			if (getX() + delta_x >= -screenWidth.get() / 2) {
+				setX(getX() + delta_x);
+			} else {
+				setX((getX() + delta_x) % screenWidth.get() + screenWidth.get());
+			}
+		}
+		// update y coordinate
+		if (delta_y >= 0) {
+			if (getY() + delta_y <= screenHeight.get() / 2) {
+				setY(getY() + delta_y);
+			} else {
+				setY((getY() + delta_y) % screenHeight.get() - screenHeight.get());
+			}
+		} else {
+			if (getY() + delta_y >= -screenHeight.get() / 2) {
+				setY(getY() + delta_y);
+			} else {
+				setY((getY() + delta_y) % screenHeight.get() + screenHeight.get());
+			}
+		}
+		move.set(move.get() + 1);
+	}
+	
 	@Override
 	public void reset() {
 		boolean save = isPenDown.get();
