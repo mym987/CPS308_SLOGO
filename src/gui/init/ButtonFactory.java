@@ -2,7 +2,10 @@ package gui.init;
 
 import java.util.Properties;
 
+import gui.animation.AnimationControl;
 import gui.init.button.AddWorkspaceButton;
+import gui.init.button.AnimationOffButton;
+import gui.init.button.AnimationOnButton;
 import gui.init.button.EnterCommandButton;
 import gui.init.button.GridButton;
 import gui.init.button.HelpButton;
@@ -27,7 +30,8 @@ public class ButtonFactory extends Factory{
 	private String language;
 	private Properties properties;
 	private HistoryList history;
-	public ButtonFactory(ICreateWorkspace createInterface, IChangeImage imageInterface, IReset resetInterface, TextArea field, Parser p, String lang, Properties prop, HistoryList historyList){
+	private AnimationControl animControl;
+	public ButtonFactory(ICreateWorkspace createInterface, IChangeImage imageInterface, IReset resetInterface, TextArea field, Parser p, String lang, Properties prop, HistoryList historyList, AnimationControl animationControl){
 		createWorkspace = createInterface;
 		changeImage = imageInterface;
 		reset = resetInterface;
@@ -36,6 +40,7 @@ public class ButtonFactory extends Factory{
 		language = lang;
 		properties = prop;
 		history = historyList;
+		animControl = animationControl;
 	}
 	@Override
 	public Node createObject(String id) {
@@ -48,7 +53,8 @@ public class ButtonFactory extends Factory{
 		case "change_turtle_image": return new TurtleImageButton(changeImage,properties);
 		case "add_workspace"	: return new AddWorkspaceButton(createWorkspace,properties);
 		case "enter_command"	: return new EnterCommandButton(commandField, parser, language,properties, history);
-
+		case "animation_off"	: return new AnimationOffButton(animControl, properties);
+		case "animation_on"		: return new AnimationOnButton(animControl, properties);
 		default: 
 		}
 		return null;

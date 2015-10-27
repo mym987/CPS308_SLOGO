@@ -6,21 +6,30 @@ import java.util.Properties;
 
 import action.Actions;
 import action.SimpleActions;
+import command.Command;
+import gui.animation.AnimationControl;
 import gui.init.ButtonFactory;
 import gui.init.ColorPickerFactory;
 import gui.init.ListViewFactory;
 import gui.init.canvas.IReset;
 import gui.init.canvas.TurtleCanvas;
 import gui.init.colorpicker.ColorChangeInterface;
+import gui.init.listview.AddToHistory;
 import gui.init.listview.HistoryList;
 import gui.init.textfield.CommandField;
 import gui.turtle.IChangeImage;
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextArea;
@@ -28,6 +37,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
+import javafx.util.Duration;
 import model.Turtle;
 import parser.ParseFormatException;
 import parser.StackParser;
@@ -35,6 +45,11 @@ import turtlepath.Trail;
 
 public class WorkspaceHandler implements ICreateWorkspace {
 	private int WORKSPACE_NUMBER = 0;
+	private final int FRAMES_PER_SECOND = 30;
+	private final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
+	private final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
+	private double xStep;
+	private double yStep;
 	private TabPane tabPane;
 	private Pane turtlePane;
 	private HBox topNav;
@@ -47,6 +62,7 @@ public class WorkspaceHandler implements ICreateWorkspace {
 	private String language;
 	private ICreateWorkspace createWorkspaceInterface;
 	private TextArea commandField;
+	private AnimationControl animControl;
 
 	public WorkspaceHandler(String lang, Properties prop) {
 		language = lang;
@@ -83,6 +99,8 @@ public class WorkspaceHandler implements ICreateWorkspace {
 		// The two lines below are not really needed after changing all codes to
 		// comply with multiple turtles
 		Turtle turtle = new Turtle();
+		animControl = turtle;
+
 		turtles.add(turtle);
 		
 		Actions simpleActions = new SimpleActions(turtles);
@@ -100,7 +118,7 @@ public class WorkspaceHandler implements ICreateWorkspace {
 		HistoryList historyList = new HistoryList();
 		try {
 			buttonFactory = new ButtonFactory(createWorkspaceInterface, turtleImageInterface, resetInterface,
-					commandField, new StackParser(simpleActions), language, properties, historyList);
+					commandField, new StackParser(simpleActions), language, properties, historyList, animControl);
 		} catch (ParseFormatException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -121,6 +139,8 @@ public class WorkspaceHandler implements ICreateWorkspace {
 		turtleTrail.widthProperty().bind(turtlePane.widthProperty());
 		turtleTrail.heightProperty().bind(turtlePane.heightProperty());
 
+
+		
 		ChangeListener<? super Number> widthListener = new ChangeListener<Number>() {
 			@Override
 			public void changed(ObservableValue<? extends Number> observable, Number oldVal, Number newVal) {
@@ -145,6 +165,7 @@ public class WorkspaceHandler implements ICreateWorkspace {
 		turtlePane.getChildren().add(turtle.getImage());
 		borderPane.setCenter(turtlePane);
 
+		
 		HBox navBar = createNavBar();
 		borderPane.setTop(navBar);
 
@@ -179,7 +200,9 @@ public class WorkspaceHandler implements ICreateWorkspace {
 				penColorPickerFactory.createObject("pen_picker"), buttonFactory.createObject("change_turtle_image"),
 				buttonFactory.createObject("help_page"), buttonFactory.createObject("reset_turtle"),
 				buttonFactory.createObject("open"), buttonFactory.createObject("save"),
-				buttonFactory.createObject("grid"), buttonFactory.createObject("add_workspace") };
+				buttonFactory.createObject("grid"), buttonFactory.createObject("add_workspace") ,
+				buttonFactory.createObject("animation_off"), buttonFactory.createObject("animation_on")
+				};
 		topNav.getChildren().addAll(navBarNodes);
 		return topNav;
 	}
@@ -190,5 +213,9 @@ public class WorkspaceHandler implements ICreateWorkspace {
 
 	public Pane getTurtlePane() {
 		return turtlePane;
+	}
+	
+	public void animationStep(){
+		
 	}
 }
