@@ -37,7 +37,7 @@ public class ControlCommandLoader {
 		return myVarMgr.getVar(name);
 	}
 	
-	public String outputVar(){
+	public Map<String, Double> outputVar(){
 		return myVarMgr.outputVar();
 	}
 
