@@ -1,0 +1,38 @@
+set :sum 0
+for [:i 0 100 1]
+[set :sum + :sum :i]
+Print :sum
+
+make :a 20
+
+make :c 45
+>>>>>>> f1596d9c9de6f4c83476f5c283183e95d4a4d2d8
+set :sum 0
+dotimes [:i 100]
+[set :sum + :sum :i]
+Print :sum
+
+make :abc 0 dotimes [:k 50] [make :abc sum :abc if equal? % :k 3 0 10 :abc]
+Print :abc
+
+make :sum 0
+to foo [:a] [set :sum + :a :sum ifelse greater? :a 0 foo difference :a 1 make :sum - :sum 10]
+foo 100
+Print :sum
+
+make :sum 0
+Print :sum
+to fo [:a] [set :sum + :a :sum if greater? :a 0 fo difference :a 1]
+fo 100
+Print :sum
+
+to kkk [:a :b :c] [for [:i :a :b :c] make :var sum :i :var ] make :var 0
+kkk 0 100 2
+<<<<<<< HEAD
+Print :var
+=======
+Print :var
+
+make :a 0
+make :b 10
+>>>>>>> f1596d9c9de6f4c83476f5c283183e95d4a4d2d8
