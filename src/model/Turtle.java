@@ -28,7 +28,7 @@ public class Turtle implements IChangeImage, IReset, AnimationControl, Serializa
 	private final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
 	private double MOVEMENT_TIME = 0.5;
 	private double NUMBER_OF_CYCLES;
-	public final IntegerProperty move = new SimpleIntegerProperty();
+	public final IntegerProperty move = new SimpleIntegerProperty(0);
 	public final DoubleProperty screenWidth = new SimpleDoubleProperty();
 	public final DoubleProperty screenHeight = new SimpleDoubleProperty();
 	private ImageView image;
@@ -39,13 +39,12 @@ public class Turtle implements IChangeImage, IReset, AnimationControl, Serializa
 	private BooleanProperty isVisible;
 	private Timeline animation;
 	
-	public Turtle() {
+	public Turtle(double x, double y) {
 		image = new ImageView(defaultImage);
 		image.setFitHeight(50);
 		image.setPreserveRatio(true);
-		x = 0;
-		y = 0;
-		move.set(0);
+		this.x = x;
+		this.y = y;
 		image.setX(x + screenWidth.get()/2 - image.getBoundsInLocal().getWidth()/2);
 		image.setY(y + screenHeight.get()/2 - image.getBoundsInLocal().getHeight()/2);
 		direction = 0;
@@ -53,12 +52,11 @@ public class Turtle implements IChangeImage, IReset, AnimationControl, Serializa
 		isVisible = new SimpleBooleanProperty(true);
 		image.visibleProperty().bind(isVisible);
 		resetAnimation();
+		move.set(move.get()+1);
 	}
 	
-	public Turtle(double x, double y) {
-		this();
-		setX(x);
-		setY(y);
+	public Turtle() {
+		this(0,0);
 	}
 	
 	public Turtle(double x, double y, Image img) {
