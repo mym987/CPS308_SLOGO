@@ -1,10 +1,15 @@
 package gui.init.listview;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 
-public class HistoryList extends Observable implements AddToHistory{
+public class HistoryList extends Observable implements AddToHistory, Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7050348079005602573L;
 	public List<String> history;
 	public String newestAddition;
 	public HistoryList(){

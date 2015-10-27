@@ -1,5 +1,7 @@
 package model;
 
+import java.io.Serializable;
+
 import gui.animation.AnimationControl;
 import gui.init.canvas.IReset;
 import gui.turtle.IChangeImage;
@@ -16,7 +18,11 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.util.Duration;
 
-public class Turtle implements IChangeImage, IReset, AnimationControl{
+public class Turtle implements IChangeImage, IReset, AnimationControl, Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3096014319095050779L;
 	private final int FRAMES_PER_SECOND = 30;
 	private final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
 	private final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
