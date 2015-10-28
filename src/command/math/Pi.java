@@ -1,7 +1,11 @@
 package command.math;
 
 import command.Command;
-
+/**
+ * 
+ * @author Mike Ma (ym67)
+ *
+ */
 class Pi implements Command {
 
 	@Override

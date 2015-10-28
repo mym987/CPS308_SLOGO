@@ -3,7 +3,11 @@ package command.display;
 import action.Actions;
 import command.Command;
 import parser.ParseFormatException;
-
+/**
+ * 
+ * @author Mike Ma (ym67)
+ *
+ */
 class SetShape implements Command {
 	
 	private Actions myActions;

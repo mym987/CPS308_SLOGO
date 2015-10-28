@@ -6,7 +6,11 @@ import java.util.Map;
 
 import command.Command;
 import parser.ParseFormatException;
-
+/**
+ * 
+ * @author Mike Ma (ym67)
+ *
+ */
 public class ControlCommandLoader {
 
 	private VariableManager myVarMgr;

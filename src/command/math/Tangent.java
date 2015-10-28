@@ -2,7 +2,11 @@ package command.math;
 
 import command.Command;
 import parser.ParseFormatException;
-
+/**
+ * 
+ * @author Mike Ma (ym67)
+ *
+ */
 class Tangent implements Command {
 
 	@Override

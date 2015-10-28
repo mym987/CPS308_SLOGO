@@ -4,7 +4,10 @@ import java.util.LinkedList;
 import java.util.List;
 
 import command.Command;
-
+/**
+ * 
+ * @author Mike Ma (ym67)
+ */
 class Token {
 	int myNumArgs;
 	String myName;

@@ -1,14 +1,13 @@
-/**
- * Simple tokenizer backed by a scanner, able to remove commands and extra black lines
- * 
- * @author Mike Ma (ym67)
- */
 package parser;
 
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Scanner;
-
+/**
+ * Simple tokenizer backed by a scanner, able to remove commands and extra black lines
+ * 
+ * @author Mike Ma (ym67)
+ */
 class SyntaxTokenizer implements Tokenizer {
 	
 	private Scanner myCommands;

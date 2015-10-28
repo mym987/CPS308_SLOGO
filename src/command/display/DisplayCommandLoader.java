@@ -7,7 +7,11 @@ import java.util.Map;
 
 import action.Actions;
 import command.Command;
-
+/**
+ * 
+ * @author Mike Ma (ym67)
+ *
+ */
 public class DisplayCommandLoader {
 
 	public static Map<String, Command> load(List<String> names, Actions actions) {

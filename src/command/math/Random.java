@@ -2,7 +2,11 @@ package command.math;
 
 import command.Command;
 import parser.ParseFormatException;
-
+/**
+ * 
+ * @author Mike Ma (ym67)
+ *
+ */
 class Random implements Command {
 	
 	java.util.Random myRand = new java.util.Random();

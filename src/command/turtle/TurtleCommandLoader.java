@@ -7,7 +7,11 @@ import java.util.Set;
 import action.Actions;
 import command.Command;
 import parser.ParseFormatException;
-
+/**
+ * 
+ * @author Mike Ma (ym67)
+ *
+ */
 public class TurtleCommandLoader {
 
 	public static Map<String, Command> load(Map<String,Boolean> names, Actions actions) {

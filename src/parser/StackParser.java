@@ -18,7 +18,11 @@ import command.CommandFactory;
 import action.Actions;
 import action.TestActions;
 import util.LanguageLoader;
-
+/**
+ * 
+ * @author Mike Ma (ym67)
+ *
+ */
 public class StackParser implements Parser {
 
 	private final CommandFactory myFactory;

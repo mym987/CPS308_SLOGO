@@ -5,7 +5,12 @@ import java.util.List;
 import java.util.Map;
 
 import command.Command;
-
+/**
+ * Load all boolean commands
+ * 
+ * @author Mike Ma (ym67)
+ *
+ */
 public class BooleanCommandLoader {
 
 	public static Map<String, Command> load(List<String> names) {

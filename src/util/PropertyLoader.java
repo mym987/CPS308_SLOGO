@@ -4,7 +4,13 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
-
+/**
+ * A util class to load property file
+ * Property file must be in resources package, end with .properties
+ * 
+ * @author Mike Ma (ym67)
+ *
+ */
 public class PropertyLoader {
 
 	private static final String PATH = "resources/";

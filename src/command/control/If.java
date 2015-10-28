@@ -2,7 +2,11 @@ package command.control;
 
 import command.Command;
 import parser.ParseFormatException;
-
+/**
+ * 
+ * @author Mike Ma (ym67)
+ *
+ */
 public class If implements Command {
 
 	public If(VariableManager varMgr, UserCommandManager usrMgr) {

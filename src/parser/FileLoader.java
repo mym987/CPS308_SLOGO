@@ -14,8 +14,9 @@ import javax.crypto.spec.SecretKeySpec;
 
 /**
  * A class to save/load commands with capability to encrypt commands
+ * Used AES encryption & SHA-256 checksum just for fun
  * 
- * @author Mike Ma
+ * @author Mike Ma (ym67)
  *
  */
 class FileLoader {

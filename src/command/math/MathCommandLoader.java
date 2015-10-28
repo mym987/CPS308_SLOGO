@@ -5,7 +5,11 @@ import java.util.List;
 import java.util.Map;
 
 import command.Command;
-
+/**
+ * 
+ * @author Mike Ma (ym67)
+ *
+ */
 public class MathCommandLoader {
 
 	public static Map<String, Command> load(List<String> names) {

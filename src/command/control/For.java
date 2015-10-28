@@ -3,7 +3,11 @@ package command.control;
 import command.Command;
 import command.CommandList;
 import parser.ParseFormatException;
-
+/**
+ * 
+ * @author Mike Ma (ym67)
+ *
+ */
 class For implements Command {
 
 	private VariableManager myVarMgr;

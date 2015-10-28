@@ -2,7 +2,10 @@ package parser;
 
 import java.io.Closeable;
 import java.util.NoSuchElementException;
-
+/**
+ * 
+ * @author Mike Ma (ym67)
+ */
 interface Tokenizer extends Closeable {
 
 	/**

@@ -2,7 +2,11 @@ package command.turtle;
 
 import action.Actions;
 import command.Command;
-
+/**
+ * 
+ * @author Mike Ma (ym67)
+ *
+ */
 class Turtles implements Command {
 
 	private Actions myActions;

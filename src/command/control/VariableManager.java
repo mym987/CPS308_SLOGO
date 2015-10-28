@@ -7,7 +7,11 @@ import java.util.Map;
 
 import command.NullVariableException;
 import parser.ParseFormatException;
-
+/**
+ * 
+ * @author Mike Ma (ym67)
+ *
+ */
 class VariableManager {
 
 	private List<Map<String, Double>> myVariables;

@@ -2,7 +2,11 @@ package command.bool;
 
 import command.Command;
 import parser.ParseFormatException;
-
+/**
+ * 
+ * @author Mike Ma (ym67)
+ *
+ */
 class GreaterThan implements Command {
 
 	@Override
